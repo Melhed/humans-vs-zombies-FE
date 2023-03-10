@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./game-view.page.css']
 })
 export class GameViewPage {
-
+    showModal = false;
+    toggleModal() {
+      this.showModal = !this.showModal;
+    }
 }
