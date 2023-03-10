@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { LoginPage } from './pages/login/login.page';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { FormsModule } from '@angular/forms';
+import { GameViewPage } from './pages/game-view/game-view.page';
 
 @NgModule({
   declarations: [ //Components
     AppComponent,
     LoginPage,
-    LoginFormComponent
+    LoginFormComponent,
+    GameViewPage
   ],
   imports: [ //Modules
     BrowserModule,
