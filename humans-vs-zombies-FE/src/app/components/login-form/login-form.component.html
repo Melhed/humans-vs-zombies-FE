@@ -1,0 +1,11 @@
+<form #loginForm="ngForm" (ngSubmit)="loginSubmit(loginForm)">
+    <fieldset class="mb-3">
+        <label for="username"></label>
+        <input type="text" name="username" id="username"
+            ngModel
+            #username="ngModel"
+            class="border border-slate-400 p-2 mt-3 rounded w-6/12" placeholder="username">
+    </fieldset>
+
+    <button type="submit" class="bg-pink-400 hover:bg-pink-500 hover:scale-105 p-2 px-4 rounded text-center">Login</button>
+</form>
