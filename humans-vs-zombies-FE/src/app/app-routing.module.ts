@@ -5,7 +5,9 @@ import { LoginPage } from './pages/login/login.page';
 const routes: Routes = [
   {
     path: "",
-    pathMatch: "full", 
+
+    pathMatch: "full",
+
     redirectTo: "/login"
   },
   {
