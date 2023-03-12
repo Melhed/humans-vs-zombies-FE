@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GameViewPage } from './pages/game-view/game-view.page';
 import { LoginPage } from './pages/login/login.page';
 
 const routes: Routes = [
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: "login", 
     component: LoginPage
+  },
+  {
+    path: "game-view",
+    component: GameViewPage
   }
 ];
 
