@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { NgForm } from '@angular/forms'
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login-form',
@@ -11,18 +12,24 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent {
 
-  constructor(
-    private readonly router: Router
-    private readonly loginService: LoginService) { }
+  @Output() login: EventEmitter<void> = new EventEmitter();
 
-  public loginSubmit(loginForm: NgForm):void {
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly userService: UserService
+    ) { }
+
+  public loginSubmit(loginForm: NgForm): void {
 
     const { username } = loginForm.value;
+
+    console.log("User id: " + username);
 
     this.loginService.login(username)
     .subscribe({
       next: (user: User) => {
-        this.router.navigateByUrl("/game-view");
+        this.userService.user = user;
+        this.login.emit();
       },
       error: () => {
 

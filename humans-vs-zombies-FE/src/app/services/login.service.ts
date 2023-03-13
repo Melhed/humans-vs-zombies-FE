@@ -21,34 +21,36 @@ export class LoginService {
     .pipe(
       switchMap((user: User | undefined ) => {
         if(user === undefined) {
+          console.log("User undefined, creating user");
           return this.createUser(username);
         }
+        console.log("User found");
         return of(user);
-      }),
-      tap((user: User) => {
-        StorageUtil.storageSave<User>(StorageKeys.User, user);
       })
     )
   }
 
   //Check if user exists
   private checkUsername(username: number): Observable<User | undefined> {
-    return this.http.get<User[]>(`${APIUsers}/${username}`)
+    console.log("Checking user id...");
+    return this.http.get<User>(`${APIUsers}/${username}`)
     .pipe(
-      map((response: User[]) => response.pop())
+      map((response: User) => response)
     )
   }
 
   //Create user
-  private createUser(first_name: number): Observable<User> {
+  private createUser(id: number): Observable<User> {
     const user = {
-      first_name
+      id
     };
 
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
-      //"x-api-key": APIKey,
+      "x-api-key": APIKey,
     });
-    return this.http.post<User>(APIUsers, user, {headers});
+    return this.http.post<User>(APIUsers, user, {
+      headers
+    })
   }
 }
