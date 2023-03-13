@@ -1,0 +1,19 @@
+<div class="flex justify-center items-center w-screen h-screen">
+    <div class="self-center bg-[#61764B] w-9/12 h-screen mt-56">
+        <div class="bg-[#9BA17B] w-auto h-auto m-4 rounded shadow border border-slate-800 px-2 grid grid-cols-4 gap-4 text-center">
+            <div>GAME NAME</div>
+            <div>TIME</div>
+            <div>NUMBER OF PLAYERS</div>
+            <div>GAME STATE</div>
+        </div>
+        <div *ngFor="let game of games" class="bg-[#9BA17B] w-auto h-auto m-1 rounded shadow border border-slate-800 px-2 grid grid-cols-4 gap-4 text-center mx-4">
+            <div>{{ game.name }}</div>
+            <div>
+                <span>{{ game.startTime }}</span> - <span>{{ game.endTime }}</span>
+            </div>
+            <div class="text-blue-700">TODO: Implement this</div>
+            <div>{{ game.state }}</div>
+        </div>
+
+    </div>
+</div>
