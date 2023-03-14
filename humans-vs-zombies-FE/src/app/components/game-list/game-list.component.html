@@ -1,19 +1,23 @@
 <div class="flex justify-center items-center w-screen h-screen">
     <div class="self-center bg-[#635666] w-9/12 h-screen mt-56">
-        <div class="bg-[#839AA8] w-auto h-auto m-4 rounded shadow border border-slate-800 px-2 grid grid-cols-4 gap-4 text-center">
+        <div class="bg-[#839AA8] w-auto h-auto m-4 rounded shadow border border-slate-800 px-2 grid grid-cols-4 gap-2 text-center">
             <div class="font-bold">GAME NAME</div>
             <div class="font-bold">TIME</div>
             <div class="font-bold">NUMBER OF PLAYERS</div>
             <div class="font-bold">GAME STATE</div>
         </div>
-        <div *ngFor="let game of games" class="bg-[#839AA8] w-auto h-auto m-1 rounded shadow border border-slate-800 px-2 grid grid-cols-4 gap-4 text-center mx-4">
+        <div *ngFor="let game of games" class="bg-[#839AA8] w-auto h-auto m-1 rounded shadow border border-slate-800 px-1 grid grid-cols-4 text-center mx-4 hover:auto static group">
             <div>{{ game.name }}</div>
             <div>
                 <span>{{ game.startTime }}</span> - <span>{{ game.endTime }}</span>
             </div>
             <div class="text-pink-800 font-bold">TODO: Implement this</div>
             <div>{{ game.state }}</div>
+            <hr class="hidden group-hover:block col-span-4 border-black">
+            <button *ngIf="(game.state=='REGISTRATION')" class="hidden group-hover:block bg-green-500 hover:scale-105 h-fit w-fit p-2 rounded justify-self-end m-2 col-span-3">Join Game</button>
+            <button *ngIf="(game.state=='REGISTRATION')" class="hidden group-hover:block bg-slate-500 hover:scale-105 h-fit w-fit p-2 rounded justify-self-end m-2">Game Details</button>
+            <button *ngIf="(game.state=='IN_PROGRESS')" class="hidden group-hover:block bg-slate-500 hover:scale-105 h-fit w-fit p-2 rounded justify-self-end m-2 col-span-4">Game Details</button>
+            <button *ngIf="(game.state=='COMPLETE')" class="hidden group-hover:block bg-slate-500 hover:scale-105 h-fit w-fit p-2 rounded justify-self-end m-2 col-span-4">Game Details</button>
         </div>
-
     </div>
 </div>
