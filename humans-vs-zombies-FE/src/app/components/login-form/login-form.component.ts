@@ -1,12 +1,8 @@
-
 import { Component, EventEmitter, Output } from '@angular/core';
-
 import { LoginService } from 'src/app/services/login.service';
 import { NgForm } from '@angular/forms'
 import { User } from 'src/app/models/user.model';
-import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-
 
 @Component({
   selector: 'app-login-form',
@@ -15,9 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginFormComponent {
 
-
   @Output() login: EventEmitter<void> = new EventEmitter();
-
 
   constructor(
     private readonly loginService: LoginService,
@@ -42,5 +36,9 @@ export class LoginFormComponent {
     })
   }
 
+  showModal = false;
+  toggleModal() {
+    this.showModal = !this.showModal;
+  }
 
 }
