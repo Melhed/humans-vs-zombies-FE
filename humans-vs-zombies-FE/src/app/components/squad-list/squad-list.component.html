@@ -1,1 +1,8 @@
-<p>squad-list works!</p>
+<ul>
+    <li *ngFor="let squad of squads">
+        <span>{{ squad.name}} and Id is {{ squad.id }} is human: 
+            {{ squad.isHuman}}   and game Id: {{ squad.gameId }}
+        </span>
+        
+    </li>
+</ul>
