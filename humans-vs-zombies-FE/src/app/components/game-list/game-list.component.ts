@@ -14,10 +14,12 @@ export class GameListComponent {
   @Input() games: Game[] = [];
 
   onJoinGame() {
-    console.log("Register button clicked");
+    //TODO: Make sure user is authenticated to join, add player to game, update no. of players (make sure it's not full)
+    console.log("Join button clicked");
   }
 
   onGameDetails() {
+    //TODO: Make sure the right game is viewed in game-view
     console.log("Game details clicked");
     this.router.navigateByUrl("/game-view");
   }
