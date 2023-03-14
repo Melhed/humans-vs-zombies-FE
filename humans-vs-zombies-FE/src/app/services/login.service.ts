@@ -1,11 +1,8 @@
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { StorageKeys } from '../consts/storage-keys.enum';
 import { User } from '../models/user.model';
-import { StorageUtil } from '../utils/storage.util';
 
 const { APIUsers, APIKey } = environment;
 
