@@ -19,10 +19,10 @@ export class GameViewPage implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // TODO: Fix correct way w/ guard
-    if (!keycloak.token) {
-      keycloak.logout();
-      this.router.navigateByUrl('/login');
-    }
+    // if (!keycloak.token) {
+    //   keycloak.logout();
+    //   this.router.navigateByUrl('/login');
+    // }
 
     let keycloakUser: KeycloakProfile = await keycloak.loadUserProfile();
     let user: User = {
@@ -31,7 +31,7 @@ export class GameViewPage implements OnInit {
       last_name: keycloakUser.lastName!,
     };
     this.userService.user = user;
-    console.log(this.userService.user);
+    this.userService.createUser(user);
   }
 
   showModal = false;
