@@ -12,6 +12,7 @@ import { GameViewPage } from './pages/game-view/game-view.page';
 import { GameListViewPage } from './pages/game-list-view/game-list-view.page';
 import { GameListComponent } from './components/game-list/game-list.component';
 import { SquadListComponent } from './components/squad-list/squad-list.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 
@@ -23,7 +24,8 @@ import { SquadListComponent } from './components/squad-list/squad-list.component
     GameViewPage,
     GameListViewPage,
     GameListComponent,
-    SquadListComponent
+    SquadListComponent,
+    NavbarComponent
   ],
   imports: [ //Modules
     BrowserModule,
