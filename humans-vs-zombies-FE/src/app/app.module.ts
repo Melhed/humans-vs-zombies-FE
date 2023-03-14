@@ -11,6 +11,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { GameViewPage } from './pages/game-view/game-view.page';
 import { GameListViewPage } from './pages/game-list-view/game-list-view.page';
 import { GameListComponent } from './components/game-list/game-list.component';
+import { SquadListComponent } from './components/squad-list/squad-list.component';
 
 
 
@@ -21,7 +22,8 @@ import { GameListComponent } from './components/game-list/game-list.component';
     LoginFormComponent,
     GameViewPage,
     GameListViewPage,
-    GameListComponent
+    GameListComponent,
+    SquadListComponent
   ],
   imports: [ //Modules
     BrowserModule,
