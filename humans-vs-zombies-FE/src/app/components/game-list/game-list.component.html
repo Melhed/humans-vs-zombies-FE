@@ -14,8 +14,8 @@
             <div class="text-[#785fce] font-bold text-center">TODO: Implement this</div>
             <div class="text-center">{{ game.state }}</div>
             <div class="col-start-4 flex justify-end">
-                <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame()" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
-                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button>
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame()" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 m-2 rounded-full text-[#458f74]">Join Game</button>
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 m-2 rounded-full text-white">Game Details</button>
             </div>
             <button *ngIf="(game.state=='IN_PROGRESS' || game.state=='COMPLETE')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 col-span-4 text-white">Game Details</button>
         </div>
