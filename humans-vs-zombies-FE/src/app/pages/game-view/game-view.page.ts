@@ -12,6 +12,11 @@ export class GameViewPage implements OnInit{
       this.showModal = !this.showModal;
     }
 
+    showBiteCodeModal = false;
+    toggleBiteCodeModal() {
+      this.showBiteCodeModal = !this.showBiteCodeModal;
+    }
+
     get squads(): Squad[] {
       return this.squadListService.squads;
     }

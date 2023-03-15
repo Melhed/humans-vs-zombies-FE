@@ -77,8 +77,48 @@
 <div class="container mx-auto px-4 py-24 ">
     <div class="columns-1 . ">
         <div class="font-bold text-xl mb-2">GAME TITLE</div>
-        <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Bite Code</button>
+        
+        <div id="Modal/dialog div">
+            <button class="block py-2 pl-2 pr-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" type="button" (click)="toggleBiteCodeModal()">
+                Bite Code
+            </button>
+            <div *ngIf="showBiteCodeModal" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+                <div class="relative w-auto my-6 mx-auto max-w-6xl">
+                <!--content-->
 
+                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                    <h3 class="text-3xl font-semibold">
+                        Bite Code
+                    </h3>
+
+                    </div>
+                    <!--body-->
+                    <div class="w-1/2 md:w-full relative p-6 flex-auto ">
+                    
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
+                            Human Code
+                          </label>
+                          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gamename" type="text" placeholder="bite code">
+                          
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleBiteCodeModal()">
+                            Enter
+                        </button>
+                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleBiteCodeModal()">
+                        Close
+                    </button>
+                    </div>
+                </div>
+
+                
+                </div>
+            </div>
+            <div *ngIf="showBiteCodeModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </div>
 
         <img class="w-full aspect-video ..." src="https://asset.vg247.com/A-Link-to-the-Past-Map-Header1-05292020.jpg/BROK/thumbnail/1600x900/quality/100/A-Link-to-the-Past-Map-Header1-05292020.jpg" />
     </div>
