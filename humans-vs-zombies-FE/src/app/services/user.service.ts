@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
@@ -22,37 +22,29 @@ export class UserService {
     this._user = user;
   }
 
-
-
-  public handleUserLogin(user: User): Observable<User> {
-    return this.checkUser(user.id).pipe(
-      switchMap((userRes: User | undefined) => {
-        console.log(userRes);
-        
-        if(userRes === undefined) {
-          console.log(user)
-          return this.createUser(user);
-        }
-        console.log(userRes);
-        return of(userRes);
-      })
-    )
-  }
-
-  public createUser(user: User): Observable<User> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+  public handleUserLogin(user: User): any {
+    this.checkUser(user.id).
+    subscribe((fetchedUser) => {
+      if (fetchedUser === undefined) {
+        return this.createUser(user).subscribe(data => {
+          console.log(data);
+        });
+      };
+      return user;
     });
-
-    return this.http.post<User>(APIUsers, user, {headers});
   }
 
-  public checkUser(userId: string): Observable<User | undefined> {
-    console.log("asjaskas")
-    return this.http.get<User[]>(`${APIUsers}/${userId}`)
-    .pipe(map((res: User[]) => res.pop()));
+  public createUser(user: User): Observable<void | User> {
+    return this.http.post<User>(APIUsers, user).pipe(
+      catchError(async (err) => console.log(err))
+    );
   }
 
+  public checkUser(userId: string): Observable<any> {
+    return this.http.get<User>(`${APIUsers}/${userId}`).pipe(
+      catchError(async (err) => console.log(err))
+    );
+  }
 
   constructor(private readonly http: HttpClient) {
     this._user = StorageUtil.storageRead<User>(StorageKeys.User);

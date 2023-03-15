@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { KeycloakProfile } from 'keycloak-js';
+import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import keycloak from 'src/keycloak';
 
@@ -24,7 +26,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   doLogin(): void {
-    keycloak.login({ redirectUri: 'http://localhost:4200/game-view' });
+    keycloak.login({ redirectUri: 'http://localhost:4200/game-list-view' });
   }
 
   doLogout(): void {
