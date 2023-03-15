@@ -26,35 +26,70 @@
                         </h3>
 
                         </div>
+
                         <!--body-->
+                        <div class="form-area">
+                        <form #gameForm="ngForm" (ngSubmit)="onGameCreate(gameForm.value)">
                         <div class="w-1/2 md:w-full relative p-6 flex-auto ">
                         
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="gamename">
-                                Game name
-                              </label>
-                              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gamename" type="text" placeholder="game name">
-                              
-
-                              <label class="block text-gray-700 text-sm font-bold mb-2" for="gameStarTtime">
-                                Start time
-                              </label>
-                              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gameStartTime" type="time" placeholder="start time">
+                            Game name
+                            </label>
+                            <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gameName" type="text" placeholder="game name">
                             
-                              <label class="block text-gray-700 text-sm font-bold mb-2" for="gameEndTime">
-                                End time
-                              </label>
-                              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gameEndTime" type="time" placeholder="end time">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                Game state
+                            </label>
+                            <select ngModel class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <option>REGISTRATION</option>
+                                
+                            </select>
+                            
 
-                        </div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="gameStarTtime">
+                            Start time
+                            </label>
+                            <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gameStartTime"  type="datetime-local" placeholder="start time">
+                        
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="gameEndTime">
+                            End time
+                            </label>
+                            <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="gameEndTime"  type="datetime-local" placeholder="end time">
+                            
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="gameEndTime">
+                                nwLat
+                                </label>
+                                <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="nwLat"  type="text" placeholder="nwLat">
+
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="gameEndTime">
+                                    nwLng
+                                    </label>
+                                    <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="nwLng"  type="text" placeholder="nwLng">
+
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="gameEndTime">
+                                        seLat
+                                        </label>
+                                        <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="seLat"  type="text" placeholder="seLat">
+
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="seLng">
+                                    seLng
+                                    </label>
+                                    <input ngModel class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="seLng"  type="text" placeholder="seLng">
+                        
+                        
+                            </div>
+                    
                         <!--footer-->
                         <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleCreateGameModal()">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                                 Create
                             </button>
                         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleCreateGameModal()">
                             Close
                         </button>
                         </div>
+                    </form>
+                </div>
                     </div>
 
                     
