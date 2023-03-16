@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Game } from 'src/app/models/game.model';
 
 @Component({
@@ -8,6 +9,16 @@ import { Game } from 'src/app/models/game.model';
 })
 export class GameListComponent {
 
+  constructor(private readonly router: Router) {}
+
   @Input() games: Game[] = [];
 
+  onJoinGame() {
+    console.log("Register button clicked");
+  }
+
+  onGameDetails() {
+    console.log("Game details clicked");
+    this.router.navigateByUrl("/game-view");
+  }
 }
