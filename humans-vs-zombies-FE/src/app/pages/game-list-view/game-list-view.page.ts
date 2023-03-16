@@ -38,8 +38,6 @@ export class GameListViewPage implements OnInit{
       lastName: keycloakUser.lastName!,
     };
 
-    let newUser: User = this.userService.handleUserLogin(user);
-    console.log(newUser);
-
+    this.userService.handleUserLogin(user);
   }
 }
