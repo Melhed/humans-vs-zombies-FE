@@ -14,6 +14,7 @@ import { SquadListComponent } from './components/squad-list/squad-list.component
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginPageInfoComponent } from './components/login-page-info/login-page-info.component';
+import { GameMapComponent } from './components/game-map/game-map.component';
 
 
 
@@ -27,7 +28,8 @@ import { LoginPageInfoComponent } from './components/login-page-info/login-page-
     SquadListComponent,
     NavbarComponent,
     LoginComponent,
-    LoginPageInfoComponent
+    LoginPageInfoComponent,
+    GameMapComponent
   ],
   imports: [ //Modules
     BrowserModule,

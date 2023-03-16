@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-24 ">
     <div class="columns-1 . ">
         <div class="font-bold text-xl mb-2">GAME TITLE</div>
-        
+
         <div id="Modal/dialog div">
             <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" (click)="toggleBiteCodeModal()">
                 Bite Code
@@ -24,12 +24,12 @@
                     </div>
                     <!--body-->
                     <div class="w-1/2 md:w-full relative p-6 flex-auto ">
-                    
+
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
                             Human Code
                           </label>
                           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="biteCode" type="text" placeholder="bite code">
-                          
+
                           <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
                             Log the kill
                           </label>
@@ -37,7 +37,7 @@
 
                     </div>
 
-                    
+
                     <!--footer-->
                     <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleBiteCodeModal()">
@@ -49,13 +49,14 @@
                     </div>
                 </div>
 
-                
+
                 </div>
             </div>
             <div *ngIf="showBiteCodeModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </div>
 
-        <img class="w-full aspect-video ..." src="https://asset.vg247.com/A-Link-to-the-Past-Map-Header1-05292020.jpg/BROK/thumbnail/1600x900/quality/100/A-Link-to-the-Past-Map-Header1-05292020.jpg" />
+        <!-- <img class="w-full aspect-video ..." src="https://asset.vg247.com/A-Link-to-the-Past-Map-Header1-05292020.jpg/BROK/thumbnail/1600x900/quality/100/A-Link-to-the-Past-Map-Header1-05292020.jpg" /> -->
+        <app-game-map></app-game-map>
     </div>
   <!-- ... -->
 </div>
@@ -66,7 +67,7 @@
             <div class="order-last">
                 <div class="w-96 h-96 p-4 border-4 border-sky-500">
                     <div class="font-bold text-xl mb-2">Chat Box</div>
-                    
+
                     <!-- ... -->
                 </div>
 
@@ -79,9 +80,9 @@
                     <app-squad-list [squads]="squads"></app-squad-list>
                   </ol>
             </div>
-            
+
           </div>
-    
+
 </div>
 
 </main>
