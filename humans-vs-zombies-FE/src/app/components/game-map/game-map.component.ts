@@ -3,7 +3,15 @@ import { Map } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import View from 'ol/View';
 import OSM from 'ol/source/OSM';
-import { Point } from 'ol/geom';
+import { LineString, Point } from 'ol/geom';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import Feature from 'ol/Feature';
+import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
+import Layer from 'ol/layer/Layer';
+import Style from 'ol/style/Style';
+import Stroke from 'ol/style/Stroke';
+import { GameMapService } from 'src/app/services/game-map.service';
 
 @Component({
   selector: 'app-game-map',
@@ -12,26 +20,14 @@ import { Point } from 'ol/geom';
 })
 export class GameMapComponent implements OnInit {
 
-  private map?: Map = undefined;
+  private map?: Map;
+
+  constructor(private readonly gameMapService: GameMapService) {}
 
   ngOnInit(): void {
-    const place = [-110, 45];
-
-    const point = new Point(place);
-
-    this.map = new Map({
-      view: new View({
-        center: place,
-        zoom: 6,
-      }),
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        })
-      ],
-      target: 'ol-map'
-    });
-    console.log(this.map);
+    this.map = this.gameMapService.createGameMap(-408.75, 80.78, -344.02, 71.73);
+    this.gameMapService.addMarker(fromLonLat([-344.02, 71.73]), false);
+    this.map = this.gameMapService.map;
   }
 
 }
