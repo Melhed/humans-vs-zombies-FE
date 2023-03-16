@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Game } from 'src/app/models/game.model';
 import { environment } from 'src/environments/environment';
+import keycloak from 'src/keycloak';
 const {APIGames} = environment;
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: []
 })
 
 export class NavbarComponent implements OnInit{
@@ -19,46 +18,48 @@ export class NavbarComponent implements OnInit{
     "nwLng": 0,
     "seLat": 0,
     "seLng": 0
-
   };
-  
+
+  public isAuthenticated: boolean = false;
+
+  get authenticated(): boolean {
+    return Boolean(keycloak.authenticated);
+  }
+
   acceptedTime: boolean = true;
   showModal = false;
   showCreateGameModal = false;
+
   toggleModal() {
     this.showModal = !this.showModal;
   }
+
   toggleCreateGameModal() {
     this.showCreateGameModal = !this.showCreateGameModal;
   }
 
-  constructor(private readonly http: HttpClient) {}
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
     this._newGame = game;
-    
-    if(game.endTime > game.startTime){
-      console.log(game);
-    this.http.post(APIGames + "/add-new-game", game)
+
+    if (game.endTime > game.startTime){
+      this.http.post(APIGames + "/add-new-game", game)
       .subscribe((res) => {
         console.log(res);
       });
-    }else{
+    } else {
       console.log("from else")
       this.acceptedTime = false;
     }
-    
+
   }
 
   ngOnInit(): void {
-    console.log("ononot")
-    
+    this.isAuthenticated = Boolean(keycloak.authenticated);
     if(this._newGame.endTime > this._newGame.startTime){
-      console.log("ok")
-      
-      
+
     }
   }
-    
 
+  constructor(private readonly http: HttpClient) {}
 }

@@ -1,0 +1,8 @@
+{
+  "realm": "hvz",
+  "auth-server-url": "http://localhost:8083/auth/",
+  "ssl-required": "external",
+  "resource": "angular-cli",
+  "public-client": true,
+  "confidential-port": 0
+}

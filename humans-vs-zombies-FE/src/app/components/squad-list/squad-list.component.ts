@@ -4,7 +4,7 @@ import { Squad } from 'src/app/models/squad.model';
 @Component({
   selector: 'app-squad-list',
   templateUrl: './squad-list.component.html',
-  styleUrls: ['./squad-list.component.css']
+  styleUrls: []
 })
 export class SquadListComponent implements OnInit{
 
@@ -12,6 +12,6 @@ export class SquadListComponent implements OnInit{
 
   constructor() {}
   ngOnInit(): void {
-      
+
   }
 }

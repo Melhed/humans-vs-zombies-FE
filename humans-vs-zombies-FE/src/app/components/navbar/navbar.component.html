@@ -1,4 +1,4 @@
-<nav class="bg-gray-500 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+<nav class="bg-gray-500 border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
        <div class="flex items-center">
           <img src="https://cdn-icons-png.flaticon.com/512/218/218153.png?w=1060&t=st=1678699409~exp=1678700009~hmac=7bd31a33b252527797d84fbf7e49e6864153bee6d006790b23958961c81f28b3" class="h-6 mr-3 sm:h-9" alt="HUMANS vs ZOMBIES Logo" />
@@ -6,11 +6,12 @@
        </div>
        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-             <li>
+             <li *ngIf="isAuthenticated">
                 <div id="Modal/dialog div">
                    <button class="block py-2 pl-2 pr-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" type="button" (click)="toggleCreateGameModal()">
                    Create game
                    </button>
+
                    <div *ngIf="showCreateGameModal" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
                       <div class="relative w-auto my-6 mx-auto max-w-6xl">
                          <!--content-->
@@ -61,7 +62,7 @@
                                <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                   <button class="text-white bg-gradient-to-r from-green-400 via-blue-500
                                      to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300
-                                     dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                                     dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                                      type="submit" [disabled]="gameForm.invalid">
                                   Create
                                   </button>
@@ -127,6 +128,9 @@
                    </div>
                    <div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </div>
+             </li>
+             <li>
+              <app-login-component></app-login-component>
              </li>
           </ul>
        </div>
