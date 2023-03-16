@@ -9,7 +9,7 @@ import keycloak from 'src/keycloak';
 @Component({
   selector: 'app-game-list-view',
   templateUrl: './game-list-view.page.html',
-  styleUrls: ['./game-list-view.page.css']
+  styleUrls: []
 })
 export class GameListViewPage implements OnInit{
 

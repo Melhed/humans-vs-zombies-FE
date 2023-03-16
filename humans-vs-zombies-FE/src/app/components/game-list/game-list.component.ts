@@ -18,7 +18,6 @@ export class GameListComponent {
   }
 
   onGameDetails() {
-    console.log("Game details clicked");
     this.router.navigateByUrl("/game-view");
   }
 }

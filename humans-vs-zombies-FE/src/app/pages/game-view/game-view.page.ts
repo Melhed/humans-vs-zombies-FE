@@ -4,7 +4,7 @@ import { Squad } from 'src/app/models/squad.model';
 @Component({
   selector: 'app-game-view',
   templateUrl: './game-view.page.html',
-  styleUrls: ['./game-view.page.css'],
+  styleUrls: [],
 })
 export class GameViewPage implements OnInit{
     showModal = false;
