@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { GameListViewPage } from './pages/game-list-view/game-list-view.page';
 import { GameViewPage } from './pages/game-view/game-view.page';
 import { LoginPage } from './pages/login/login.page';
@@ -7,22 +8,27 @@ import { LoginPage } from './pages/login/login.page';
 const routes: Routes = [
   {
     path: "",
-
     pathMatch: "full",
-
-    redirectTo: "/login"
+    redirectTo: "login"
   },
   {
-    path: "login", 
+    path: "login",
     component: LoginPage
   },
   {
     path: "game-view",
-    component: GameViewPage
+    component: GameViewPage,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: "game-list-view",
-    component: GameListViewPage
+    component: GameListViewPage,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: "**",
+    redirectTo: "login",
+    pathMatch: "full"
   }
 ];
 
