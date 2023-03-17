@@ -44,20 +44,13 @@ export class NavbarComponent implements OnInit{
         console.log(res);
       });
     }else{
-      console.log("from else")
       this.acceptedTime = false;
     }
     
   }
 
   ngOnInit(): void {
-    console.log("ononot")
     
-    if(this._newGame.endTime > this._newGame.startTime){
-      console.log("ok")
-      
-      
-    }
   }
     
 
