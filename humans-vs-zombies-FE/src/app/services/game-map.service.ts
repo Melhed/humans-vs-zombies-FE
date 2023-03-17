@@ -14,7 +14,7 @@ import { Coordinate } from 'ol/coordinate';
 import Icon from 'ol/style/Icon';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameMapService {
   private _map?: Map = undefined;
@@ -23,36 +23,16 @@ export class GameMapService {
     return this._map;
   }
 
-  public set map(map: Map |undefined) {
-    this._map = map
+  public set map(map: Map | undefined) {
+    this._map = map;
   }
 
-  public addMarker(coords: Coordinate, isMission: boolean): void {
-    let iconName: String = 'Grave_Marker_64.png';
-    if (isMission) {
-      iconName = 'Mission_Marker_64.png';
-    }
-    let marker: any = new VectorLayer({
-      source: new VectorSource({
-        features: [
-          new Feature({
-            geometry: new Point(coords),
-          }),
-        ],
-        wrapX: false,
-      }),
-      style: new Style({
-        image: new Icon({
-          src: `../../assets/${iconName}`,
-          anchor: [0.5, 1],
-        }),
-      }),
-    });
-
-    this._map?.addLayer(marker);
-  }
-
-  public createGameMap(nwLat: number, nwLng: number, seLat: number, seLng: number): Map {
+  public createGameMap(
+    nwLat: number,
+    nwLng: number,
+    seLat: number,
+    seLng: number
+  ): Map {
     const nw = fromLonLat([nwLat, nwLng]);
     const se = fromLonLat([seLat, seLng]);
     const ne = fromLonLat([nwLat, seLng]);
@@ -61,6 +41,8 @@ export class GameMapService {
     const view: View = new View({
       center: this.findCenter(nwLat, nwLng, seLat, seLng),
       zoom: 3,
+      enableRotation: false,
+      // extent: new View().getProjection().getExtent(),
     });
 
     const nwNeVector = this.createVectorLayer(nw, ne);
@@ -75,7 +57,7 @@ export class GameMapService {
             source: new OSM(),
           }),
         ],
-        target: 'ol-map'
+        target: 'ol-map',
       });
     }
     this._map.setView(view);
@@ -87,37 +69,40 @@ export class GameMapService {
     return this._map;
   }
 
-
-  public findCenter(nwLat: any, nwLng: number, seLat: number, seLng: number): Coordinate {
-    const centerLat: number = ((seLat - nwLat) / 2) + nwLat;
-    const centerLng: number = ((nwLng - seLng) / 2) + nwLng;
+  public findCenter(
+    nwLat: any,
+    nwLng: number,
+    seLat: number,
+    seLng: number
+  ): Coordinate {
+    const centerLat: number = (seLat - nwLat) / 2 + nwLat;
+    const centerLng: number = (nwLng - seLng) / 2 + nwLng;
     return fromLonLat([centerLat, centerLng]);
   }
-
 
   private createVectorLayer(nw: Coordinate, se: Coordinate): any {
     const lineFeature = new Feature({
       geometry: new LineString([nw, se]),
-      name: "lineString"
-    })
+      name: 'lineString',
+    });
 
     const lineVectorSource = new VectorSource({
       features: [lineFeature],
-      wrapX: false
+      wrapX: false,
     });
 
     const lineStyle = new Style({
       stroke: new Stroke({
-        color: "black",
+        color: 'black',
         width: 2,
-      })
-    })
+      }),
+    });
 
     return new VectorLayer({
       source: lineVectorSource,
-      style: lineStyle
-    })
+      style: lineStyle,
+    });
   }
 
-  constructor() { }
+  constructor() {}
 }
