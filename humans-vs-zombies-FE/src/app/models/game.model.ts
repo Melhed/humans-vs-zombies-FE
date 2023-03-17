@@ -1,5 +1,5 @@
 export interface Game {
-    id: number;
+    id: string;
     name: string;
     state: string; //TODO: make this an enum??
     startTime: string;

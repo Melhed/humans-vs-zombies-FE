@@ -17,7 +17,7 @@ export class LoginService {
   constructor(private readonly http: HttpClient) { }
 
   //Login
-  public login(username: number): Observable<User> {
+  public login(username: string): Observable<User> {
     return this.checkUsername(username)
     .pipe(
       switchMap((user: User | undefined ) => {
@@ -32,7 +32,7 @@ export class LoginService {
   }
 
   //Check if user exists
-  private checkUsername(username: number): Observable<User | undefined> {
+  private checkUsername(username: string): Observable<User | undefined> {
     console.log("Checking user id...");
     return this.http.get<User>(`${APIUsers}/${username}`)
     .pipe(
@@ -41,7 +41,7 @@ export class LoginService {
   }
 
   //Create user
-  private createUser(id: number): Observable<User> {
+  private createUser(id: string): Observable<User> {
     const user = {
       id
     };
