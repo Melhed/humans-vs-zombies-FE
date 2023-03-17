@@ -6,17 +6,18 @@
             <div class="font-bold">NUMBER OF PLAYERS</div>
             <div class="font-bold">GAME STATE</div>
         </div>
-        <div *ngFor="let game of games" class="bg-white w-auto h-auto m-1 p-3 border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group items-center">
+        <div *ngFor="let game of games" class="bg-slate-100 w-auto h-auto m-1 p-3 border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group items-center">
             <div class="text-center font-bold text-slate-600">{{ game.name }}</div>
             <div class="text-center">
                 <span>{{ game.startTime }}</span> - <span>{{ game.endTime }}</span>
             </div>
-            <div class="text-[#785fce] font-bold text-center">TODO: Implement this</div>
+            <div class="text-center text-[#785fce] font-bold">TODO: Implement this</div>
             <div class="text-center">{{ game.state }}</div>
-            <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame()" class="hidden group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full justify-self-end col-span-3 text-[#458f74]">Join Game</button>
-            <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 text-white">Game Details</button>
-            <button *ngIf="(game.state=='IN_PROGRESS')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 col-span-4 text-white">Game Details</button>
-            <button *ngIf="(game.state=='COMPLETE')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 col-span-4 text-white">Game Details</button>
+            <div class="col-start-4 flex justify-end">
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame()" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button>
+            </div>
+            <button *ngIf="(game.state=='IN_PROGRESS' || game.state=='COMPLETE')" (click)="onGameDetails()" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 col-span-4 text-white">Game Details</button>
         </div>
     </div>
 </div>
