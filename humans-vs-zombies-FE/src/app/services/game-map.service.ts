@@ -23,7 +23,7 @@ export class GameMapService {
     return this._map;
   }
 
-  public set map(map: Map | undefined) {
+  public set map(map: Map |undefined) {
     this._map = map
   }
 
@@ -39,6 +39,7 @@ export class GameMapService {
             geometry: new Point(coords),
           }),
         ],
+        wrapX: false,
       }),
       style: new Style({
         image: new Icon({
@@ -48,37 +49,41 @@ export class GameMapService {
       }),
     });
 
-    console.log(iconName);
     this._map?.addLayer(marker);
   }
 
-  public createGameMap(nwLat: number, nwLng: number, seLat: number, seLng: number): Map | undefined {
+  public createGameMap(nwLat: number, nwLng: number, seLat: number, seLng: number): Map {
     const nw = fromLonLat([nwLat, nwLng]);
     const se = fromLonLat([seLat, seLng]);
     const ne = fromLonLat([nwLat, seLng]);
     const sw = fromLonLat([seLat, nwLng]);
+
+    const view: View = new View({
+      center: this.findCenter(nwLat, nwLng, seLat, seLng),
+      zoom: 3,
+    });
 
     const nwNeVector = this.createVectorLayer(nw, ne);
     const nwSwVector = this.createVectorLayer(nw, sw);
     const seSwVector = this.createVectorLayer(se, sw);
     const seNeVector = this.createVectorLayer(se, ne);
 
-    this._map = new Map({
-      view: new View({
-        center: this.findCenter(nwLat, nwLng, seLat, seLng),
-        zoom: 2,
-      }),
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-        nwNeVector,
-        nwSwVector,
-        seSwVector,
-        seNeVector
-      ],
-      target: 'ol-map'
-    });
+    if (this._map === undefined) {
+      this._map = new Map({
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+        ],
+        target: 'ol-map'
+      });
+    }
+    this._map.setView(view);
+    this._map.addLayer(nwNeVector);
+    this._map.addLayer(nwSwVector);
+    this._map.addLayer(seSwVector);
+    this._map.addLayer(seNeVector);
+
     return this._map;
   }
 
@@ -91,13 +96,13 @@ export class GameMapService {
 
 
   private createVectorLayer(nw: Coordinate, se: Coordinate): any {
-    const line_feat1 = new Feature({
+    const lineFeature = new Feature({
       geometry: new LineString([nw, se]),
       name: "lineString"
     })
 
-    const line_vsrc = new VectorSource({
-      features: [line_feat1],
+    const lineVectorSource = new VectorSource({
+      features: [lineFeature],
       wrapX: false
     });
 
@@ -105,12 +110,11 @@ export class GameMapService {
       stroke: new Stroke({
         color: "black",
         width: 2,
-        lineCap: "butt"
       })
     })
 
     return new VectorLayer({
-      source: line_vsrc,
+      source: lineVectorSource,
       style: lineStyle
     })
   }

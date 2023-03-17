@@ -1,7 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 30vh;
+  height: 50vh;
 }
 main {
   display: flex;

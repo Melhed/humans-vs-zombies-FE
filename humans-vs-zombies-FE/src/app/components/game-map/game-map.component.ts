@@ -20,14 +20,14 @@ import { GameMapService } from 'src/app/services/game-map.service';
 })
 export class GameMapComponent implements OnInit {
 
-  private map?: Map;
+  private gameMap?: Map;
 
   constructor(private readonly gameMapService: GameMapService) {}
 
   ngOnInit(): void {
-    this.map = this.gameMapService.createGameMap(-408.75, 80.78, -344.02, 71.73);
+    this.gameMap = this.gameMapService.createGameMap(-408.75, 80.78, -344.02, 71.73);
     this.gameMapService.addMarker(fromLonLat([-344.02, 71.73]), false);
-    this.map = this.gameMapService.map;
+    this.gameMap = this.gameMapService.map;
   }
 
 }
