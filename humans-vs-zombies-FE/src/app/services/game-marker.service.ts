@@ -6,7 +6,6 @@ import VectorLayer from 'ol/layer/Vector';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
 import { Coordinate } from 'ol/coordinate';
-import { HttpClient } from '@angular/common/http';
 import { Mission } from '../models/mission.model';
 import { Marker, markerType } from '../models/marker.model';
 import { fromLonLat } from 'ol/proj';
@@ -15,7 +14,7 @@ import { fromLonLat } from 'ol/proj';
   providedIn: 'root',
 })
 export class GameMarkerService {
-  constructor(private readonly http: HttpClient) {}
+  constructor() {}
 
   public createMissionMarkers(missions: Mission[]): Marker[] {
     let markers: Marker[] = [];
