@@ -2,21 +2,21 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Kill } from '../models/kill.model';
+import { Checkin } from '../models/checkin.model';
 
-const { APIKill, APIKey } = environment;
+const { APIGames, APIKey } = environment;
 
 @Injectable({
   providedIn: 'root',
 })
-export class KillService {
-  private _kill: Kill[] = [];
+export class CheckinService {
+  private _checkins: Checkin[] = [];
   private _error: String = '';
 
   private _loading: boolean = false;
 
-  get kills(): Kill[] {
-    return this._kill;
+  get checkins(): Checkin[] {
+    return this._checkins;
   }
 
   get error(): String {
@@ -28,18 +28,22 @@ export class KillService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public findGameKills(): void {
+  public findSquadCheckins(): void {
+    const squadId: number = 3;
     this._loading = true;
+
     this.http
-      .get<Kill[]>(APIKill.replace('{gameId}', localStorage.getItem('id') + ''))
+      .get<Checkin[]>(
+        `${APIGames}/${localStorage.getItem('id')}/squad/${squadId}/check-in`
+      )
       .pipe(
         finalize(() => {
           this._loading = false;
         })
       )
       .subscribe({
-        next: (kill: Kill[]) => {
-          this._kill = kill;
+        next: (checkins: Checkin[]) => {
+          this._checkins = checkins;
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
