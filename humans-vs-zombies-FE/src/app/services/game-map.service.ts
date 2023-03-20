@@ -11,7 +11,6 @@ import { fromLonLat } from 'ol/proj';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 import { Coordinate } from 'ol/coordinate';
-import Icon from 'ol/style/Icon';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +41,6 @@ export class GameMapService {
       center: this.findCenter(nwLat, nwLng, seLat, seLng),
       zoom: 3,
       enableRotation: false,
-      // extent: new View().getProjection().getExtent(),
     });
 
     const nwNeVector = this.createVectorLayer(nw, ne);

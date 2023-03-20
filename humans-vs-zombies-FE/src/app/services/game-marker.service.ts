@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Map, Feature } from 'ol';
+import { Feature } from 'ol';
 import Icon from 'ol/style/Icon';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
 import { Coordinate } from 'ol/coordinate';
-import { Geometry } from 'ol/geom';
-import { map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Mission } from '../models/mission.model';
-import { environment } from 'src/environments/environment';
 import { Marker, markerType } from '../models/marker.model';
 import { fromLonLat } from 'ol/proj';
-
-const { APIMission, APIKill, APISquadCheckin } = environment;
 
 @Injectable({
   providedIn: 'root',
