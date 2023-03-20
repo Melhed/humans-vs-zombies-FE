@@ -13,7 +13,6 @@ const {APIGames} = environment;
 export class SquadListService {
   private _squad: Squad[] = [];
   private _error: String = "";
-
   private _loading: boolean = false; 
 
   get squads(): Squad[] {

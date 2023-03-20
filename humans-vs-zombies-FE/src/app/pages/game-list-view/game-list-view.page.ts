@@ -27,7 +27,8 @@ export class GameListViewPage implements OnInit{
 
   private user?: User = undefined;
 
-  constructor (private readonly gameService: GameListService, private readonly userService: UserService) { }
+  constructor (private readonly gameService: GameListService, 
+    private readonly userService: UserService) { }
 
   async ngOnInit(): Promise<void> {
     this.gameService.findAllGames();
