@@ -23,27 +23,27 @@ export class UserService {
   }
 
   public handleUserLogin(user: User): any {
-    this.checkUser(user.id).
-    subscribe((fetchedUser) => {
+    this.checkUser(user.id).subscribe((fetchedUser) => {
       if (fetchedUser === undefined) {
-        return this.createUser(user).subscribe(data => {
+        return this.createUser(user).subscribe((data) => {
           console.log(data);
         });
-      };
+      }
+      this.user = user;
       return user;
     });
   }
 
   public createUser(user: User): Observable<void | User> {
-    return this.http.post<User>(APIUsers, user).pipe(
-      catchError(async (err) => console.log(err))
-    );
+    return this.http
+      .post<User>(APIUsers, user)
+      .pipe(catchError(async (err) => console.log(err)));
   }
 
   public checkUser(userId: string): Observable<any> {
-    return this.http.get<User>(`${APIUsers}/${userId}`).pipe(
-      catchError(async (err) => console.log(err))
-    );
+    return this.http
+      .get<User>(`${APIUsers}/${userId}`)
+      .pipe(catchError(async (err) => console.log(err)));
   }
 
   constructor(private readonly http: HttpClient) {
