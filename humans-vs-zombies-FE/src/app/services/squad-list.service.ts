@@ -26,8 +26,7 @@ export class SquadListService {
   get loading(): boolean {
     return this._loading;
   }
-
-  
+ 
   
   constructor(private readonly http: HttpClient,
     private readonly gameListService: GameListService) { }
@@ -51,7 +50,4 @@ export class SquadListService {
       })
   }
 
-  // public findAllSquadsWithGame(): Observable<Squad> {
-  //   return this.http.get<Squad>(`${APIGames}/${localStorage.getItem('id')}/squad`);
-  // }
 }

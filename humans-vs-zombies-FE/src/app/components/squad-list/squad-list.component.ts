@@ -13,6 +13,6 @@ export class SquadListComponent implements OnInit{
 
   constructor(private readonly gameListService: GameListService) {}
   ngOnInit(): void {
-    console.log("this.gameListService.gameId " + localStorage.getItem('id'));
+    
   }
 }
