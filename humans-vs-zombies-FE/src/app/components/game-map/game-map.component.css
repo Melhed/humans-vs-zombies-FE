@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+}
+main {
+  display: flex;
+  flex-grow: 1;
+}
+.map-container {
+  flex-grow: 1;
+}

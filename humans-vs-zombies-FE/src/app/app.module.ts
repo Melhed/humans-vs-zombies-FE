@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 
@@ -14,11 +14,12 @@ import { SquadListComponent } from './components/squad-list/squad-list.component
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginPageInfoComponent } from './components/login-page-info/login-page-info.component';
-
-
+import { GameMapComponent } from './components/game-map/game-map.component';
+import { Kill } from './models/kill.model';
 
 @NgModule({
-  declarations: [ //Components
+  declarations: [
+    //Components
     AppComponent,
     LoginPage,
     GameViewPage,
@@ -27,15 +28,17 @@ import { LoginPageInfoComponent } from './components/login-page-info/login-page-
     SquadListComponent,
     NavbarComponent,
     LoginComponent,
-    LoginPageInfoComponent
+    LoginPageInfoComponent,
+    GameMapComponent,
   ],
-  imports: [ //Modules
+  imports: [
+    //Modules
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
