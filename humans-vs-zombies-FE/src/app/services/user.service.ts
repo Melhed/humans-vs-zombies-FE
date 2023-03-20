@@ -26,8 +26,8 @@ export class UserService {
     this.checkUser(user.id).
     subscribe((fetchedUser) => {
       if (fetchedUser === undefined) {
-        return this.createUser(user).subscribe(data => {
-          console.log(data);
+        return this.createUser(user).subscribe(() => {
+          StorageUtil.storageSave<User>(StorageKeys.User, user!);
         });
       };
       return user;

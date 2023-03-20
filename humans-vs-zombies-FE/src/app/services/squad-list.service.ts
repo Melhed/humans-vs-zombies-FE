@@ -14,7 +14,7 @@ export class SquadListService {
   private _squad: Squad[] = [];
   private _error: String = "";
 
-  private _loading: boolean = false; 
+  private _loading: boolean = false;
 
   get squads(): Squad[] {
     return this._squad;
@@ -26,14 +26,14 @@ export class SquadListService {
   get loading(): boolean {
     return this._loading;
   }
- 
-  
+
+
   constructor(private readonly http: HttpClient,
     private readonly gameListService: GameListService) { }
 
   public findAllSquads(): void {
     this._loading =  true;
-      this.http.get<Squad[]>(`${APIGames}/${localStorage.getItem('id')}/squad`)
+    this.http.get<Squad[]>(`${APIGames}/${localStorage.getItem('game-id')}/squad`)
       .pipe(
         finalize(() => {
           this._loading = false;
