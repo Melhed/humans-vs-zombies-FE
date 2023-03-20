@@ -16,6 +16,8 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginPageInfoComponent } from './components/login-page-info/login-page-info.component';
 import { GameMapComponent } from './components/game-map/game-map.component';
 import { Kill } from './models/kill.model';
+import { EditPlayerPage } from './pages/edit-player/edit-player.page';
+import { PlayerListComponent } from './components/player-list/player-list.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { Kill } from './models/kill.model';
     LoginComponent,
     LoginPageInfoComponent,
     GameMapComponent,
+    EditPlayerPage,
+    PlayerListComponent,
   ],
   imports: [
     //Modules
