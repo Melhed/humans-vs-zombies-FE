@@ -5,7 +5,7 @@ export interface Player {
     is_patient_zero: boolean;
     state: playerState; //TODO: does this enum work?
     game_id: number;
-    hvzuser_id: number;
+    hvzuser_id: string;
 }
 
 export enum playerState {
