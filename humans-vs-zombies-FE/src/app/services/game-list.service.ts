@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Game } from '../models/game.model';
 
@@ -15,6 +15,7 @@ export class GameListService {
   private _games: Game[] = [];
   private _error: string = "";
   private _loading: boolean = false;
+  gameId: any = 0; 
 
   public get games(): Game[] {
     return this._games;
@@ -46,5 +47,9 @@ export class GameListService {
         this._error = error.message;
       }
     })
+  }
+
+  public getGameById(id: any): Observable<Game> {
+    return this.http.get<Game>(`${APIGames}/${id}`);
   }
 }

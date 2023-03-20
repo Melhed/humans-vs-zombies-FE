@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Squad } from '../models/squad.model';
+import { GameListService } from './game-list.service';
 
 
 const {APIGames} = environment;
@@ -28,11 +29,12 @@ export class SquadListService {
 
   
   
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient,
+    private readonly gameListService: GameListService) { }
 
   public findAllSquads(): void {
     this._loading =  true;
-      this.http.get<Squad[]>(APIGames+"/3/squad")
+      this.http.get<Squad[]>(`${APIGames}/${localStorage.getItem('id')}/squad`)
       .pipe(
         finalize(() => {
           this._loading = false;
@@ -48,4 +50,8 @@ export class SquadListService {
         }
       })
   }
+
+  // public findAllSquadsWithGame(): Observable<Squad> {
+  //   return this.http.get<Squad>(`${APIGames}/${localStorage.getItem('id')}/squad`);
+  // }
 }
