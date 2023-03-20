@@ -2,7 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { StorageKeys } from '../consts/storage-keys.enum';
 import { Checkin } from '../models/checkin.model';
+import { Player } from '../models/player.model';
+import { StorageUtil } from '../utils/storage.util';
 
 const { APIGames, APIKey } = environment;
 
@@ -29,25 +32,29 @@ export class CheckinService {
   constructor(private readonly http: HttpClient) {}
 
   public findSquadCheckins(): void {
-    const squadId: number = 3;
+    const currentPlayer: Player | undefined = StorageUtil.storageRead(
+      StorageKeys.Player
+    );
     this._loading = true;
 
-    this.http
-      .get<Checkin[]>(
-        `${APIGames}/${localStorage.getItem('id')}/squad/${squadId}/check-in`
-      )
-      .pipe(
-        finalize(() => {
-          this._loading = false;
-        })
-      )
-      .subscribe({
-        next: (checkins: Checkin[]) => {
-          this._checkins = checkins;
-        },
-        error: (error: HttpErrorResponse) => {
-          this._error = error.message;
-        },
-      });
+    // TODO: Find squad through playerId and squad member service, fetch checkins
+
+    // this.http
+    //   .get<Checkin[]>(
+    //     `${APIGames}/${localStorage.getItem('id')}/squad/${squadId}/check-in`
+    //   )
+    //   .pipe(
+    //     finalize(() => {
+    //       this._loading = false;
+    //     })
+    //   )
+    //   .subscribe({
+    //     next: (checkins: Checkin[]) => {
+    //       this._checkins = checkins;
+    //     },
+    //     error: (error: HttpErrorResponse) => {
+    //       this._error = error.message;
+    //     },
+    //   });
   }
 }

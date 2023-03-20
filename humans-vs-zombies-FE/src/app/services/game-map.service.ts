@@ -87,6 +87,7 @@ export class GameMapService {
     const lineVectorSource = new VectorSource({
       features: [lineFeature],
       wrapX: false,
+      overlaps: false,
     });
 
     const lineStyle = new Style({

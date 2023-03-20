@@ -31,7 +31,9 @@ export class KillService {
   public findGameKills(): void {
     this._loading = true;
     this.http
-      .get<Kill[]>(APIKill.replace('{gameId}', localStorage.getItem('id') + ''))
+      .get<Kill[]>(
+        APIKill.replace('{gameId}', localStorage.getItem('game-id') + '')
+      )
       .pipe(
         finalize(() => {
           this._loading = false;

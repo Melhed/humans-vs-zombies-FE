@@ -3,7 +3,6 @@ import { SquadListService } from 'src/app/services/squad-list.service';
 import { Squad } from 'src/app/models/squad.model';
 import { GameListService } from 'src/app/services/game-list.service';
 
-
 @Injectable()
 @Component({
   selector: 'app-game-view',
@@ -11,11 +10,10 @@ import { GameListService } from 'src/app/services/game-list.service';
   styleUrls: [],
 })
 export class GameViewPage implements OnInit {
-
   constructor(
     private readonly squadListService: SquadListService,
     private readonly gameListService: GameListService
-  ) { }
+  ) {}
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
@@ -43,8 +41,10 @@ export class GameViewPage implements OnInit {
 
   ngOnInit(): void {
     this.squadListService.findAllSquads();
-    this.gameListService.getGameById(localStorage.getItem('game-id')).subscribe(game => {
-      this.gameToShow = game;
-    });
+    this.gameListService
+      .getGameById(localStorage.getItem('game-id'))
+      .subscribe((game) => {
+        this.gameToShow = game;
+      });
   }
 }
