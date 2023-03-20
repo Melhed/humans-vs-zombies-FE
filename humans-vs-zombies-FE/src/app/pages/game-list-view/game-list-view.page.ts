@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakProfile } from 'keycloak-js';
+import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
 import { User } from 'src/app/models/user.model';
 import { GameListService } from 'src/app/services/game-list.service';
 import { UserService } from 'src/app/services/user.service';
+import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 
 @Component({
@@ -34,17 +36,13 @@ export class GameListViewPage implements OnInit {
   async ngOnInit(): Promise<void> {
     this.gameService.findAllGames();
     let keycloakUser: KeycloakProfile = await keycloak.loadUserProfile();
-
-    if (
-      this.userService.user === undefined ||
-      this.userService.user.id !== keycloakUser.id
-    ) {
+    this.user = StorageUtil.storageRead<User>(StorageKeys.User);
+    if (this.user === undefined || keycloakUser.id !== this.user.id) {
       let user: User = {
         id: keycloakUser.id!,
         firstName: keycloakUser.firstName!,
         lastName: keycloakUser.lastName!,
       };
-
       this.userService.handleUserLogin(user);
     }
   }

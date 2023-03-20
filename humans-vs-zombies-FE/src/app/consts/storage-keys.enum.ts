@@ -1,3 +1,4 @@
 export enum StorageKeys {
-    User = "hvz-user"
+    User = "hvz-user",
+    Player = "hvz-player"
 }

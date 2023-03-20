@@ -19,7 +19,7 @@ export class GameViewPage implements OnInit {
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
- 
+
   showModal = false;
   toggleModal() {
     this.showModal = !this.showModal;
@@ -43,7 +43,7 @@ export class GameViewPage implements OnInit {
 
   ngOnInit(): void {
     this.squadListService.findAllSquads();
-    this.gameListService.getGameById(localStorage.getItem('id')).subscribe(game => {
+    this.gameListService.getGameById(localStorage.getItem('game-id')).subscribe(game => {
       this.gameToShow = game;
     });
   }
