@@ -30,7 +30,7 @@ export class EditPlayerService {
 
   public findAllPlayers(): void {
     this._loading = true;
-    this.http.get<Player[]>(APIGames + "/3/player")
+    this.http.get<Player[]>(`${APIGames}/${localStorage.getItem('id')}/player`)
     .pipe(
       finalize(() => { //will run after last
         this._loading = false;

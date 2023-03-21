@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Location } from '@angular/common';
+
 import keycloak from 'src/keycloak';
+import { Router } from '@angular/router';
 const {APIGames} = environment;
 @Component({
   selector: 'app-navbar',
@@ -47,10 +50,17 @@ export class NavbarComponent implements OnInit{
       .subscribe((res) => {
         console.log(res);
       });
+
+      
     } else {
       console.log("from else")
       this.acceptedTime = false;
     }
+
+    console.log("from submit -------> ");
+    this.location.replaceState(this.location.path());
+    
+    
 
   }
 
@@ -60,6 +70,15 @@ export class NavbarComponent implements OnInit{
 
     }
   }
+  submit(){
+    console.log("from submit");
+    this.location.replaceState(this.location.path());
+    this.router.navigateByUrl("/game-list-view");
 
-  constructor(private readonly http: HttpClient) {}
+  }
+
+  constructor(private readonly http: HttpClient,
+    private readonly location: Location,
+    private readonly router: Router
+    ) {}
 }
