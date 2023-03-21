@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './player-list.component.html'
 })
 export class PlayerListComponent implements OnInit{
+
+  errorMessage: string = '';
 
   constructor(private readonly editPlayerService: EditPlayerService,
     private readonly router: Router,
@@ -37,6 +40,15 @@ export class PlayerListComponent implements OnInit{
   submit() {
     console.log("Form Submitted: " + this.contactForm.value)
     console.log(this.contactForm.value)
-    this.editPlayerService.updatePlayerState(1, this.contactForm.value);
+    this.editPlayerService.updatePlayerState(1, this.contactForm.value)
+    .subscribe({
+      next:(response: any) => {
+        console.log("NEXT ---> ", response)
+      },
+      error:(error: HttpErrorResponse) => {
+        console.log("ERROR -----> ", error.message);
+      }
+      
+    });
   }
 }
