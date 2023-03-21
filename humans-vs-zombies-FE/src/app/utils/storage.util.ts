@@ -1,6 +1,5 @@
 export class StorageUtil{
     public static storageSave<T>(key: string, value: T): void {
-        console.log("Saving user");
         sessionStorage.setItem(key, JSON.stringify(value));
     }
 

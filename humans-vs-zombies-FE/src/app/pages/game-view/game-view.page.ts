@@ -8,7 +8,6 @@ import { Player } from 'src/app/models/player.model';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 
-
 @Injectable()
 @Component({
   selector: 'app-game-view',
@@ -16,13 +15,13 @@ import { GameMarkerService } from 'src/app/services/game-marker.service';
   styleUrls: [],
 })
 export class GameViewPage implements OnInit {
-
   constructor(
     private readonly squadListService: SquadListService,
     private readonly gameListService: GameListService,
     private readonly killService: KillService,
     private readonly gameMarkerService: GameMarkerService,
   ) { }
+
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
@@ -70,8 +69,10 @@ export class GameViewPage implements OnInit {
 
   ngOnInit(): void {
     this.squadListService.findAllSquads();
-    this.gameListService.getGameById(localStorage.getItem('game-id')).subscribe(game => {
-      this.gameToShow = game;
-    });
+    this.gameListService
+      .getGameById(localStorage.getItem('game-id'))
+      .subscribe((game) => {
+        this.gameToShow = game;
+      });
   }
 }
