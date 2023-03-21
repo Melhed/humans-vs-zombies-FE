@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Map } from 'ol';
 import Layer from 'ol/layer/Layer';
@@ -19,7 +20,7 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 })
 export class GameMapComponent implements OnInit {
   private gameMap?: Map;
-  private kills?: Kill[] | undefined;
+  private kills: Kill[] = [];
 
   constructor(
     private readonly gameMapService: GameMapService,
@@ -28,9 +29,7 @@ export class GameMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const gameId = localStorage.getItem('game-id')!;
-    this.killService.fetchKills(parseInt(gameId));
-    this.kills = this.killService.kills;
+    this.killService.fetchKills(localStorage.getItem('game-id')!);
 
     this.gameMap = this.gameMapService.createGameMap(
       -408.75,
@@ -38,10 +37,17 @@ export class GameMapComponent implements OnInit {
       -344.02,
       71.73
     );
-
-    let killLayer = this.gameMarkerService.createKillMarkerLayer(this.kills);
-
     this.gameMap = this.gameMapService.map;
-    this.gameMap!.addLayer(killLayer);
+
+    this.killService.kills.subscribe((kills: Kill[]) => {
+      if (kills[0]) {
+        this.kills = kills;
+        const killLayer: VectorLayer<VectorSource> =
+          this.gameMarkerService.createKillMarkerLayer(kills);
+        console.log(killLayer);
+
+        this.gameMap!.addLayer(killLayer);
+      }
+    });
   }
 }

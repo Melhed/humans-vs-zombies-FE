@@ -11,12 +11,13 @@ import { fromLonLat } from 'ol/proj';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 import { Coordinate } from 'ol/coordinate';
+import { GameMarkerService } from './game-marker.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameMapService {
-  private _map?: Map = undefined;
+  private _map?: Map;
 
   public get map(): Map | undefined {
     return this._map;
@@ -40,7 +41,6 @@ export class GameMapService {
     const view: View = new View({
       center: this.findCenter(nwLat, nwLng, seLat, seLng),
       zoom: 3,
-      enableRotation: false,
     });
 
     const nwNeVector = this.createVectorLayer(nw, ne);
@@ -58,6 +58,22 @@ export class GameMapService {
         target: 'ol-map',
       });
     }
+
+    this._map.on('click', (e) => {
+      const feature = this._map!.forEachFeatureAtPixel(
+        e.pixel,
+        function (feature) {
+          return feature;
+        }
+      );
+      if (!feature) return;
+      this.gameMarkerService.fetchMarkerData(feature.getProperties());
+      this.gameMarkerService.clickedMarkerData.subscribe((data) =>
+        console.log(data)
+      );
+      return;
+    });
+
     this._map.setView(view);
     this._map.addLayer(nwNeVector);
     this._map.addLayer(nwSwVector);
@@ -87,7 +103,6 @@ export class GameMapService {
     const lineVectorSource = new VectorSource({
       features: [lineFeature],
       wrapX: false,
-      overlaps: false,
     });
 
     const lineStyle = new Style({
@@ -103,5 +118,5 @@ export class GameMapService {
     });
   }
 
-  constructor() {}
+  constructor(private readonly gameMarkerService: GameMarkerService) {}
 }
