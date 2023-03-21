@@ -38,6 +38,10 @@ export class NavbarComponent implements OnInit{
     this.showCreateGameModal = !this.showCreateGameModal;
   }
 
+  printToken() {
+    console.log(keycloak.idTokenParsed);
+  }
+
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
     this._newGame = game;
