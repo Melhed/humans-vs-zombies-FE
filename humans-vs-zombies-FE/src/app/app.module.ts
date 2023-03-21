@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LoginPage } from './pages/login/login.page';
@@ -16,6 +16,9 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginPageInfoComponent } from './components/login-page-info/login-page-info.component';
 import { GameMapComponent } from './components/game-map/game-map.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { Kill } from './models/kill.model';
+import { EditPlayerPage } from './pages/edit-player/edit-player.page';
+import { PlayerListComponent } from './components/player-list/player-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,8 @@ import { ChatComponent } from './components/chat/chat.component';
     LoginComponent,
     LoginPageInfoComponent,
     GameMapComponent,
-    ChatComponent,
+    EditPlayerPage,
+    PlayerListComponent,
   ],
   imports: [
     //Modules
@@ -38,6 +42,7 @@ import { ChatComponent } from './components/chat/chat.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
