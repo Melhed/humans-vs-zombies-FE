@@ -32,7 +32,6 @@ export class EditPlayerPage implements OnInit{
 
     async ngOnInit(): Promise<void> {
     this.editPlayerService.findAllPlayers();
-    this.editPlayerService.getGamePlayers();
     let keycloakUser: KeycloakProfile = await keycloak.loadUserProfile();
     let user: User = {
       id: keycloakUser.id!,

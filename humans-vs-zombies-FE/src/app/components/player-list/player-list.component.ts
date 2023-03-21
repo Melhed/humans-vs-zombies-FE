@@ -43,10 +43,10 @@ export class PlayerListComponent implements OnInit{
     this.editPlayerService.updatePlayerState(1, this.contactForm.value)
     .subscribe({
       next:(response: any) => {
-        console.log("NEXT ---> ", response)
+        console.log("NEXT: ", response)
       },
       error:(error: HttpErrorResponse) => {
-        console.log("ERROR -----> ", error.message);
+        console.log("ERROR: ", error.message);
       }
       
     });

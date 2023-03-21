@@ -47,13 +47,6 @@ export class EditPlayerService {
     })
   }
 
-  public getGamePlayers(): Observable<Player> {
-    return this.http.get<Player>(`${APIGames}/3/player`);
-  }
-
-  
-
-
   updatePlayerState(playerId: number, propertyValue: any): Observable<Player> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${APIGames}/3/player/1`;
