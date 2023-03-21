@@ -1,7 +1,24 @@
-<div class="font-bold text-xl mb-2">
-  Chat Box
-  <h2 class="font-semibold text-center text-lg">Zombie/Human</h2>
-  <div *ngFor="let fractionMessage of fractionChat"></div>
-  <h2 class="font-semibold text-center text-lg">Squad</h2>
-  <div *ngFor="let squadMessage of squadChat"></div>
+<div *ngIf="(player !== undefined)" class="order-last mr-3">
+  <div class="w-96 h-96 p-4 border-2 border-gray-900 bg-white">
+    <div class="font-bold text-xl mb-2">
+      Chat Box
+      <div>
+        <h2 *ngIf="(player.human)" class="font-semibold text-center text-lg">Human</h2>
+        <h2 *ngIf="(!player.human)" class="font-semibold text-center text-lg">Zombie</h2>
+        <div *ngFor="let fractionMessage of fractionChat" class="font-thin text-base mb-1">
+          <p>{{ fractionMessage.message }}</p>
+          <p class=" text-stone-500 text-xs">{{ fractionMessage.timestamp| date : 'yyyy-MM-dd HH:mm:ss' }}</p>
+        </div>
+        <input
+          name="newFractionMessage" type="text" #newFractionMessage
+          class="font-thin text-base mb-1 w-full p-2 mt-3 border-2 border-gray-900"
+          (keyup.enter)="sendFractionMessage(newFractionMessage.value)"
+        />
+      </div>
+      <div *ngIf="(player.state !== 'NO_SQUAD')">
+        <h2 class="font-semibold text-center text-lg">Squad</h2>
+        <div *ngFor="let squadMessage of squadChat"></div>
+      </div>
+    </div>
+  </div>
 </div>

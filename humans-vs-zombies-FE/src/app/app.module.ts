@@ -16,7 +16,6 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginPageInfoComponent } from './components/login-page-info/login-page-info.component';
 import { GameMapComponent } from './components/game-map/game-map.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { Kill } from './models/kill.model';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
 
@@ -24,6 +23,7 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
   declarations: [
     //Components
     AppComponent,
+    ChatComponent,
     LoginPage,
     GameViewPage,
     GameListViewPage,

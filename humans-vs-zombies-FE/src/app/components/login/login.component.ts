@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 
 @Component({
@@ -22,6 +23,7 @@ export class LoginComponent {
   }
 
   doLogout(): void {
+    StorageUtil.storageClear();
     keycloak.logout();
   }
 }

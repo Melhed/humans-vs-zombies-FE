@@ -16,7 +16,7 @@ export class GameService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public joinGame(gameId: string): void {
+  public joinGame(gameId: number | undefined): void {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
     this.checkPlayer(gameId, user!.id).subscribe(
       ((fetchedPlayer: undefined | Player) => {
@@ -29,7 +29,7 @@ export class GameService {
     );
   }
 
-  public createPlayer(gameId: string, user: User): void {
+  public createPlayer(gameId: number | undefined, user: User): void {
     this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user)
     .subscribe({
       next: (player: Player) => {
@@ -41,7 +41,7 @@ export class GameService {
     })
   }
 
-  public checkPlayer(gameId: string, userId: string): Observable<any> {
+  public checkPlayer(gameId: number | undefined, userId: string): Observable<any> {
     return this.http.get<Player>(`${APIGames}/${gameId}/player/user/${userId}`).pipe(
       catchError(async (err) => console.log(err))
     );

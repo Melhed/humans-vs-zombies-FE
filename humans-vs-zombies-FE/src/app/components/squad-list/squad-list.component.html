@@ -1,9 +1,63 @@
 <ul>
-
-    <li *ngFor="let squad of squads">
-        <span>Squad name: {{ squad.name}} Id: {{ squad.id }} game Id: {{ squad.gameId }}
-        </span>
-        
-    </li>
+  <li *ngFor="let squad of squads">
+    <span>{{ squad.name}}</span>
+    <button
+      *ngIf="(player.state === 'NO_SQUAD')"
+      (click)="joinSquad(squad)"
+      class="bg-black text-white pl-3 pr-3 ml-7 hover:bg-transparent hover:text-black"
+    >
+      Join
+    </button>
+  </li>
+  <button
+    *ngIf="(player.state === 'NO_SQUAD')"
+    (click)="toggleCreateSquadModal()"
+    class="bg-amber-700 text-white pl-3 pr-3 ml-7 hover:bg-transparent hover:text-black m-3"
+  >
+  Create new squad
+  </button>
+  <div *ngIf="(showCreateSquadModal)">
+    <div
+    class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+      <div class="relative w-auto my-6 mx-auto max-w-6xl">
+        <!--content-->
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <!--header-->
+          <div
+            class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+            <h3 class="text-3xl font-semibold">Create new squad</h3>
+          </div>
+          <!--body-->
+          <div class="form-area">
+            <form #gameForm="ngForm" (ngSubmit)="createSquad(gameForm.value)">
+              <div class="w-1/2 md:w-full relative p-6 flex-auto">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="gamename">
+                  Squad name
+                </label>
+                <input ngModel required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="name" type="text" />
+                <!--footer-->
+                <div
+                  class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    type="submit" [disabled]="gameForm.invalid">
+                      Create
+                  </button>
+                  <button
+                    class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button" (click)="toggleCreateSquadModal()">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
 </ul>
 

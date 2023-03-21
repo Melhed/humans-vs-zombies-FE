@@ -1,9 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { StorageKeys } from '../consts/storage-keys.enum';
+import { Game } from '../models/game.model';
+import { playerState } from '../models/player.model';
 import { Squad } from '../models/squad.model';
-import { GameListService } from './game-list.service';
+import { StorageUtil } from '../utils/storage.util';
+import { GameService } from './game.service';
 
 
 const {APIGames} = environment;
@@ -11,6 +15,7 @@ const {APIGames} = environment;
   providedIn: 'root'
 })
 export class SquadListService {
+
   private _squad: Squad[] = [];
   private _error: String = "";
   private _loading: boolean = false;
@@ -28,12 +33,12 @@ export class SquadListService {
   }
 
 
-  constructor(private readonly http: HttpClient,
-    private readonly gameListService: GameListService) { }
+  constructor(private readonly http: HttpClient, private readonly gameService: GameService) { }
 
   public findAllSquads(): void {
     this._loading =  true;
-    this.http.get<Squad[]>(`${APIGames}/${localStorage.getItem('game-id')}/squad`)
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    this.http.get<Squad[]>(`${APIGames}/${game?.id}/squad`)
       .pipe(
         finalize(() => {
           this._loading = false;
@@ -50,4 +55,53 @@ export class SquadListService {
       })
   }
 
+  joinSquad(squad: Squad, player: any): void {
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    this.http.post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player.id)
+      .subscribe({
+        next: () => {
+          StorageUtil.storageRemove(StorageKeys.Player);
+          StorageUtil.storageSave(StorageKeys.Player, {
+            id: player.id,
+            state: "SQUAD_MEMBER",
+            biteCode: player.biteCode,
+            user: player.user,
+            game: player.game,
+            human: player.human
+          });
+        },
+        error: (error: HttpErrorResponse) => {
+          this._error = error.message;
+        }
+      })
+  }
+
+  createNewSquad(name: string, player: any) {
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const squadDTO = {
+      playerId: player.id,
+      squadName: name
+    }
+    console.log(squadDTO);
+
+    this.http.post<Squad>(`${APIGames}/${game?.id}/squad/`, squadDTO)
+    .subscribe({
+      next: () => {
+        console.log("LOG");
+
+        StorageUtil.storageRemove(StorageKeys.Player);
+        StorageUtil.storageSave(StorageKeys.Player, {
+          id: player.id,
+          state: "SQUAD_MEMBER",
+          biteCode: player.biteCode,
+          user: player.user,
+          game: player.game,
+          human: player.human
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this._error = error.message;
+      }
+    })
+  }
 }
