@@ -2,6 +2,11 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { SquadListService } from 'src/app/services/squad-list.service';
 import { Squad } from 'src/app/models/squad.model';
 import { GameListService } from 'src/app/services/game-list.service';
+import { KillService } from 'src/app/services/kill.service';
+import { StorageUtil } from 'src/app/utils/storage.util';
+import { Player } from 'src/app/models/player.model';
+import { StorageKeys } from 'src/app/consts/storage-keys.enum';
+import { GameMarkerService } from 'src/app/services/game-marker.service';
 
 @Injectable()
 @Component({
@@ -12,8 +17,11 @@ import { GameListService } from 'src/app/services/game-list.service';
 export class GameViewPage implements OnInit {
   constructor(
     private readonly squadListService: SquadListService,
-    private readonly gameListService: GameListService
-  ) {}
+    private readonly gameListService: GameListService,
+    private readonly killService: KillService,
+    private readonly gameMarkerService: GameMarkerService,
+  ) { }
+
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
@@ -26,6 +34,26 @@ export class GameViewPage implements OnInit {
   showBiteCodeModal = false;
   toggleBiteCodeModal() {
     this.showBiteCodeModal = !this.showBiteCodeModal;
+  }
+
+  addKill(kill : {biteCode: string, story: string, lat: string, long: string}) {
+    const player: any = StorageUtil.storageRead(StorageKeys.Player);
+    const killInfo = {
+      killPosterId: player.id,
+      killerId: player.id,
+      biteCode: kill.biteCode,
+      story: kill.story,
+      lat: kill.lat,
+      lng: kill.long
+    }
+    this.killService.addKill(killInfo);
+    this.toggleBiteCodeModal();
+    if (this.killService.mostRecentKill !== undefined) {
+      /** TODO: create marker */
+      alert("Bite has been registered");
+    } else {
+      alert(this.killService.error);
+    }
   }
 
   get squads(): Squad[] {

@@ -28,24 +28,43 @@ export class KillService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public findGameKills(): void {
-    this._loading = true;
+
+  private _mostRecentKill?: Kill = undefined;
+
+  private _error: String = "";
+
+  private _loading: boolean = false;
+
+  get mostRecentKill(): Kill | undefined {
+    return this._mostRecentKill;
+  }
+
+  get error(): String {
+    return this._error;
+  }
+  get loading(): boolean {
+    return this._loading;
+  }
+
+  public fetchKills(gameId: number): Observable<Kill[] | void> {
+    return this.http
+      .get<Kill[]>(`${APIKill.replace('{gameId}', gameId + '')}`)
+      .pipe(catchError(async (err) => console.log(err)));
+
+  }
+
+  public addKill(killPostDTO : {killPosterId: number, killerId: number, biteCode: string, story: string, lat: string, lng: string}): void {
+    const gameId = localStorage.getItem('game-id');
+
     this.http
-      .get<Kill[]>(
-        APIKill.replace('{gameId}', localStorage.getItem('game-id') + '')
-      )
-      .pipe(
-        finalize(() => {
-          this._loading = false;
-        })
-      )
+      .post<Kill>(`${APIKill.replace('{gameId}', gameId + '')}`, killPostDTO)
       .subscribe({
-        next: (kill: Kill[]) => {
-          this._kill = kill;
+        next: (kill: Kill) => {
+          this._mostRecentKill = kill;
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
-        },
-      });
+        }
+      })
   }
 }

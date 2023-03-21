@@ -20,15 +20,11 @@ export class GameListComponent {
   @Input() games: Game[] = [];
 
   onJoinGame(id: any) {
-    console.log(id);
-
     this.gameService.joinGame(id);
     this.onGameDetails(id);
   }
 
   onGameDetails(id: any) {
-    console.log(id);
-
     this.gameListService.gameId = id;
     localStorage.setItem('game-id', id);
     this.router.navigateByUrl("/game-view");
