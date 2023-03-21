@@ -1,10 +1,9 @@
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
+import { Feature } from 'ol';
 
 export interface Marker {
   id: number;
   type: markerType;
-  vector: VectorLayer<VectorSource>;
+  vector: Feature;
 }
 
 export enum markerType {

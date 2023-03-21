@@ -11,10 +11,9 @@ import keycloak from 'src/keycloak';
 @Component({
   selector: 'app-game-list-view',
   templateUrl: './game-list-view.page.html',
-  styleUrls: []
+  styleUrls: [],
 })
-export class GameListViewPage implements OnInit{
-
+export class GameListViewPage implements OnInit {
   get games(): Game[] {
     return this.gameService.games;
   }
@@ -44,6 +43,5 @@ export class GameListViewPage implements OnInit{
       };
       this.userService.handleUserLogin(user);
     }
-
   }
 }

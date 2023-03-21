@@ -1,4 +1,5 @@
 export interface Player {
+
     player_id: number;
     biteCode: string;
     is_human: boolean;
