@@ -49,7 +49,7 @@ export class EditPlayerService {
 
   updatePlayerState(playerId: number, propertyValue: any): Observable<Player> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${APIGames}/3/player/1`;
+    const url = `${APIGames}/${localStorage.getItem('id')}/player/${playerId}`;
     const updatedFields = { ["state"]: propertyValue };
     console.log("UPDATE")
     return this.http.put<Player>(url, updatedFields, { headers });
