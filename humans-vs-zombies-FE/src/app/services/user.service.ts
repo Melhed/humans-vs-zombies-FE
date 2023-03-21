@@ -24,12 +24,11 @@ export class UserService {
 
   public handleUserLogin(user: User): any {
     this.checkUser(user.id).
-    subscribe((fetchedUser) => {
-      if (fetchedUser === undefined) {
-        return this.createUser(user).subscribe(() => {
-          StorageUtil.storageSave<User>(StorageKeys.User, user!);
-        });
-      };
+      subscribe((fetchedUser) => {
+        StorageUtil.storageSave<User>(StorageKeys.User, user!);
+        if (fetchedUser === undefined) {
+          return this.createUser(user).subscribe(() => {});
+        };
       return user;
     });
   }

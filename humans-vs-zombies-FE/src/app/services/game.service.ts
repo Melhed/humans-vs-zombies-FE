@@ -20,8 +20,11 @@ export class GameService {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
     this.checkPlayer(gameId, user!.id).subscribe(
       ((fetchedPlayer: undefined | Player) => {
-        if (fetchedPlayer === undefined)
+        if (fetchedPlayer === undefined) {
           this.createPlayer(gameId, user!);
+        } else {
+          StorageUtil.storageSave<Player>(StorageKeys.Player, fetchedPlayer!);
+        }
       })
     );
   }
@@ -30,7 +33,7 @@ export class GameService {
     this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user)
     .subscribe({
       next: (player: Player) => {
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
+        StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
