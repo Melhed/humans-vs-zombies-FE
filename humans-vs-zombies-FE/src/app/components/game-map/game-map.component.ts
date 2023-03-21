@@ -4,11 +4,13 @@ import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
+import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Kill } from 'src/app/models/kill.model';
 import { Marker } from 'src/app/models/marker.model';
 import { GameMapService } from 'src/app/services/game-map.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { KillService } from 'src/app/services/kill.service';
+import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
   selector: 'app-game-map',
@@ -26,7 +28,8 @@ export class GameMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.killService.findGameKills();
+    const gameId = localStorage.getItem('game-id')!;
+    this.killService.fetchKills(parseInt(gameId));
     this.kills = this.killService.kills;
 
     this.gameMap = this.gameMapService.createGameMap(

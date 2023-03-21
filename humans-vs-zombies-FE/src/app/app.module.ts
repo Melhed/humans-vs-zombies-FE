@@ -34,6 +34,7 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
     GameMapComponent,
     EditPlayerPage,
     PlayerListComponent,
+    ChatComponent,
   ],
   imports: [
     //Modules

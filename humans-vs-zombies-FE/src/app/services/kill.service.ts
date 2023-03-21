@@ -10,28 +10,17 @@ const { APIKill, APIKey } = environment;
   providedIn: 'root',
 })
 export class KillService {
-  private _kill: Kill[] = [];
-  private _error: String = '';
+  constructor(private readonly http: HttpClient) {}
 
-  private _loading: boolean = false;
+  private _kill: Kill[] = [];
 
   get kills(): Kill[] {
     return this._kill;
   }
 
-  get error(): String {
-    return this._error;
-  }
-  get loading(): boolean {
-    return this._loading;
-  }
-
-  constructor(private readonly http: HttpClient) {}
-
-
   private _mostRecentKill?: Kill = undefined;
 
-  private _error: String = "";
+  private _error: String = '';
 
   private _loading: boolean = false;
 
@@ -50,10 +39,16 @@ export class KillService {
     return this.http
       .get<Kill[]>(`${APIKill.replace('{gameId}', gameId + '')}`)
       .pipe(catchError(async (err) => console.log(err)));
-
   }
 
-  public addKill(killPostDTO : {killPosterId: number, killerId: number, biteCode: string, story: string, lat: string, lng: string}): void {
+  public addKill(killPostDTO: {
+    killPosterId: number;
+    killerId: number;
+    biteCode: string;
+    story: string;
+    lat: string;
+    lng: string;
+  }): void {
     const gameId = localStorage.getItem('game-id');
 
     this.http
@@ -64,7 +59,7 @@ export class KillService {
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
-        }
-      })
+        },
+      });
   }
 }
