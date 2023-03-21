@@ -59,7 +59,7 @@ export class EditPlayerService {
     const url = `${APIGames}/3/player/1`;
     const updatedFields = { ["state"]: propertyValue };
     console.log("UPDATE")
-    return this.http.patch<Player>(url, updatedFields, { headers });
+    return this.http.put<Player>(url, updatedFields, { headers });
   }
 
   
