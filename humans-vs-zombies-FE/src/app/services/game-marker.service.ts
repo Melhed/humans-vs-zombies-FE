@@ -23,7 +23,7 @@ export class GameMarkerService {
   _clickedMarkerData$ = new BehaviorSubject<any>(undefined);
   clickedMarkerData = this._clickedMarkerData$.asObservable();
 
-  updateClickedMarkerData(obj: Object): void {
+  private updateClickedMarkerData(obj: Object): void {
     this._clickedMarkerData$.next(obj);
   }
 

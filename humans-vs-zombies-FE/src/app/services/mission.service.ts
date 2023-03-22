@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Mission } from '../models/mission.model';
 
@@ -10,14 +10,16 @@ const { APIMission, APIKey } = environment;
   providedIn: 'root',
 })
 export class KillService {
-  private _missions: Mission[] = [];
+  private _missions$ = new BehaviorSubject<Mission[]>([]);
+  missions = this._missions$.asObservable();
+
+  updateMissions(missions: Mission[]) {
+    this._missions$.next(missions);
+  }
+
   private _error: String = '';
 
   private _loading: boolean = false;
-
-  get missions(): Mission[] {
-    return this._missions;
-  }
 
   get error(): String {
     return this._error;
@@ -41,7 +43,7 @@ export class KillService {
       )
       .subscribe({
         next: (missions: Mission[]) => {
-          this._missions = missions;
+          this.updateMissions(missions);
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;

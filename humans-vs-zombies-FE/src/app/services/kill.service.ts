@@ -55,7 +55,10 @@ export class KillService {
     this.http
       .post<Kill>(`${APIKill.replace('{gameId}', gameId + '')}`, killPostDTO)
       .subscribe({
-        next: () => this.fetchKills(gameId!),
+        next: (kill: Kill) => {
+          this.fetchKills(gameId!);
+          this._mostRecentKill = kill;
+        },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
         },
