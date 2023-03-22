@@ -10,7 +10,7 @@ export interface Player {
 }
 
 export enum playerState {
-    ADMINISTRATOR,
-    NO_SQUAD,
-    SQUAD_MEMBER
+    ADMINISTRATOR = "ADMINISTRATOR",
+    NO_SQUAD = "NO_SQUAD",
+    SQUAD_MEMBER = "SQUAD_MEMBER"
 }

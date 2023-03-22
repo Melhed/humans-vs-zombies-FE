@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Player } from '../models/player.model';
+import { Player, playerState } from '../models/player.model';
 import { PlayerListService } from './player-list.service';
 const {APIGames} = environment;
 
@@ -29,15 +29,21 @@ export class EditPlayerService {
   constructor(private readonly http: HttpClient,
     private readonly playerListService: PlayerListService) { }
 
-    updateObjectProperty(playerId: number, propertyValue: any) {
+    updateObjectProperty(playerId: number, stateValue: any) {
       const player: Player | undefined = this.playerListService.playerById(playerId);
       if(!player){
         throw new Error("updatePlayer: No player with Id: " + playerId);
       }
+      
+
+      
+      
+      console.log("stateValue ", stateValue);
+      console.log(player.biteCode);
       const url = `${APIGames}/3/player/${playerId}`;
-      return this.http.put(url, {
-        bite_code: "ppp" 
-      }).subscribe({
+      return this.http.put(url, player
+         
+      ).subscribe({
         next:(response: any) => {
           console.log("NEXT: ", response)
         },
@@ -49,7 +55,8 @@ export class EditPlayerService {
     }
 
   public updatePlayer(playerId: number, value: any): void {
-    const player: Player | undefined = this.playerListService.playerById(playerId);
+    let player: Player | undefined = this.playerListService.playerById(playerId);
+
     console.log("Current Player ----> ", player?.state);
 
     const headers = new HttpHeaders({
