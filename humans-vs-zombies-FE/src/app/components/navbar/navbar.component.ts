@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import keycloak from 'src/keycloak';
 const {APIGames} = environment;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -38,6 +39,23 @@ export class NavbarComponent implements OnInit{
     this.showCreateGameModal = !this.showCreateGameModal;
   }
 
+  //Printing keycloak token for testing ---REMOVE LATER---
+  printToken() {
+    console.log(keycloak.idToken)
+  }
+
+  logout() {
+    keycloak.logout({ redirectUri: 'http://localhost:4200/login' });
+  }
+
+  login() {
+    keycloak.login({ redirectUri: 'http://localhost:4200/game-list-view' });
+  }
+
+  refresh() {
+    keycloak.refreshToken;
+    console.log(keycloak.idToken);
+  }
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
     this._newGame = game;
