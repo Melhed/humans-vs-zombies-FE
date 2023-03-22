@@ -2,12 +2,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Chat } from '../models/chat.model';
-import { Player } from '../models/player.model';
 import { environment } from 'src/environments/environment';
 import { StorageUtil } from '../utils/storage.util';
 import { Game } from '../models/game.model';
 import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'ol';
+import { SquadListService } from './squad-list.service';
+import { Squad } from '../models/squad.model';
 
 const {APIGames} = environment;
 
@@ -16,7 +16,7 @@ const {APIGames} = environment;
 })
 export class ChatService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient, private readonly squadService: SquadListService) { }
 
   private _globalChat$ = new BehaviorSubject<Chat[]>([]);
   globalChat = this._globalChat$.asObservable();
@@ -41,8 +41,14 @@ export class ChatService {
     this._factionChat$.next(chats);
   }
 
-  public findAllChats(gameId: number | undefined, player: any): void {
+  private updateSquadChat(chats: Chat[]) {
+    this._squadChat$.next(chats);
+  }
+
+  public findAllChats(gameId: number | undefined, player: any, squad: Squad): void {
     this.findGlobalAndFactionChat(gameId, player.human);
+    if (squad !== undefined)
+      this.findSquadChat(gameId, player, squad);
   }
 
   private findGlobalAndFactionChat(gameId: number | undefined, playerIsHuman: boolean): void {
@@ -52,10 +58,12 @@ export class ChatService {
         const globalMessages: Chat[] = [];
         const factionMessages: Chat[] = [];
         chat.map((message: any) => {
-          if (message.humanGlobal && message.zombieGlobal)
+          if (message.humanGlobal && message.zombieGlobal && message.squadId == null) {
             globalMessages.push(message);
-          else if (playerIsHuman && message.humanGlobal || !playerIsHuman && message.zombieGlobal)
+          } else if (playerIsHuman && message.humanGlobal && message.squadId == null
+            || !playerIsHuman && message.zombieGlobal && message.squadId == null) {
             factionMessages.push(message);
+          }
         })
         this.updateGlobalChat(globalMessages);
         this.updateFactionChat(factionMessages);
@@ -66,11 +74,28 @@ export class ChatService {
     });
   }
 
+  private findSquadChat(gameId: number | undefined, player: any, squad: Squad): void {
+    this.http.get<Chat[]>(`${APIGames}/${gameId}/squad/${squad.id}/chat`)
+    .subscribe({
+      next: (chat: Chat[]) => {
+        console.log(chat);
+        this.updateSquadChat(chat);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err.message);
+      }
+    });
+  }
+
   addMessage(newMessage: string, type: string): void {
     const player: any = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
     const current = new Date();
     let chatDTO: Object = {};
+    let url = `${APIGames}/${game?.id}/chat`;
+    console.log(squad);
+
     switch (type) {
       case "GLOBAL":
         chatDTO = {
@@ -105,15 +130,15 @@ export class ChatService {
           isZombieGlobal: !player.human,
           playerId: player.id,
           gameId: game?.id,
-          squadId: null
+          squadId: squad?.id
         }
+        url = `${APIGames}/${game?.id}/squad/${squad?.id}/chat`;
       break;
     }
-
-    this.http.post<Chat>(`${APIGames}/${game?.id}/chat`, chatDTO)
+    this.http.post<Chat>(url, chatDTO)
       .subscribe({
         next: () => {
-          this.findAllChats(game?.id, player);
+          this.findAllChats(game?.id, player, squad!);
         },
         error: (err: HttpErrorResponse) => {
           this._error = err.message;

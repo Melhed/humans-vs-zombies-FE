@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Chat } from 'src/app/models/chat.model';
 import { Game } from 'src/app/models/game.model';
+import { Squad } from 'src/app/models/squad.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
@@ -15,7 +16,8 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     this._player = StorageUtil.storageRead(StorageKeys.Player);
-    this.chatService.findAllChats(game!.id, this._player);
+    const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
+    this.chatService.findAllChats(game!.id, this._player, squad!);
     this.chatService.globalChat.subscribe((chats: Chat[]) => {
       if (chats[0])
         this._chats = chats;
@@ -44,8 +46,7 @@ export class ChatComponent implements OnInit {
     this.squadColor = 'black';
     this.activeChat = "GLOBAL";
     this.chatService.globalChat.subscribe((chats: Chat[]) => {
-      if (chats[0])
-        this._chats = chats;
+      this._chats = chats;
     });
   }
 
@@ -55,8 +56,7 @@ export class ChatComponent implements OnInit {
     this.squadColor = 'black';
     this.activeChat = "FACTION";
     this.chatService.factionChat.subscribe((chats: Chat[]) => {
-      if (chats[0])
-        this._chats = chats;
+      this._chats = chats;
     });
   }
 
@@ -66,9 +66,10 @@ export class ChatComponent implements OnInit {
     this.squadColor = 'red';
     this.activeChat = "SQUAD";
     this.chatService.squadChat.subscribe((chats: Chat[]) => {
-      if (chats[0])
-        this._chats = chats;
+      this._chats = chats;
     });
+    console.log(this._chats);
+
   }
 
   public sendMessage(newMessage: string): void {
