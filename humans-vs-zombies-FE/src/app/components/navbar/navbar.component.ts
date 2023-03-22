@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Mission } from 'src/app/models/mission.model';
 import { environment } from 'src/environments/environment';
 import keycloak from 'src/keycloak';
 const {APIGames} = environment;
@@ -24,6 +25,10 @@ export class NavbarComponent implements OnInit{
   private _mission: any = {
     "title": "",
     "description": ""
+  }
+
+  public getMissions (): Mission[] {
+    return this._mission;
   }
 
   public isAuthenticated: boolean = false;
@@ -85,7 +90,6 @@ export class NavbarComponent implements OnInit{
       console.log("Check the times");
       alert("End time of mission before start time, redo please :)");
     }
-    console.log("IsHumanVisible: " + mission.humanVisible + " IsZombieVisible: " + mission.zombieVisible);
   }
 
   ngOnInit(): void {

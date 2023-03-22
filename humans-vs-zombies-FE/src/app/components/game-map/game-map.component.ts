@@ -22,7 +22,7 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 export class GameMapComponent implements OnInit {
   private gameMap?: Map;
   private kills?: Kill[] | undefined;
-  private missions?: Mission;
+  private missions?: Mission[] | undefined;
 
   constructor(
     private readonly gameMapService: GameMapService,
@@ -35,17 +35,21 @@ export class GameMapComponent implements OnInit {
     const gameId = localStorage.getItem('game-id')!;
     this.killService.fetchKills(parseInt(gameId));
     this.kills = this.killService.kills;
+    this.missionService.fetchMissions(parseInt(gameId));
+    this.missions = this.missionService.missions;
 
     this.gameMap = this.gameMapService.createGameMap(
-      -408.75,
-      80.78,
       -344.02,
-      71.73
+      71.73,
+      -408.75,
+      80.78
     );
 
     let killLayer = this.gameMarkerService.createKillMarkerLayer(this.kills);
+    let missionLayer = this.gameMarkerService.createMissionMarkers(this.missions);
 
     this.gameMap = this.gameMapService.map;
     this.gameMap!.addLayer(killLayer);
+    this.gameMap?.addLayer(missionLayer);
   }
 }
