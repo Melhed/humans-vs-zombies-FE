@@ -7,9 +7,11 @@ import VectorSource from 'ol/source/Vector';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Kill } from 'src/app/models/kill.model';
 import { Marker } from 'src/app/models/marker.model';
+import { Mission } from 'src/app/models/mission.model';
 import { GameMapService } from 'src/app/services/game-map.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { KillService } from 'src/app/services/kill.service';
+import { MissionService } from 'src/app/services/mission.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
@@ -20,28 +22,34 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 export class GameMapComponent implements OnInit {
   private gameMap?: Map;
   private kills?: Kill[] | undefined;
+  private missions?: Mission[] | undefined;
 
   constructor(
     private readonly gameMapService: GameMapService,
     private readonly gameMarkerService: GameMarkerService,
-    private readonly killService: KillService
+    private readonly killService: KillService,
+    private readonly missionService: MissionService
   ) {}
 
   ngOnInit(): void {
     const gameId = localStorage.getItem('game-id')!;
     this.killService.fetchKills(parseInt(gameId));
     this.kills = this.killService.kills;
+    this.missionService.fetchMissions(parseInt(gameId));
+    this.missions = this.missionService.missions;
 
     this.gameMap = this.gameMapService.createGameMap(
-      -408.75,
-      80.78,
       -344.02,
-      71.73
+      71.73,
+      -408.75,
+      80.78
     );
 
     let killLayer = this.gameMarkerService.createKillMarkerLayer(this.kills);
+    let missionLayer = this.gameMarkerService.createMissionMarkers(this.missions);
 
     this.gameMap = this.gameMapService.map;
     this.gameMap!.addLayer(killLayer);
+    this.gameMap?.addLayer(missionLayer);
   }
 }

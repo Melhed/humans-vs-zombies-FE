@@ -18,6 +18,7 @@ import { GameMapComponent } from './components/game-map/game-map.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

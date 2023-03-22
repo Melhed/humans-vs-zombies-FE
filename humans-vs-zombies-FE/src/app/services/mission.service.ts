@@ -9,7 +9,9 @@ const { APIMission, APIKey } = environment;
 @Injectable({
   providedIn: 'root',
 })
-export class KillService {
+export class MissionService {
+  constructor(private readonly http: HttpClient) {}
+  
   private _missions: Mission[] = [];
   private _error: String = '';
 
@@ -26,7 +28,11 @@ export class KillService {
     return this._loading;
   }
 
-  constructor(private readonly http: HttpClient) {}
+  public fetchMissions(gameId: number): Observable<Mission[] | void> {
+    console.log(`${APIMission.replace('{gameId}', gameId + '')}`);
+    return this.http.get<Mission[]>(`${APIMission.replace('{gameId}', (gameId) + '')}`)
+    .pipe(catchError(async (err) => console.log(err)));
+  }
 
   public findGameMissions(): void {
     this._loading = true;

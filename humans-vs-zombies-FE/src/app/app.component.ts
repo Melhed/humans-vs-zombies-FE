@@ -10,7 +10,8 @@ import keycloak from 'src/keycloak';
 export class AppComponent {
   title = 'humans-vs-zombies-FE';
 
-  constructor(public http: HttpClient) {}
+  constructor(
+    public http: HttpClient) { }
 
   ngOnInit() {
     const headers = new HttpHeaders({
