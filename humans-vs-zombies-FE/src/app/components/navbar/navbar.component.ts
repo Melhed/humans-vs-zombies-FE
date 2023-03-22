@@ -30,6 +30,7 @@ export class NavbarComponent implements OnInit{
   }
 
   acceptedTime: boolean = true;
+  createdGame: boolean = false;
   showModal = false;
   showCreateGameModal = false;
 
@@ -40,25 +41,27 @@ export class NavbarComponent implements OnInit{
   toggleCreateGameModal() {
     this.showCreateGameModal = !this.showCreateGameModal;
   }
+  toggleameCreated(){
+    
+  }
 
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
     this._newGame = game;
 
     if (game.endTime > game.startTime){
+      this.createdGame = true;
       this.http.post(APIGames + "/add-new-game", game)
       .subscribe((res) => {
         console.log(res);
       });
-
+      this.location.go(this.location.path());
+      window.location.reload();
       
     } else {
-      console.log("from else")
       this.acceptedTime = false;
     }
-
-    console.log("from submit -------> ");
-    this.location.replaceState(this.location.path());
+    
     
     
 
