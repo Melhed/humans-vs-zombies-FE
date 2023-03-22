@@ -9,7 +9,7 @@ const { APIMission, APIKey } = environment;
 @Injectable({
   providedIn: 'root',
 })
-export class KillService {
+export class MissionService {
   private _missions: Mission[] = [];
   private _error: String = '';
 
