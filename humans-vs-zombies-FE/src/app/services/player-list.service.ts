@@ -40,7 +40,8 @@ export class PlayerListService {
     .subscribe({
       next: (players: Player[]) => {
         this._players = players;
-        console.log("players " + this._players);
+        console.log("All player : ", this._players);
+        console.log("******  " , this._players.find(player => player.id === 1));
       },
       error: (error: HttpErrorResponse) => {
         this._error = error.message;
@@ -49,15 +50,15 @@ export class PlayerListService {
   }
 
   public playerById(id: number): Player | undefined{
-    return this._players.find((player: Player) => {console.log("playerById " + player.playerId)
-    1 === id});
+    console.log("the is ", id);
+    return this._players.find(player => player.id === id);
   }
 
-  public findPlayerById(playerId: any): Observable<any>{
-    this._loading = true;
-    return this.http.get<Player[]>(`${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`)
+  // public findPlayerById(playerId: any): Observable<any>{
+  //   this._loading = true;
+  //   return this.http.get<Player[]>(`${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`)
     
-  }
+  // }
 
 
   

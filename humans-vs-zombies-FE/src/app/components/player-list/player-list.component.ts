@@ -41,7 +41,8 @@ export class PlayerListComponent implements OnInit{
 
   submit(playerId: any) {
     console.log("From Submit");
-    this.editPlayerService.updatePlayer(playerId, "SQUAD_MEMBER");
+    this.editPlayerService.updateObjectProperty(playerId, "SQUAD_MEMBER");
+    //this.editPlayerService.updatePlayer(playerId, "SQUAD_MEMBER");
     // this.editPlayerService.updatePlayerState(playerId, this.contactForm.value)
     // .subscribe({
     //   next:(response: any) => {
