@@ -8,6 +8,7 @@
       <div class="font-bold">PLAYER NAME</div>
       <div class="font-bold">PLAYER CODE</div>
       <div class="font-bold">PLAYER STATE</div>
+      <div class="font-bold">PLAYER ID</div>
     </div>
     <div
       *ngFor="let player of players"
@@ -19,9 +20,13 @@
       <div class="text-center font-bold text-slate-600">
         {{ player.biteCode }}
       </div>
+
+      <div class="text-center">
+        {{ player.playerId }} 
+      </div>
       <div class="text-center">{{ player.state }}</div>
 
-      <form [formGroup]="contactForm" (ngSubmit)="submit(player.user.id)">
+      <form [formGroup]="contactForm" (ngSubmit)="submit(player.user)">
         <p>
           <select formControlName="states">
             <option [ngValue]="null" disabled>Select state</option>
@@ -32,6 +37,8 @@
           <button type="submit" class="m-2">Change</button>
         </p>
       </form>
+      
     </div>
+    
   </div>
 </div>

@@ -1,6 +1,6 @@
 export interface Player {
 
-    player_id: number;
+    playerId: number;
     biteCode: string;
     is_human: boolean;
     is_patient_zero: boolean;
