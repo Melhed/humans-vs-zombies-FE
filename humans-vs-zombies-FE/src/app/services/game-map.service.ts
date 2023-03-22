@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Map } from 'ol';
+import {
+  ElementRef,
+  Injectable,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+} from '@angular/core';
+import { Map, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import View from 'ol/View';
 import OSM from 'ol/source/OSM';
@@ -58,21 +64,6 @@ export class GameMapService {
         target: 'ol-map',
       });
     }
-
-    this._map.on('click', (e) => {
-      const feature = this._map!.forEachFeatureAtPixel(
-        e.pixel,
-        function (feature) {
-          return feature;
-        }
-      );
-      if (!feature) return;
-      this.gameMarkerService.fetchMarkerData(feature.getProperties());
-      this.gameMarkerService.clickedMarkerData.subscribe((data) =>
-        console.log(data)
-      );
-      return;
-    });
 
     this._map.setView(view);
     this._map.addLayer(nwNeVector);

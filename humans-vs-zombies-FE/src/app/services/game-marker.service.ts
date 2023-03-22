@@ -7,7 +7,7 @@ import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
 import { Coordinate, wrapX } from 'ol/coordinate';
 import { Mission } from '../models/mission.model';
-import { Marker, markerType } from '../models/marker.model';
+import { Marker, MarkerType } from '../models/marker.model';
 import { fromLonLat, transform } from 'ol/proj';
 import { Kill } from '../models/kill.model';
 import Geometry from 'ol/geom/Geometry';
@@ -28,7 +28,7 @@ export class GameMarkerService {
   }
 
   public fetchMarkerData(markerProperties: any): void {
-    if (markerProperties.type === 'kill') {
+    if (markerProperties.type === MarkerType.KILL) {
       this.killService.kills.subscribe({
         next: (kills: Kill[]) => {
           kills.forEach((kill) => {
@@ -49,22 +49,20 @@ export class GameMarkerService {
   public createKillMarkerLayer(kills: Kill[]): VectorLayer<VectorSource> {
     let features: Feature[] = [];
 
-    features.push(this.createMarker(200, 55, 'kill', 11));
-    features.push(this.createMarker(420, 50, 'kill', 10));
+    features.push(this.createMarker(200, 55, MarkerType.KILL, 11));
+    features.push(this.createMarker(420, 50, MarkerType.KILL, 10));
 
     kills.map((kill: Kill) => {
       if (kill.lat !== undefined && kill.lng !== undefined) {
         let marker: Feature<Geometry> = this.createMarker(
           kill.lng,
           kill.lat,
-          'kill',
+          MarkerType.KILL,
           kill.id
         );
         features.push(marker);
       }
     });
-
-    console.log(features);
 
     let markerLayer: VectorLayer<VectorSource> = new VectorLayer({
       source: new VectorSource({
@@ -86,7 +84,7 @@ export class GameMarkerService {
   private createMarker(
     lng: number,
     lat: number,
-    markerType: string,
+    markerType: MarkerType,
     markerEventId: number
   ): Feature {
     const feature = new Feature({

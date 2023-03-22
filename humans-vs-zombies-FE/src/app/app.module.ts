@@ -18,6 +18,7 @@ import { GameMapComponent } from './components/game-map/game-map.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
+import { KillModalComponent } from './components/modals/kill-modal/kill-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
     EditPlayerPage,
     PlayerListComponent,
     ChatComponent,
+    KillModalComponent,
   ],
   imports: [
     //Modules
