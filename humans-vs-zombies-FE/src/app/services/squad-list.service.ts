@@ -87,8 +87,6 @@ export class SquadListService {
     this.http.post<Squad>(`${APIGames}/${game?.id}/squad/`, squadDTO)
     .subscribe({
       next: () => {
-        console.log("LOG");
-
         StorageUtil.storageRemove(StorageKeys.Player);
         StorageUtil.storageSave(StorageKeys.Player, {
           id: player.id,

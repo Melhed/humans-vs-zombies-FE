@@ -9,7 +9,7 @@
         <div *ngFor="let game of games" class="bg-slate-100 w-auto h-auto m-1 p-3 border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group items-center">
             <div class="text-center font-bold text-slate-600">{{ game.name }}</div>
             <div class="text-center">
-                <span>{{ game.startTime }}</span> - <span>{{ game.endTime }}</span>
+                <span>{{ game.startTime| date : 'yyyy-MM-dd HH:mm:ss' }}</span> - <span>{{ game.endTime| date : 'yyyy-MM-dd HH:mm:ss' }}</span>
             </div>
             <div class="text-center text-[#785fce] font-bold">TODO: Implement this</div>
             <div class="text-center">{{ game.state }}</div>
