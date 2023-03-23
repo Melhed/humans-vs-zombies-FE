@@ -19,6 +19,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
 import { KillModalComponent } from './components/modals/kill-modal/kill-modal.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { KillModalComponent } from './components/modals/kill-modal/kill-modal.co
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

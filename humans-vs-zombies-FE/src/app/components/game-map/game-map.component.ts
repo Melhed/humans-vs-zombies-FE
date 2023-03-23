@@ -10,9 +10,13 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Kill } from 'src/app/models/kill.model';
 import { MarkerType } from 'src/app/models/marker.model';
+import { Marker } from 'src/app/models/marker.model';
+import { Mission } from 'src/app/models/mission.model';
 import { GameMapService } from 'src/app/services/game-map.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { KillService } from 'src/app/services/kill.service';
+import { MissionService } from 'src/app/services/mission.service';
+import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
   selector: 'app-game-map',
@@ -23,7 +27,8 @@ export class GameMapComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly gameMapService: GameMapService,
     private readonly gameMarkerService: GameMarkerService,
-    private readonly killService: KillService
+    private readonly killService: KillService,
+    private readonly missionService: MissionService
   ) {}
 
   @ViewChild('popupcontainer') popupContainer!: ElementRef<HTMLDivElement>;

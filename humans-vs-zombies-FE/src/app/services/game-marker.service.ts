@@ -5,7 +5,6 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
-import { Coordinate, wrapX } from 'ol/coordinate';
 import { Mission } from '../models/mission.model';
 import { Marker, MarkerType } from '../models/marker.model';
 import { fromLonLat, transform } from 'ol/proj';
@@ -40,10 +39,30 @@ export class GameMarkerService {
     }
   }
 
-  public createMissionMarkers(missions: Mission[]): Marker[] {
-    let markers: Marker[] = [];
+  public createMissionMarkers(missions: Mission[]): VectorLayer<VectorSource> {
+    let markers: Feature[] = [];
 
-    return markers;
+    markers.push(this.createMarker(300, 300, markerType.MISSION, 10));
+
+    missions.map((mission: Mission) => {
+      if(mission.lat !== undefined && mission.lng !== undefined) {
+        markers.push(this.createMarker(mission.lng, mission.lat, markerType.MISSION, mission.id!));
+      }
+
+    });
+
+    let markerLayer: VectorLayer<VectorSource> = new VectorLayer({
+      source: new VectorSource({
+        features: markers,
+      }),
+      style: new Style({
+        image: new Icon({
+          src: `../../assets/Mission_Marker_64.png`,
+          anchor: [0.5, 1],
+        }),
+      }),
+    });
+    return markerLayer;
   }
 
   public createKillMarkerLayer(kills: Kill[]): VectorLayer<VectorSource> {
