@@ -1,10 +1,8 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { SquadListService } from 'src/app/services/squad-list.service';
-import { Squad } from 'src/app/models/squad.model';
 import { GameListService } from 'src/app/services/game-list.service';
 import { KillService } from 'src/app/services/kill.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
-import { Player } from 'src/app/models/player.model';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 
@@ -19,7 +17,6 @@ export class GameViewPage implements OnInit {
     private readonly squadListService: SquadListService,
     private readonly gameListService: GameListService,
     private readonly killService: KillService,
-    private readonly gameMarkerService: GameMarkerService,
   ) { }
 
 

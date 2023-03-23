@@ -4,7 +4,7 @@ import { catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Mission } from '../models/mission.model';
 
-const { APIMission, APIKey } = environment;
+const { APIMission } = environment;
 
 @Injectable({
   providedIn: 'root',

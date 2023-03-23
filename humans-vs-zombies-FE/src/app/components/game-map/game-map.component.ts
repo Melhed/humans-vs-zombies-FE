@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Map } from 'ol';
-import Layer from 'ol/layer/Layer';
-import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
-import VectorSource from 'ol/source/Vector';
 import { Kill } from 'src/app/models/kill.model';
 import { Marker } from 'src/app/models/marker.model';
 import { Mission } from 'src/app/models/mission.model';

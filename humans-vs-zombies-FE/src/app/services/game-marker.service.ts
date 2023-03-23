@@ -6,7 +6,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
 import { Mission } from '../models/mission.model';
-import { Marker, markerType } from '../models/marker.model';
+import { markerType } from '../models/marker.model';
 import { fromLonLat } from 'ol/proj';
 import { Kill } from '../models/kill.model';
 

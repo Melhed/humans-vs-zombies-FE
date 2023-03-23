@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Player } from 'src/app/models/player.model';
 import { Squad } from 'src/app/models/squad.model';

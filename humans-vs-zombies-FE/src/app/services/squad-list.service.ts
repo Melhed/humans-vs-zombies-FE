@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
-import { Player, playerState } from '../models/player.model';
+import { Player } from '../models/player.model';
 import { Squad } from '../models/squad.model';
 import { StorageUtil } from '../utils/storage.util';
 import { GameService } from './game.service';

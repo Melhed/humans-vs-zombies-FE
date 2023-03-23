@@ -2,11 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Player } from 'src/app/models/player.model';
-import { User } from 'src/app/models/user.model';
 import { EditPlayerService } from 'src/app/services/edit-player.service';
 import { PlayerListService } from 'src/app/services/player-list.service';
-import { UserService } from 'src/app/services/user.service';
-import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
   selector: 'app-player-list',

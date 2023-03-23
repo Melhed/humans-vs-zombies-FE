@@ -1,11 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { Location } from '@angular/common';
 
 import keycloak from 'src/keycloak';
-import { Router } from '@angular/router';
-const { APIGames } = environment;
 
 @Component({
   selector: 'app-navbar',
