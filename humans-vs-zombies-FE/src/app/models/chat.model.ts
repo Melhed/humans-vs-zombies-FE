@@ -2,8 +2,8 @@ export interface Chat {
   id?: number,
   message: string,
   timestamp: string,
-  isHumanGlobal: boolean,
-  isZombieGlobal: boolean,
+  humanGlobal: boolean,
+  zombieGlobal: boolean,
   playerId: number,
   gameId: number,
   squadId?: number
