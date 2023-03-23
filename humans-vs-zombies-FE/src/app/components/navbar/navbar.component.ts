@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit{
 
   //Printing keycloak token for testing ---REMOVE LATER---
   printToken() {
-    console.log(keycloak.idToken)
+    console.log(keycloak.token)
   }
 
   logout() {
