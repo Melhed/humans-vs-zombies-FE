@@ -28,7 +28,10 @@ export class GameListComponent {
 
   onGameDetails(game: Game) {
     this.gameListService.gameId = game.id;
+    game.registeredPlayers++;
+    console.log("REGISTERED: " + game.registeredPlayers);
+    this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
     StorageUtil.storageSave(StorageKeys.Game, game);
-    this.router.navigateByUrl("/game-view");
+    //this.router.navigateByUrl("/game-view");
   }
 }

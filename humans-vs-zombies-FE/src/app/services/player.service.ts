@@ -23,7 +23,7 @@ export class PlayerService {
   }
 
   public createPlayer(gameId: number | undefined, user: User): void {
-    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
+    this.http.post<Player>(`${APIGames}/${gameId}/player`, user).subscribe({
       next: (player: Player) => {
         console.log(player);
 

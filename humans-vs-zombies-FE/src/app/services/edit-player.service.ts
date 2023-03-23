@@ -42,7 +42,6 @@ export class EditPlayerService {
       error:(error: HttpErrorResponse) => {
         console.log("ERROR: ", error.message);
       }
-      
-    });;
+    });
   }
 }
