@@ -14,8 +14,6 @@ export class GameService {
 
   public joinGame(gameId: number | undefined): void {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
-    console.log(keycloak.hasRealmRole('hvz-admin'));
-
     this.playerService.setPlayer(gameId, user!.id);
     this.playerService.player.subscribe((player: Player | undefined) => {
       if (player === undefined) {

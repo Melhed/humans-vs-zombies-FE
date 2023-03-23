@@ -22,11 +22,16 @@ export class SquadListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(StorageUtil.storageRead(StorageKeys.Player));
+    console.log(localStorage.getItem('player-id'));
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
-
+    this.playerService.player.subscribe((p: any) => {
+      console.log("SQUAD-LIST: " + p);
+    })
     this.squadListService.squads.subscribe((squads: Squad[]) => {
       if (squads[0]) this._squads = squads;
     });
+    if (this._player === undefined)
+      window.location.reload();
   }
 
   get player(): Player {

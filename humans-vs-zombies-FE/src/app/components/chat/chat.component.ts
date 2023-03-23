@@ -4,6 +4,7 @@ import { Chat } from 'src/app/models/chat.model';
 import { Game } from 'src/app/models/game.model';
 import { Squad } from 'src/app/models/squad.model';
 import { ChatService } from 'src/app/services/chat.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
@@ -11,7 +12,7 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   templateUrl: './chat.component.html',
   styleUrls: [],
 })
-export class ChatComponent implements AfterViewInit {
+export class ChatComponent implements AfterViewInit, OnInit {
 
   public _player?: any = undefined;
   public _chats: Chat[] = [];
@@ -22,10 +23,17 @@ export class ChatComponent implements AfterViewInit {
   public squadColor = 'black';
   public newMessage = '';
 
-  constructor(private readonly chatService: ChatService) {
+  constructor(private readonly chatService: ChatService,
+    private readonly playerService: PlayerService) {
     this.game = StorageUtil.storageRead(StorageKeys.Game);
     this.squad = StorageUtil.storageRead(StorageKeys.Squad);
     this._player = StorageUtil.storageRead(StorageKeys.Player);
+    if (this._player === undefined) {
+      window.location.reload();
+    }
+  }
+
+  ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
