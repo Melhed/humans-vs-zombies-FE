@@ -20,6 +20,7 @@ import { KillService } from 'src/app/services/kill.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { MissionService } from 'src/app/services/mission.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
+import VectorSource from 'ol/source/Vector';
 
 @Component({
   selector: 'app-game-map',

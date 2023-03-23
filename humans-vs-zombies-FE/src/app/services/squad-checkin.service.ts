@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
-import { Checkin } from '../models/squad-checkin.model';
+//import { Checkin } from '../models/squad-checkin.model';
 import { Player } from '../models/player.model';
 import { StorageUtil } from '../utils/storage.util';
 
@@ -12,14 +12,14 @@ const { APIGames, APIKey } = environment;
   providedIn: 'root',
 })
 export class CheckinService {
-  private _checkins: Checkin[] = [];
+  //private _checkins: Checkin[] = [];
   private _error: String = '';
 
   private _loading: boolean = false;
 
-  get checkins(): Checkin[] {
+  /*get checkins(): Checkin[] {
     return this._checkins;
-  }
+  }*/
 
   get error(): String {
     return this._error;
