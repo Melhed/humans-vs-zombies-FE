@@ -1,96 +1,136 @@
-
 <main class="bg-gray-300">
+  <div class="container mx-auto px-4 py-24">
+    <div class="columns-1 .">
+      <div class="font-bold text-xl mb-2">{{ gameToShow.name }}</div>
 
-<div class="container mx-auto px-4 py-24 ">
-    <div  class="columns-1 . ">
-        <div class="font-bold text-xl mb-2">{{ gameToShow.name }}</div>
+      <div id="Modal/dialog div">
+        <button
+          type="button"
+          class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          (click)="toggleBiteCodeModal()"
+        >
+          Bite Code
+        </button>
 
+        <div
+          *ngIf="showBiteCodeModal"
+          class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+        >
+          <form #addKillForm="ngForm" (ngSubmit)="addKill(addKillForm.value)">
+            <div class="relative w-auto my-6 mx-auto max-w-6xl">
+              <!--content-->
 
-        <div id="Modal/dialog div">
-            <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" (click)="toggleBiteCodeModal()">
-                Bite Code
-            </button>
+              <div
+                class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+              >
+                <!--header-->
+                <div
+                  class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+                >
+                  <h3 class="text-3xl font-semibold">Bite Code</h3>
+                </div>
+                <!--body-->
+                <div class="w-1/2 md:w-full relative p-6 flex-auto">
+                  <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="biteCode"
+                  >
+                    Victims Bite Code
+                  </label>
+                  <input
+                    ngModel
+                    required
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="biteCode"
+                    type="text"
+                    placeholder="bite code"
+                  />
 
-            <div *ngIf="showBiteCodeModal" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
-              <form #addKillForm="ngForm" (ngSubmit)="addKill(addKillForm.value)">
-                <div class="relative w-auto my-6 mx-auto max-w-6xl">
-                  <!--content-->
+                  <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="biteCode"
+                  >
+                    Story
+                  </label>
+                  <input
+                    ngModel
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="story"
+                    type="text"
+                  />
 
-                  <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                      <!--header-->
-                      <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                      <h3 class="text-3xl font-semibold">
-                          Bite Code
-                      </h3>
+                  <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="biteCode"
+                  >
+                    Kill location
+                  </label>
+                  <input
+                    ngModel
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="lat"
+                    type="text"
+                    placeholder="lat"
+                  />
+                  <input
+                    ngModel
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="long"
+                    type="text"
+                    placeholder="long"
+                  />
+                </div>
 
-                      </div>
-                      <!--body-->
-                      <div class="w-1/2 md:w-full relative p-6 flex-auto ">
-
-                          <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
-                              Victims Bite Code
-                            </label>
-                            <input ngModel required
-                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              name="biteCode" type="text" placeholder="bite code">
-
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
-                              Story
-                            </label>
-                            <input ngModel
-                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              name="story" type="text">
-
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="biteCode">
-                              Kill location
-                            </label>
-                            <input ngModel
-                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              name="lat" type="text" placeholder="lat">
-                            <input ngModel
-                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              name="long" type="text" placeholder="long">
-
-                      </div>
-
-
-                      <!--footer-->
-                      <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                          <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="submit" [disabled]="addKillForm.invalid">
-                              Add
-                          </button>
-                      <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" (click)="toggleBiteCodeModal()">
-                          Close
-                      </button>
-                      </div>
-                  </div>
-
-
-                  </div>
-                </form>
+                <!--footer-->
+                <div
+                  class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+                >
+                  <button
+                    class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="submit"
+                    [disabled]="addKillForm.invalid"
+                  >
+                    Add
+                  </button>
+                  <button
+                    class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    (click)="toggleBiteCodeModal()"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
             </div>
-            <div *ngIf="showBiteCodeModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </form>
         </div>
-
-        <!-- <img class="w-full aspect-video ..." src="https://asset.vg247.com/A-Link-to-the-Past-Map-Header1-05292020.jpg/BROK/thumbnail/1600x900/quality/100/A-Link-to-the-Past-Map-Header1-05292020.jpg" /> -->
-        <app-game-map></app-game-map>
+      </div>
     </div>
-  <!-- ... -->
-</div>
+    <div
+      *ngIf="showBiteCodeModal"
+      class="opacity-25 fixed inset-0 z-40 bg-black"
+    ></div>
+  </div>
 
-<div class="container mx-auto px-4 py-2 ">
-  <div class="flex justify-between ...">
-    <app-chat></app-chat>
-    <div class="w-96 h-96 p-4 border-2 border-gray-900 bg-white ml-3">
-      <div class="font-bold text-xl mb-2">Squads</div>
+  <!-- <img class="w-full aspect-video ..." src="https://asset.vg247.com/A-Link-to-the-Past-Map-Header1-05292020.jpg/BROK/thumbnail/1600x900/quality/100/A-Link-to-the-Past-Map-Header1-05292020.jpg" /> -->
+  <app-game-map></app-game-map>
+
+  <!-- ... -->
+
+  <div class="container mx-auto px-4 py-2">
+    <div class="flex justify-between ...">
+      <div class="order-last">
+        <div class="w-96 h-96 p-4 border-4 border-sky-500">
+          <app-chat></app-chat>
+        </div>
+      </div>
+      <div class="w-96 h-96 p-4 border-4 border-sky-500">
+        <div class="font-bold text-xl mb-2">Squad</div>
         <ol class="list-decimal m-2 p-2">
-          <p *ngIf="loading"> Loading squads</p>
+          <p *ngIf="loading">Loading squads</p>
           <app-squad-list></app-squad-list>
         </ol>
+      </div>
     </div>
   </div>
-</div>
-
 </main>
-

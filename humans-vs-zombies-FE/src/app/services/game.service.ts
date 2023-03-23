@@ -7,7 +7,7 @@ import { PlayerService } from './player.service';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
 

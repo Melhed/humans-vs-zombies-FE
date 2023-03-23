@@ -73,8 +73,8 @@ export class GameMapService {
     seLat: number,
     seLng: number
   ): Coordinate {
-    const centerLat: number = (seLat - nwLat) / 2 + nwLat;
-    const centerLng: number = (nwLng - seLng) / 2 + nwLng;
+    const centerLat: number = (seLat + nwLat) / 2;
+    const centerLng: number = (nwLng + seLng) / 2;
     return fromLonLat([centerLat, centerLng]);
   }
 
@@ -87,6 +87,7 @@ export class GameMapService {
     const lineVectorSource = new VectorSource({
       features: [lineFeature],
       wrapX: false,
+      overlaps: false,
     });
 
     const lineStyle = new Style({

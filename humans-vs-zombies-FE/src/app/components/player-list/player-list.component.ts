@@ -37,10 +37,8 @@ export class PlayerListComponent implements OnInit{
     this.router.navigateByUrl("/edit-player");
   }
 
-  submit() {
-    console.log("Form Submitted: " + this.contactForm.value)
-    console.log(this.contactForm.value)
-    this.editPlayerService.updatePlayerState(1, this.contactForm.value)
+  submit(playerId: any) {
+    this.editPlayerService.updatePlayerState(playerId, this.contactForm.value)
     .subscribe({
       next:(response: any) => {
         console.log("NEXT: ", response)

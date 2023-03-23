@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
