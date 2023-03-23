@@ -2,12 +2,12 @@ import { Feature } from 'ol';
 
 export interface Marker {
   id: number;
-  type: markerType;
+  type: MarkerType;
   vector: Feature;
 }
 
-export enum markerType {
-  SQUADCHECKIN,
-  KILL,
-  MISSION,
+export enum MarkerType {
+  SQUADCHECKIN = 'SQUADCHECKIN',
+  KILL = 'KILL',
+  MISSION = 'MISSION',
 }

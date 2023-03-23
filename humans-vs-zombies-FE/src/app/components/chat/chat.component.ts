@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Chat } from 'src/app/models/chat.model';
 import { Game } from 'src/app/models/game.model';
@@ -9,28 +9,40 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements AfterViewInit {
 
-  ngOnInit(): void {
-    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+  public _player?: any = undefined;
+  public _chats: Chat[] = [];
+  public game: Game | undefined = undefined;
+  public squad: Squad | undefined = undefined;
+  public globalColor = 'red';
+  public factionColor = 'black';
+  public squadColor = 'black';
+  public newMessage = '';
+
+  constructor(private readonly chatService: ChatService) {
+    this.game = StorageUtil.storageRead(StorageKeys.Game);
+    this.squad = StorageUtil.storageRead(StorageKeys.Squad);
     this._player = StorageUtil.storageRead(StorageKeys.Player);
-    const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
-    this.chatService.findAllChats(game!.id, this._player, squad!);
+  }
+
+  ngAfterViewInit(): void {
+    this.fetchChat();
     this.chatService.globalChat.subscribe((chats: Chat[]) => {
-      if (chats[0])
-        this._chats = chats;
+      this._chats = chats;
     });
     this.chatService.activeChat = "GLOBAL";
   }
 
-  public _player?: any = undefined;
-  public _chats: Chat[] = [];
-  public globalColor = 'red';
-  public factionColor = 'black';
-  public squadColor = 'black';
-  public newMessage = "";
+  fetchChat(): void {
+    this.chatService.findAllChats(
+      StorageUtil.storageRead(StorageKeys.Game)!,
+      StorageUtil.storageRead(StorageKeys.Player),
+      StorageUtil.storageRead(StorageKeys.Squad)!
+    );
+  }
 
   get chats(): Chat[] {
     return this._chats;
@@ -73,11 +85,9 @@ export class ChatComponent implements OnInit {
   public sendMessage(newMessage: string): void {
     this.chatService.addMessage(newMessage);
 
-    if (this.chatService.error !== "") {
+    if (this.chatService.error !== '') {
       alert(this.chatService.error);
       return;
     }
   }
-
-  constructor(private readonly chatService: ChatService) { }
 }
