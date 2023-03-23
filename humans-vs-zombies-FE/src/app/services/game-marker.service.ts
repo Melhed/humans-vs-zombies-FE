@@ -42,13 +42,19 @@ export class GameMarkerService {
   public createMissionMarkers(missions: Mission[]): VectorLayer<VectorSource> {
     let markers: Feature[] = [];
 
-    markers.push(this.createMarker(300, 300, markerType.MISSION, 10));
+    markers.push(this.createMarker(300, 300, MarkerType.MISSION, 10));
 
     missions.map((mission: Mission) => {
-      if(mission.lat !== undefined && mission.lng !== undefined) {
-        markers.push(this.createMarker(mission.lng, mission.lat, markerType.MISSION, mission.id!));
+      if (mission.lat !== undefined && mission.lng !== undefined) {
+        markers.push(
+          this.createMarker(
+            mission.lng,
+            mission.lat,
+            MarkerType.MISSION,
+            mission.id!
+          )
+        );
       }
-
     });
 
     let markerLayer: VectorLayer<VectorSource> = new VectorLayer({

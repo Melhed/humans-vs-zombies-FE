@@ -27,8 +27,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly gameMapService: GameMapService,
     private readonly gameMarkerService: GameMarkerService,
-    private readonly killService: KillService,
-    private readonly missionService: MissionService
+    private readonly killService: KillService
   ) {}
 
   @ViewChild('popupcontainer') popupContainer!: ElementRef<HTMLDivElement>;

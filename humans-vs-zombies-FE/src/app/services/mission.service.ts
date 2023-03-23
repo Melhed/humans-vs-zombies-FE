@@ -9,7 +9,8 @@ const { APIMission, APIKey } = environment;
 @Injectable({
   providedIn: 'root',
 })
-export class KillService {
+export class MissionService {
+  constructor(private readonly http: HttpClient) {}
   private _missions$ = new BehaviorSubject<Mission[]>([]);
   missions = this._missions$.asObservable();
 

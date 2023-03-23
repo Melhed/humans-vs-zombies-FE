@@ -38,11 +38,22 @@ export class KillModalComponent implements OnInit {
 
   updateKill(kill: {
     story: string;
-    lat: string;
-    lng: string;
+    lat: number;
+    lng: number;
     killer: number;
     victim: number;
   }) {
+    if (kill.story === '' && this.currentKill.story !== '')
+      kill.story = this.currentKill.story!;
+    if (kill.lat === undefined && this.currentKill.lat !== undefined)
+      kill.lat === this.currentKill.lat + '';
+    if (kill.lng === undefined && this.currentKill.lng !== undefined)
+      kill.lng === this.currentKill.lng + '';
+    if (kill.killer === undefined && this.currentKill.killer !== undefined)
+      kill.killer = this.currentKill.killer;
+    if (kill.victim === undefined && this.currentKill.victim !== undefined)
+      kill.victim = this.currentKill.victim;
+
     // set the empty variables above to the this.currentKill variables
     const killInfo = {
       id: this.currentKill.id,
