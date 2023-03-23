@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import keycloak from 'src/keycloak';
 import { Router } from '@angular/router';
 const {APIGames} = environment;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -56,15 +57,10 @@ export class NavbarComponent implements OnInit{
   toggleameCreated(){
     
   }
-
+  
   toggleAddMissionModal() {
     this.showAddMissionModal = !this.showAddMissionModal;
   }
-
-  printToken() {
-    console.log(keycloak.idTokenParsed);
-  }
-
   role = "none";
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
