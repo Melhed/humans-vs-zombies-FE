@@ -22,6 +22,7 @@ import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
 import { DatePipe } from '@angular/common';
 import { AddMissionComponent } from './components/add-mission/add-mission.component';
+import { CreateGameComponent } from './components/create-game/create-game.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AddMissionComponent } from './components/add-mission/add-mission.compon
     PlayerListComponent,
     ChatComponent,
     AddMissionComponent,
+    CreateGameComponent,
   ],
   imports: [
     //Modules
