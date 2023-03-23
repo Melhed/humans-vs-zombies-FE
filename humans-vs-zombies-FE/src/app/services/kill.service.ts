@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Kill } from '../models/kill.model';
 
@@ -12,10 +12,11 @@ const { APIKill, APIKey } = environment;
 export class KillService {
   constructor(private readonly http: HttpClient) {}
 
-  private _kill: Kill[] = [];
+  private _kills$ = new BehaviorSubject<Kill[]>([]);
+  kills = this._kills$.asObservable();
 
-  get kills(): Kill[] {
-    return this._kill;
+  updateKills(kills: Kill[]): void {
+    this._kills$.next(kills);
   }
 
   private _mostRecentKill?: Kill = undefined;
@@ -35,10 +36,10 @@ export class KillService {
     return this._loading;
   }
 
-  public fetchKills(gameId: number | undefined): Observable<Kill[] | void> {
-    return this.http
-      .get<Kill[]>(`${APIKill.replace('{gameId}', gameId + '')}`)
-      .pipe(catchError(async (err) => console.log(err)));
+  public fetchKills(gameId: string): void {
+    this.http.get<Kill[]>(APIKill.replace('{gameId}', gameId)).subscribe({
+      next: (kills: Kill[]) => this.updateKills(kills),
+    });
   }
 
   public addKill(killPostDTO: {
@@ -55,6 +56,7 @@ export class KillService {
       .post<Kill>(`${APIKill.replace('{gameId}', gameId + '')}`, killPostDTO)
       .subscribe({
         next: (kill: Kill) => {
+          this.fetchKills(gameId!);
           this._mostRecentKill = kill;
         },
         error: (error: HttpErrorResponse) => {

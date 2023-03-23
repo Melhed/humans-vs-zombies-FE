@@ -1,0 +1,154 @@
+<form
+  #updateKillForm="ngForm"
+  (ngSubmit)="updateKill(updateKillForm.value)"
+  *ngIf="inEditMode"
+>
+  <div class="relative w-auto my-6 mx-auto max-w-6xl">
+    <!--content-->
+
+    <div
+      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+    >
+      <!--header-->
+      <div
+        class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+      >
+        <h3 class="text-3xl font-semibold">Edit kill #{{ kill.id }}</h3>
+      </div>
+      <!--body-->
+      <div class="w-1/2 md:w-full relative p-6 flex-auto">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="killer">
+          Killer ID
+        </label>
+        <input
+          ngModel
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="killer"
+          type="text"
+          placeholder="{{ kill.killer }}"
+        />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="victim">
+          Victim ID
+        </label>
+        <input
+          ngModel
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="victim"
+          type="text"
+          placeholder="{{ kill.victim }}"
+        />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="story">
+          Story
+        </label>
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="story"
+          type="text"
+          placeholder="{{ kill.story }}"
+        />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Kill Location
+        </label>
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="lat"
+          type="text"
+          placeholder="Latitude"
+        />
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="lng"
+          type="text"
+          placeholder="Longitude"
+        />
+      </div>
+
+      <!--footer-->
+      <div
+        class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+      >
+        <button
+          class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="submit"
+        >
+          Update
+        </button>
+        <button
+          class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="sendDisableModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="!inEditMode" class="relative w-auto my-6 mx-auto max-w-6xl">
+  <!--content-->
+
+  <div
+    class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+  >
+    <!--header-->
+    <div
+      class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+    >
+      <h2 class="text-3xl font-semibold">Kill #{{ kill.id }}</h2>
+      <button
+        *ngIf="isAdmin"
+        class="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        (click)="inEditMode = true"
+      >
+        Edit
+      </button>
+    </div>
+    <!--body-->
+    <div class="w-1/2 md:w-full relative p-6 flex-auto">
+      <h3 class="block text-gray-700 text-sm font-bold">Killer ID</h3>
+      <p>{{ kill.killer }}</p>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Victim</h3>
+      <p>{{ kill.victim }}</p>
+
+      <div *ngIf="kill.story">
+        <h3 class="block text-gray-700 text-sm font-bold mt-1">Story</h3>
+        <p>{{ kill.story }}</p>
+      </div>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Time of death</h3>
+      <p>
+        {{ kill.timeOfDeath | date : "yyyy-MM-dd HH:mm:ss" }}
+      </p>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Kill location</h3>
+      <p>
+        Latitude: {{ kill.lat }} Longitude:
+        {{ kill.lng }}
+      </p>
+    </div>
+
+    <!--footer-->
+    <div
+      class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+    >
+      <button
+        class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        (click)="sendDisableModal()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

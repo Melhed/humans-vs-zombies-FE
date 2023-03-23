@@ -1,7 +1,7 @@
 export interface Kill {
   id: number;
-  timeOfDeath: String;
-  story?: String;
+  timeOfDeath: string;
+  story?: string;
   lat?: number;
   lng?: number;
   game: number;

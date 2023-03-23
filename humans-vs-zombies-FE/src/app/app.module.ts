@@ -20,6 +20,7 @@ import { RefreshTokenHttpInterceptor } from './interceptors/refresh-token-http.i
 import { ChatComponent } from './components/chat/chat.component';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
+import { KillModalComponent } from './components/modals/kill-modal/kill-modal.component';
 import { DatePipe } from '@angular/common';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { DatePipe } from '@angular/common';
     EditPlayerPage,
     PlayerListComponent,
     ChatComponent,
+    KillModalComponent,
   ],
   imports: [
     //Modules
@@ -59,9 +61,8 @@ import { DatePipe } from '@angular/common';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpAuthInterceptor,
-      multi: true
-    }
-
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
