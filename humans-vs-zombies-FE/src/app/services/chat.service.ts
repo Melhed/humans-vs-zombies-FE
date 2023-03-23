@@ -47,13 +47,9 @@ export class ChatService {
     this._squadChat$.next(chats);
   }
 
-  public findAllChats(
-    gameId: number | undefined,
-    player: any,
-    squad: Squad
-  ): void {
-    this.findGlobalAndFactionChat(gameId, player.human);
-    if (squad !== undefined) this.findSquadChat(gameId, player, squad);
+  public findAllChats(game: Game, player: any, squad: Squad): void {
+    this.findGlobalAndFactionChat(game.id, player.human);
+    if (squad !== undefined) this.findSquadChat(game.id, player, squad);
   }
 
   private findGlobalAndFactionChat(
@@ -155,7 +151,7 @@ export class ChatService {
     }
     this.http.post<Chat>(url, chatDTO).subscribe({
       next: () => {
-        this.findAllChats(game?.id, player, squad!);
+        this.findAllChats(game!, player, squad!);
       },
       error: (err: HttpErrorResponse) => {
         this._error = err.message;

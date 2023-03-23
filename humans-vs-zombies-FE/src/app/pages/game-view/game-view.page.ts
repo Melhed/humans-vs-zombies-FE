@@ -67,10 +67,5 @@ export class GameViewPage implements OnInit {
   ngOnInit(): void {
     this.squadListService.findAllSquads();
     this.gameToShow = StorageUtil.storageRead(StorageKeys.Game);
-    // this.gameListService
-    //   .getGameById(this.gameToShow)
-    //   .subscribe((game) => {
-    //     this.gameToShow = game;
-    //   });
   }
 }
