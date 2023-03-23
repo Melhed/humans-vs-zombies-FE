@@ -20,6 +20,9 @@ export class ChatService {
     private readonly squadService: SquadListService
   ) {}
 
+  private _adminChat$ = new BehaviorSubject<Chat[]>([]);
+  adminChat = this._adminChat$.asObservable();
+
   private _globalChat$ = new BehaviorSubject<Chat[]>([]);
   globalChat = this._globalChat$.asObservable();
 
@@ -46,6 +49,10 @@ export class ChatService {
     this._activeChat = activeChat;
   }
 
+  private updateAdminChat(chats: Chat[]) {
+    this._adminChat$.next(chats);
+  }
+
   private updateGlobalChat(chats: Chat[]) {
     this._globalChat$.next(chats);
   }
@@ -60,7 +67,7 @@ export class ChatService {
 
   public findAllChats(game: Game, player: any, squad: Squad): void {
     this.findGlobalAndFactionChat(game.id, player.human);
-    if (squad !== undefined) this.findSquadChat(game.id, player, squad);
+    if (squad !== undefined) this.findSquadChat(game.id, squad);
   }
 
   private findGlobalAndFactionChat(
@@ -69,6 +76,9 @@ export class ChatService {
   ): void {
     this.http.get<Chat[]>(`${APIGames}/${gameId}/chat`).subscribe({
       next: (chat: Chat[]) => {
+        this.updateAdminChat(chat);
+        console.log(chat);
+
         const globalMessages: Chat[] = [];
         const factionMessages: Chat[] = [];
         chat.map((message: any) => {
@@ -101,14 +111,12 @@ export class ChatService {
 
   private findSquadChat(
     gameId: number | undefined,
-    player: any,
     squad: Squad
   ): void {
     this.http
       .get<Chat[]>(`${APIGames}/${gameId}/squad/${squad.id}/chat`)
       .subscribe({
         next: (chat: Chat[]) => {
-          console.log(chat);
           this.updateSquadChat(chat);
         },
         error: (err: HttpErrorResponse) => {
@@ -165,7 +173,11 @@ export class ChatService {
     }
     this.http.post<Chat>(url, chatDTO).subscribe({
       next: () => {
-        this.findAllChats(game!, player, squad!);
+        if (this._activeChat === 'SQUAD') {
+          this.findSquadChat(game!.id, squad!);
+        } else {
+          this.findGlobalAndFactionChat(game!.id, player.human);
+        }
       },
       error: (err: HttpErrorResponse) => {
         this._error = err.message;

@@ -13,6 +13,28 @@ const { APIGames } = environment;
   providedIn: 'root',
 })
 export class PlayerService {
+  createPlayerAdmin(gameId: number | undefined, user: User) {
+    const playerAdminDTO = {
+      id: null,
+      state: "ADMINISTRATOR",
+      isHuman: true,
+      isPatientZero: false,
+      biteCode: null,
+      user: user.id,
+      game: gameId
+    }
+
+    this.http.post<Player>(`${APIGames}/${gameId}/player`, playerAdminDTO).subscribe({
+      next: (player: any) => {
+        console.log(player);
+        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
+        this.updatePlayer(player);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
   constructor(private readonly http: HttpClient) {}
 
   private _player$ = new BehaviorSubject<Player | undefined>(undefined);

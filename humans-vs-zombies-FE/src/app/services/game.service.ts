@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import keycloak from 'src/keycloak';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Player } from '../models/player.model';
 import { User } from '../models/user.model';
@@ -11,11 +12,19 @@ import { PlayerService } from './player.service';
 export class GameService {
   constructor(private readonly playerService: PlayerService) {}
 
-  public async joinGame(gameId: number | undefined): Promise<void> {
+  public joinGame(gameId: number | undefined): void {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
-    await this.playerService.setPlayer(gameId, user!.id);
+    console.log(keycloak.hasRealmRole('hvz-admin'));
+
+    this.playerService.setPlayer(gameId, user!.id);
     this.playerService.player.subscribe((player: Player | undefined) => {
-      if (player === undefined) this.playerService.createPlayer(gameId, user!);
+      if (player === undefined) {
+        if (keycloak.hasRealmRole('hvz-admin')) {
+          this.playerService.createPlayerAdmin(gameId, user!);
+          return;
+        }
+        this.playerService.createPlayer(gameId, user!);
+      }
     });
   }
 }

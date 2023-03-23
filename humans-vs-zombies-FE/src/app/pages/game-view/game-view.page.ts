@@ -5,6 +5,7 @@ import { GameListService } from 'src/app/services/game-list.service';
 import { KillService } from 'src/app/services/kill.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
+import { Player } from 'src/app/models/player.model';
 
 @Injectable()
 @Component({
@@ -21,6 +22,11 @@ export class GameViewPage implements OnInit {
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
+  private _player?: Player = undefined;
+
+  public get player() {
+    return this._player;
+  }
 
   showModal = false;
   toggleModal() {
@@ -38,10 +44,10 @@ export class GameViewPage implements OnInit {
     lat: string;
     long: string;
   }) {
-    const player: any = StorageUtil.storageRead(StorageKeys.Player);
+
     const killInfo = {
-      killPosterId: player.id,
-      killerId: player.id,
+      killPosterId: this._player!.id,
+      killerId: this._player!.id,
       biteCode: kill.biteCode,
       story: kill.story,
       lat: kill.lat,
@@ -65,6 +71,7 @@ export class GameViewPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this._player = StorageUtil.storageRead(StorageKeys.Player);
     this.squadListService.findAllSquads();
     this.gameToShow = StorageUtil.storageRead(StorageKeys.Game);
   }
