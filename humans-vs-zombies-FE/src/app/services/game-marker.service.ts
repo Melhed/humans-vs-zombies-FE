@@ -12,6 +12,7 @@ import { Kill } from '../models/kill.model';
 import Geometry from 'ol/geom/Geometry';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { KillService } from './kill.service';
+import { SquadCheckin } from '../models/squad-checkin.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,11 +72,74 @@ export class GameMarkerService {
     return markerLayer;
   }
 
-  public createKillMarkerLayer(kills: Kill[]): VectorLayer<VectorSource> {
+  public createMissionMarkerLayer(
+    missions: Mission[]
+  ): VectorLayer<VectorSource> {
     let features: Feature[] = [];
 
-    features.push(this.createMarker(200, 55, MarkerType.KILL, 11));
-    features.push(this.createMarker(420, 50, MarkerType.KILL, 10));
+    missions.map((mission: Mission) => {
+      if (mission.lat !== undefined && mission.lng !== undefined) {
+        let marker: Feature<Geometry> = this.createMarker(
+          mission.lng,
+          mission.lat,
+          MarkerType.KILL,
+          mission.id!
+        );
+        features.push(marker);
+      }
+    });
+
+    let markerLayer: VectorLayer<VectorSource> = new VectorLayer({
+      source: new VectorSource({
+        features: features,
+      }),
+      style: new Style({
+        image: new Icon({
+          src: `../../assets/Mission_Marker_64.png`,
+          anchor: [0.5, 1],
+          size: [64, 64],
+          scale: 0.5,
+        }),
+      }),
+    });
+
+    return markerLayer;
+  }
+
+  public createSquadCheckinMarkerLayer(
+    squadCheckins: SquadCheckin[]
+  ): VectorLayer<VectorSource> {
+    let features: Feature[] = [];
+
+    squadCheckins.map((checkin: SquadCheckin) => {
+      let marker: Feature<Geometry> = this.createMarker(
+        checkin.lng,
+        checkin.lat,
+        MarkerType.SQUADCHECKIN,
+        checkin.id!
+      );
+      features.push(marker);
+    });
+
+    let markerLayer: VectorLayer<VectorSource> = new VectorLayer({
+      source: new VectorSource({
+        features: features,
+      }),
+      style: new Style({
+        image: new Icon({
+          src: `../../assets/Grave_Marker_64.png`,
+          anchor: [0.5, 1],
+          size: [64, 64],
+          scale: 0.5,
+        }),
+      }),
+    });
+
+    return markerLayer;
+  }
+
+  public createKillMarkerLayer(kills: Kill[]): VectorLayer<VectorSource> {
+    let features: Feature[] = [];
 
     kills.map((kill: Kill) => {
       if (kill.lat !== undefined && kill.lng !== undefined) {
