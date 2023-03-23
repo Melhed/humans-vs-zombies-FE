@@ -29,8 +29,19 @@ export class ChatService {
 
   private _error: string = "";
 
+
   public get error(): string {
     return this._error;
+  }
+
+  private _activeChat: string = "";
+
+  public get activeChat() {
+    return this._activeChat;
+  }
+
+  public set activeChat(activeChat: string) {
+    this._activeChat = activeChat;
   }
 
   private updateGlobalChat(chats: Chat[]) {
@@ -87,16 +98,14 @@ export class ChatService {
     });
   }
 
-  addMessage(newMessage: string, type: string): void {
+  addMessage(newMessage: string): void {
     const player: any = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
     const current = new Date();
     let chatDTO: Object = {};
     let url = `${APIGames}/${game?.id}/chat`;
-    console.log(squad);
-
-    switch (type) {
+    switch (this._activeChat) {
       case "GLOBAL":
         chatDTO = {
           id: null,
