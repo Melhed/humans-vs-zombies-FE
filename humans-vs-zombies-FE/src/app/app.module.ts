@@ -49,9 +49,7 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
   ],
   providers: [
-    DatePipe
-  ],
-  providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenHttpInterceptor,
