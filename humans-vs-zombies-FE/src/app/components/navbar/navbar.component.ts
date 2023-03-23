@@ -16,6 +16,8 @@ const {APIGames} = environment;
 })
 
 export class NavbarComponent implements OnInit{
+  role = "none";
+
   private _newGame: any = {
     "name": "",
     "startTime": "",
@@ -54,6 +56,7 @@ export class NavbarComponent implements OnInit{
   toggleCreateGameModal() {
     this.showCreateGameModal = !this.showCreateGameModal;
   }
+
   toggleameCreated(){
     
   }
@@ -61,7 +64,10 @@ export class NavbarComponent implements OnInit{
   toggleAddMissionModal() {
     this.showAddMissionModal = !this.showAddMissionModal;
   }
-  role = "none";
+
+  login(): void {
+    keycloak.login({ redirectUri: 'http://localhost:4200/game-view' });
+  }
 
   onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
     this._newGame = game;
@@ -78,10 +84,6 @@ export class NavbarComponent implements OnInit{
     } else {
       this.acceptedTime = false;
     }
-    
-    
-    
-
   }
 
   onAddMission(mission: {title: String, description: String, startTime: Date, endTime: Date, lat: number, lng: number, humanVisible: boolean, zombieVisible: boolean, gameId: number}) {
