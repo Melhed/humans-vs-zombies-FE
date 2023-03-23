@@ -77,7 +77,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
     this.missionService.missions.subscribe((missions: Mission[]) => {
       if(missions[0]) {
         const missionLayer: VectorLayer<VectorSource> = this.gameMarkerService.createMissionMarkerLayer(missions);
-        this._gameMap?.addLayer(missionLayer);
+        this._gameMap!.addLayer(missionLayer);
       }
     })
 
@@ -101,6 +101,8 @@ export class GameMapComponent implements OnInit, AfterViewInit {
       );
 
       if (feature) {
+        console.log(feature.getProperties());
+        
         if (
           this.currentMarkerData === undefined ||
           this.currentMarkerType !== feature.getProperties()['type'] ||
@@ -109,7 +111,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
           this.gameMarkerService.fetchMarkerData(feature.getProperties());
           this.gameMarkerService.clickedMarkerData.subscribe((data) => {
             if (data.killer) this.setKillerMarkerData(data);
-            console.log('called');
+            if (data.missionID) this.setMissionMarkerData(data);
           });
         }
 
@@ -120,6 +122,11 @@ export class GameMapComponent implements OnInit, AfterViewInit {
 
   receiveDisableModal($event: boolean) {
     this._showModal = $event;
+  }
+
+  setMissionMarkerData(mission: Mission): void {
+    this._currentMarkerType = MarkerType.MISSION;
+    this._currentMarkerData = mission;
   }
 
   setKillerMarkerData(kill: Kill): void {

@@ -32,14 +32,17 @@ export class MissionService {
     return this._loading;
   }
 
-  // public fetchMissions(
-  //   gameId: number | undefined
-  // ): Observable<Mission[] | void> {
-  //   console.log(`${APIMission.replace('{gameId}', gameId + '')}`);
-  //   return this.http
-  //     .get<Mission[]>(`${APIMission.replace('{gameId}', gameId + '')}`)
-  //     .pipe(catchError(async (err) => console.log(err)));
-  // }
+  public updateMission(mission: Mission): void {
+    this.http.put<Mission>(`${APIMission.replace("{gameId}", mission.gameId + "")}/${mission.missionID}`, mission).subscribe({
+      next: () => {
+        this.fetchMissions();
+        window.location.reload();
+      },
+      error: (error: HttpErrorResponse) => {
+        this._error = error.message;
+      },
+    })
+  }
 
   public fetchMissions(): void {
     const currentGame: Game = StorageUtil.storageRead(StorageKeys.Game)!;

@@ -24,12 +24,12 @@ export class CreateMissionModalComponent {
     name: string,
     description?: string,
     //TODO: Cant get these two to register
-    startTime?: String,
-    endTime?: String,
-    lat: number,
-    lng: number,
-    isHumanVisible: boolean,
-    isZombieVisible: boolean,
+    startTime?: Date,
+    endTime?: Date,
+    lat: string,
+    lng: string,
+    isHumanVisible: string,
+    isZombieVisible: string,
     gameId?: number,
   }):void {
     const currentGame: Game = StorageUtil.storageRead(StorageKeys.Game)!;

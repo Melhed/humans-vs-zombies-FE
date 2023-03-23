@@ -9,6 +9,12 @@
       [kill]="currentMarkerData"
     ></app-kill-modal>
   </div>
+  <div *ngIf="currentMarkerType.toString() === 'MISSION'">
+    <app-mission-modal
+      (disableModalEvent)="receiveDisableModal($event)"
+      [mission]="currentMarkerData"
+    ></app-mission-modal>
+  </div>
 </div>
 
 <div id="ol-map" class="map-container"></div>
