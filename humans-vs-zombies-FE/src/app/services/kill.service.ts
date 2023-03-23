@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Kill } from '../models/kill.model';
 
@@ -12,9 +12,15 @@ const { APIKill, APIKey } = environment;
 export class KillService {
   constructor(private readonly http: HttpClient) {}
 
+  private _kill: Kill[] = [];
+
+  get kills(): Kill[] {
+    return this._kill;
+  }
+
   private _mostRecentKill?: Kill = undefined;
 
-  private _error: String = "";
+  private _error: String = '';
 
   private _loading: boolean = false;
 
@@ -29,13 +35,20 @@ export class KillService {
     return this._loading;
   }
 
-  public fetchKills(gameId: number): Observable<Kill[] | void> {
+  public fetchKills(gameId: number | undefined): Observable<Kill[] | void> {
     return this.http
       .get<Kill[]>(`${APIKill.replace('{gameId}', gameId + '')}`)
       .pipe(catchError(async (err) => console.log(err)));
   }
 
-  public addKill(killPostDTO : {killPosterId: number, killerId: number, biteCode: string, story: string, lat: string, lng: string}): void {
+  public addKill(killPostDTO: {
+    killPosterId: number;
+    killerId: number;
+    biteCode: string;
+    story: string;
+    lat: string;
+    lng: string;
+  }): void {
     const gameId = localStorage.getItem('game-id');
 
     this.http
@@ -46,7 +59,7 @@ export class KillService {
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
-        }
-      })
+        },
+      });
   }
 }

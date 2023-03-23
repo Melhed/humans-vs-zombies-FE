@@ -1,0 +1,27 @@
+<div *ngIf="(player !== undefined)" class="order-last mr-3">
+  <div class="w-96 h-96 p-4 border-2 border-gray-900 bg-white">
+    <div class="font-bold text-xl mb-2">
+      Chat Box
+      <div>
+        <div class="flex flex-row place-content-evenly items-center">
+          <h2 (click)="getGlobalChats()" [style.color]="globalColor" class="global font-semibold text-lg hover:text-xl">Global</h2>
+          <h2 (click)="getFactionChats()" [style.color]="factionColor" *ngIf="(player.human)" class="font-semibold text-lg hover:text-xl">Human</h2>
+          <h2 (click)="getFactionChats()" [style.color]="factionColor" *ngIf="(!player.human)" class="font-semibold text-lg hover:text-xl">Zombie</h2>
+          <h2 (click)="getSquadChats()" [style.color]="squadColor" *ngIf="(player.state !== 'NO_SQUAD')" class="font-semibold text-lg">Squad</h2>
+        </div>
+        <div  class="overflow-auto max-h-48">
+          <div *ngFor="let chat of chats" class="font-thin text-base mb-1">
+            <p>{{ chat.message }}</p>
+            <p class=" text-stone-500 text-xs">{{ chat.timestamp| date : 'yyyy-MM-dd HH:mm:ss' }}</p>
+          </div>
+        </div>
+        <input
+          name="newMessage" type="text" #newMessage
+          class="font-thin text-base mb-1 w-full p-2 mt-3 border-2 border-gray-900"
+          (keyup.enter)="sendMessage(newMessage.value)"
+          (keyup.enter)="newMessage.value = ''"
+        />
+      </div>
+    </div>
+  </div>
+</div>

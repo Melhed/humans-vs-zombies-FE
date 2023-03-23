@@ -6,5 +6,5 @@ export const environment = {
   APISquadCheckin:
     'http://localhost:8080/api/v1/game/{gameId}/squad/{squadId}/check-in',
   APIKill: 'http://localhost:8080/api/v1/game/{gameId}/kill',
-  APIKey: '',
+  APIKey: 'http://localhost:8080/api/v1',
 };
