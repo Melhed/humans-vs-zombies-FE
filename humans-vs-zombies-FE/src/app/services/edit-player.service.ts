@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Player, playerState } from '../models/player.model';
+import { Player } from '../models/player.model';
 import { PlayerListService } from './player-list.service';
 const {APIGames} = environment;
 
@@ -27,56 +26,16 @@ export class EditPlayerService {
   }
 
   constructor(private readonly http: HttpClient,
-    private readonly playerListService: PlayerListService) { }
+  private readonly playerListService: PlayerListService) { }
 
-    updateObjectProperty(playerId: number, stateValue: any) {
-      const player: Player | undefined = this.playerListService.playerById(playerId);
-      if(!player){
-        throw new Error("updatePlayer: No player with Id: " + playerId);
-      }
-      
-
-      
-      
-      console.log("stateValue ", stateValue);
-      console.log(player.biteCode);
-      const url = `${APIGames}/3/player/${playerId}`;
-      return this.http.put(url, player
-         
-      ).subscribe({
-        next:(response: any) => {
-          console.log("NEXT: ", response)
-        },
-        error:(error: HttpErrorResponse) => {
-          console.log("ERROR: ", error.message);
-        }
-        
-      });;
-    }
-
-  public updatePlayer(playerId: number, value: any): void {
-    let player: Player | undefined = this.playerListService.playerById(playerId);
-
-    console.log("Current Player ----> ", player?.state);
-
-    const headers = new HttpHeaders({
-      'content-type': 'application/json',
-      'x-api-key': ''
-    })
-
+  updateObjectProperty(playerId: number, stateValue: any) {
+    const player: Player | undefined = this.playerListService.playerById(playerId);
     if(!player){
       throw new Error("updatePlayer: No player with Id: " + playerId);
     }
-
-    console.log("property Value ", value);
-    
-    this.http.patch(`${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`,{
-      bite_code: [...player.biteCode, "ppp" ]
-    },
-    {
-      headers
-    }
-    ).subscribe({
+    player.state = stateValue.states;
+    const url = `${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`;
+    return this.http.put(url, player).subscribe({
       next:(response: any) => {
         console.log("NEXT: ", response)
       },
@@ -84,9 +43,6 @@ export class EditPlayerService {
         console.log("ERROR: ", error.message);
       }
       
-    });
-    console.log("test");
+    });;
   }
-
-  
 }

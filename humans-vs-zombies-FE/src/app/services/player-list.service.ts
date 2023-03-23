@@ -14,7 +14,6 @@ export class PlayerListService {
   private _error: string = "";
   private _loading: boolean = false;
 
-
   public get players(): Player[] {
     return this._players;
   }
@@ -25,15 +24,13 @@ export class PlayerListService {
   public get loading(): boolean {
     return this._loading;
   }
-
+  
   constructor(private readonly http: HttpClient) { }
-
-
   public findAllPlayers(): void {
     this._loading = true;
     this.http.get<Player[]>(`${APIGames}/${localStorage.getItem('game-id')}/player`)
     .pipe(
-      finalize(() => { //will run after last
+      finalize(() => { 
         this._loading = false;
       })
     )
@@ -48,18 +45,8 @@ export class PlayerListService {
       }
     })
   }
-
   public playerById(id: number): Player | undefined{
     console.log("the is ", id);
     return this._players.find(player => player.id === id);
   }
-
-  // public findPlayerById(playerId: any): Observable<any>{
-  //   this._loading = true;
-  //   return this.http.get<Player[]>(`${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`)
-    
-  // }
-
-
-  
 }
