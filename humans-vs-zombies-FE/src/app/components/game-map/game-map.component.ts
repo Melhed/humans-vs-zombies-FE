@@ -64,8 +64,6 @@ export class GameMapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.killService.fetchKills(localStorage.getItem('game-id')!);
-
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     this._gameMap = this.gameMapService.createGameMap(
       game!.nwLat,
@@ -74,6 +72,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
       game!.seLng
     );
     this.missionService.fetchMissions(game?.id);
+    this.killService.fetchKills(game!.id!);
 
     this.killService.kills.subscribe((kills: Kill[]) => {
       if (kills[0]) {
