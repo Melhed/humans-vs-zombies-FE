@@ -5,6 +5,7 @@ import { EditPlayerService } from 'src/app/services/edit-player.service';
 import { UserService } from 'src/app/services/user.service';
 import keycloak from 'src/keycloak';
 import { KeycloakProfile } from 'keycloak-js';
+import { PlayerListService } from 'src/app/services/player-list.service';
 
 @Component({
   selector: 'app-edit-player',
@@ -14,24 +15,25 @@ import { KeycloakProfile } from 'keycloak-js';
 export class EditPlayerPage implements OnInit{
 
   get players(): Player[] {
-    return this.editPlayerService.players;
+    return this.playerListService.players;
   }
 
   get loading(): boolean {
-    return this.editPlayerService.loading;
+    return this.playerListService.loading;
   }
 
   get error(): string {
-    return this.editPlayerService.error;
+    return this.playerListService.error;
   }
 
   private user?: User = undefined;
 
   constructor (private readonly editPlayerService: EditPlayerService, 
-    private readonly userService: UserService) { }
+    private readonly userService: UserService,
+    private readonly playerListService: PlayerListService) { }
 
     async ngOnInit(): Promise<void> {
-    this.editPlayerService.findAllPlayers();
+    this.playerListService.findAllPlayers();
     let keycloakUser: KeycloakProfile = await keycloak.loadUserProfile();
     let user: User = {
       id: keycloakUser.id!,

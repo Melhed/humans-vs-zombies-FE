@@ -1,35 +1,35 @@
 <div
-  class="flex justify-center items-center w-screen h-screen text-slate-500 font-quicksand"
->
+  class="flex justify-center items-center w-screen h-screen text-slate-500
+  font-quicksand">
   <div class="self-center bg-transparent w-9/12 h-screen mt-10">
     <div
-      class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid grid-cols-4 gap-2 text-center text-slate-700"
-    >
+      class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid
+      grid-cols-4 gap-2 text-center text-slate-700">
       <div class="font-bold">PLAYER NAME</div>
       <div class="font-bold">PLAYER CODE</div>
       <div class="font-bold">PLAYER STATE</div>
     </div>
     <div
       *ngFor="let player of players"
-      class="bg-slate-100 w-auto h-auto m-1 p-3 border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group items-center"
-    >
+      class="bg-slate-100 w-auto h-auto m-1 p-3 border-slate-800 px-1 grid
+      grid-cols-4 mx-4 hover:auto static group items-center">
       <div class="text-center">
-        {{ player.user.firstName }} {{ player.user.lastName }}
+        <!-- {{ player.user.firstName }} {{ player.user.lastName }} -->
       </div>
       <div class="text-center font-bold text-slate-600">
         {{ player.biteCode }}
       </div>
-      <div class="text-center">{{ player.state }}</div>
-
-      <form [formGroup]="contactForm" (ngSubmit)="submit(player.user.id)">
+      <div class="text-center">
+        {{ player.state }}
+      </div>
+      <form [formGroup]="contactForm" (ngSubmit)="submit(player.id)">
         <p>
           <select formControlName="states">
             <option [ngValue]="null" disabled>Select state</option>
-            <option *ngFor="let state of states" [ngValue]="state.state">
+            <option *ngFor="let state of state" [ngValue]="state.state">
               {{ state.state }}
             </option>
           </select>
-
           <button type="submit" class="m-2">Change</button>
         </p>
       </form>
