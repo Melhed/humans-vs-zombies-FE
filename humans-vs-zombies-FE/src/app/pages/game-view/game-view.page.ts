@@ -28,9 +28,9 @@ export class GameViewPage implements OnInit {
     return this._player;
   }
 
-  showModal = false;
-  toggleModal() {
-    this.showModal = !this.showModal;
+  showCreateMissionModal = false;
+  toggleCreateMissionModal() {
+    this.showCreateMissionModal = !this.showCreateMissionModal;
   }
 
   showBiteCodeModal = false;

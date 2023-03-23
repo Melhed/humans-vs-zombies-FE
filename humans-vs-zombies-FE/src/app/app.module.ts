@@ -22,6 +22,8 @@ import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
 import { KillModalComponent } from './components/modals/kill-modal/kill-modal.component';
 import { DatePipe } from '@angular/common';
+import { CreateMissionModalComponent } from './components/modals/create-mission-modal/create-mission-modal.component';
+import { MissionModalComponent } from './components/modals/mission-modal/mission-modal.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { DatePipe } from '@angular/common';
     PlayerListComponent,
     ChatComponent,
     KillModalComponent,
+    CreateMissionModalComponent,
+    MissionModalComponent,
   ],
   imports: [
     //Modules

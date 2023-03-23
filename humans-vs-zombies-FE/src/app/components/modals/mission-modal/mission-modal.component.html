@@ -1,8 +1,9 @@
 <form
-  #updateKillForm="ngForm"
-  (ngSubmit)="updateKill(updateKillForm.value)"
+  #updateMissionForm="ngForm"
+  (ngSubmit)="updateMission(updateMissionForm.value)"
   *ngIf="inEditMode"
 >
+
   <div class="relative w-auto my-6 mx-auto max-w-6xl">
     <!--content-->
 
@@ -13,86 +14,101 @@
       <div
         class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
       >
-        <h3 class="text-3xl font-semibold">Edit kill #{{ kill.id }}</h3>
+        <h3 class="text-3xl font-semibold">Edit mission "{{ mission.name }}"</h3>
       </div>
       <!--body-->
       <div class="w-1/2 md:w-full relative p-6 flex-auto">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="killer">
-          Killer ID
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+          Mission Name
         </label>
         <input
           ngModel
           required
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          name="killer"
-          type="number"
-          placeholder="{{ kill.killer }}"
-        />
-
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="victim">
-          Victim ID
-        </label>
-        <input
-          ngModel
-          required
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          name="victim"
-          type="number"
-          placeholder="{{ kill.victim }}"
-        />
-
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="story">
-          Story
-        </label>
-        <input
-          ngModel
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          name="story"
+          name="name"
           type="text"
-          placeholder="{{ kill.story }}"
+          placeholder="{{ mission.name }}"
+        />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+          Description
+        </label>
+        <input
+          ngModel
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="description"
+          type="text"
+          placeholder="{{ mission.description }}"
+        />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="startTime">
+          Start time
+        </label>
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="startTime"
+          type="datetime-local"
+          placeholder="{{ mission.startTime }}"
         />
 
         <label class="block text-gray-700 text-sm font-bold mb-2">
-          Kill Location
+          End time
         </label>
         <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="endTime"
+          type="datetime-local"
+          placeholder="{{mission.endTime}}"
+        />
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+            Latitude
+          </label>
+          <input
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lat"
           type="number"
-          placeholder="{{ kill.lat }}"
+          placeholder="{{ mission.lat }}"
         />
-        <input
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+            Longitude
+          </label>
+          <input
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lng"
           type="number"
-          placeholder="{{ kill.lng }}"
-        />
-      <label
-          class="text-gray-700 text-sm font-bold mb-2"
-          for="isHumanVisible"
-        >
-          Human Visible
-        </label>
-        <input
-          ngModel
-          name="isHumanVisible"
-          type="checkbox"
-          class="mr-5"
+          placeholder="{{ mission.lng }}"
         />
 
         <label
-          class="text-gray-700 text-sm font-bold mb-2"
-          for="isZombieVisible"
-        >
-          Zombie Visible
-        </label>
-        <input
-          ngModel
-          name="isZombieVisible"
-          type="checkbox"
-        />
+        class="text-gray-700 text-sm font-bold mb-2"
+        for="isHumanVisible"
+      >
+        Human Visible
+      </label>
+      <input
+        ngModel
+        name="isHumanVisible"
+        type="checkbox"
+        class="mr-5"
+      />
+
+      <label
+        class="text-gray-700 text-sm font-bold mb-2"
+        for="isZombieVisible"
+      >
+        Zombie Visible
+      </label>
+      <input
+        ngModel
+        name="isZombieVisible"
+        type="checkbox"
+      />
+
       </div>
 
       <!--footer-->
@@ -127,7 +143,7 @@
     <div
       class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
     >
-      <h2 class="text-3xl font-semibold">Kill #{{ kill.id }}</h2>
+      <h2 class="text-3xl font-semibold">"{{ mission.name }}"</h2>
       <button
         *ngIf="isAdmin"
         class="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -139,26 +155,17 @@
     </div>
     <!--body-->
     <div class="w-1/2 md:w-full relative p-6 flex-auto">
-      <h3 class="block text-gray-700 text-sm font-bold">Killer ID</h3>
-      <p>{{ kill.killer }}</p>
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Description</h3>
+      <p>{{ mission.description }}</p>
 
-      <h3 class="block text-gray-700 text-sm font-bold mt-1">Victim</h3>
-      <p>{{ kill.victim }}</p>
-
-      <div *ngIf="kill.story">
-        <h3 class="block text-gray-700 text-sm font-bold mt-1">Story</h3>
-        <p>{{ kill.story }}</p>
+      <div>
+        <h3 class="block text-gray-700 text-sm font-bold mt-1">Start time</h3>
+        <p>{{ mission.startTime | date : "yyyy-MM-dd HH:mm:ss" }}</p>
       </div>
 
-      <h3 class="block text-gray-700 text-sm font-bold mt-1">Time of death</h3>
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">End time</h3>
       <p>
-        {{ kill.timeOfDeath | date : "yyyy-MM-dd HH:mm:ss" }}
-      </p>
-
-      <h3 class="block text-gray-700 text-sm font-bold mt-1">Kill location</h3>
-      <p>
-        Latitude: {{ kill.lat }} Longitude:
-        {{ kill.lng }}
+        {{ mission.endTime | date : "yyyy-MM-dd HH:mm:ss" }}
       </p>
     </div>
 

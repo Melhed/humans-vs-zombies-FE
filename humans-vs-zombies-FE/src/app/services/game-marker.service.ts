@@ -13,12 +13,13 @@ import Geometry from 'ol/geom/Geometry';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { KillService } from './kill.service';
 import { SquadCheckin } from '../models/squad-checkin.model';
+import { MissionService } from './mission.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameMarkerService {
-  constructor(private readonly killService: KillService) {}
+  constructor(private readonly killService: KillService, private readonly missionService: MissionService) {}
 
   _clickedMarkerData$ = new BehaviorSubject<any>(undefined);
   clickedMarkerData = this._clickedMarkerData$.asObservable();
@@ -38,12 +39,21 @@ export class GameMarkerService {
         },
       });
     }
+    if(markerProperties.type === MarkerType.MISSION) {
+      this.missionService.missions.subscribe({
+        next: (missions: Mission[]) => {
+          missions.forEach((mission) => {
+            if(mission.missionID === markerProperties.id) {
+              this.updateClickedMarkerData(mission);
+            }
+          })
+        }
+      })
+    }
   }
 
   public createMissionMarkers(missions: Mission[]): VectorLayer<VectorSource> {
     let markers: Feature[] = [];
-
-    markers.push(this.createMarker(300, 300, MarkerType.MISSION, 10));
 
     missions.map((mission: Mission) => {
       if (mission.lat !== undefined && mission.lng !== undefined) {
@@ -52,7 +62,7 @@ export class GameMarkerService {
             mission.lng,
             mission.lat,
             MarkerType.MISSION,
-            mission.id!
+            mission.missionID!
           )
         );
       }
@@ -82,8 +92,8 @@ export class GameMarkerService {
         let marker: Feature<Geometry> = this.createMarker(
           mission.lng,
           mission.lat,
-          MarkerType.KILL,
-          mission.id!
+          MarkerType.MISSION,
+          mission.missionID!
         );
         features.push(marker);
       }
