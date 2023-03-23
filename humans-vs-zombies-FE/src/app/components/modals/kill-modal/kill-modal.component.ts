@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Kill } from 'src/app/models/kill.model';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
+import { KillService } from 'src/app/services/kill.service';
 import keycloak from 'src/keycloak';
 
 @Component({
@@ -8,7 +9,10 @@ import keycloak from 'src/keycloak';
   templateUrl: './kill-modal.component.html',
 })
 export class KillModalComponent implements OnInit {
-  constructor(private readonly gameMarkerService: GameMarkerService) {}
+  constructor(
+    private readonly gameMarkerService: GameMarkerService,
+    private readonly killService: KillService
+  ) {}
 
   @Input() kill!: Kill;
   @Output() disableModalEvent = new EventEmitter<boolean>();
@@ -38,37 +42,26 @@ export class KillModalComponent implements OnInit {
 
   updateKill(kill: {
     story: string;
-    lat: number;
-    lng: number;
-    killer: number;
-    victim: number;
+    lat: string;
+    lng: string;
+    killer: string;
+    victim: string;
   }) {
-    if (kill.story === '' && this.currentKill.story !== '')
-      kill.story = this.currentKill.story!;
-    if (kill.lat === undefined && this.currentKill.lat !== undefined)
-      kill.lat === this.currentKill.lat + '';
-    if (kill.lng === undefined && this.currentKill.lng !== undefined)
-      kill.lng === this.currentKill.lng + '';
-    if (kill.killer === undefined && this.currentKill.killer !== undefined)
-      kill.killer = this.currentKill.killer;
-    if (kill.victim === undefined && this.currentKill.victim !== undefined)
-      kill.victim = this.currentKill.victim;
-
-    // set the empty variables above to the this.currentKill variables
     const killInfo = {
       id: this.currentKill.id,
-      story: kill.story,
-      lat: kill.lat,
-      lng: kill.lng,
-      killer: kill.killer,
-      victim: kill.victim,
+      story: kill.story !== '' ? kill.story : this.currentKill.story!,
+      lat: kill.lat !== '' ? parseInt(kill.lat) : this.currentKill.lat!,
+      lng: kill.lng !== '' ? parseInt(kill.lng) : this.currentKill.lng!,
+      killer:
+        kill.killer !== '' ? parseInt(kill.killer) : this.currentKill.killer!,
+      victim:
+        kill.victim !== '' ? parseInt(kill.victim) : this.currentKill.victim!,
       game: this.currentKill.game,
       timeOfDeath: this.currentKill.timeOfDeath,
     };
 
     console.log(killInfo);
-
-    // this.killService.updateKill(killInfo);
+    this.killService.updateKill(killInfo);
   }
 
   public get isAdmin(): boolean {

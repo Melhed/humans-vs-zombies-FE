@@ -12,11 +12,28 @@
           Bite Code
         </button>
         <a href="edit-player">
-          <button class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          type="button">
+          <button
+            class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            type="button"
+          >
             Edit Players
           </button>
         </a>
+        <button
+          class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          type="button"
+          (click)="toggleCreateMissionModal()"
+        >
+          Create Mission
+        </button>
+        <div
+          *ngIf="showCreateMissionModal"
+          class="w-1/2 h-1/3 absolute z-50 top-0 bottom-0 mt-auto mb-auto left-0 right-0 ml-auto mr-auto"
+        >
+          <app-create-mission-modal
+            (disableModalEvent)="toggleCreateMissionModal()"
+          ></app-create-mission-modal>
+        </div>
 
         <div
           *ngIf="showBiteCodeModal"
@@ -128,11 +145,11 @@
       <app-chat></app-chat>
       <div class="w-96 h-96 p-4 border-2 border-gray-900 bg-white ml-3">
         <div class="font-bold text-xl mb-2">Squads</div>
-          <ol class="list-decimal m-2 p-2">
-            <p *ngIf="loading"> Loading squads</p>
-            <app-squad-list></app-squad-list>
-          </ol>
-        </div>
+        <ol class="list-decimal m-2 p-2">
+          <p *ngIf="loading">Loading squads</p>
+          <app-squad-list></app-squad-list>
+        </ol>
       </div>
     </div>
+  </div>
 </main>

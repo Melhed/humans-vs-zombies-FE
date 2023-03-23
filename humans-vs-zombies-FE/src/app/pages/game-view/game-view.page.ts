@@ -22,9 +22,9 @@ export class GameViewPage implements OnInit {
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
 
-  showModal = false;
-  toggleModal() {
-    this.showModal = !this.showModal;
+  showCreateMissionModal = false;
+  toggleCreateMissionModal() {
+    this.showCreateMissionModal = !this.showCreateMissionModal;
   }
 
   showBiteCodeModal = false;

@@ -25,7 +25,8 @@
           required
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="killer"
-          type="text"
+          type="number"
+          value="{{ kill.killer }}"
           placeholder="{{ kill.killer }}"
         />
 
@@ -37,8 +38,8 @@
           required
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="victim"
-          type="text"
-          placeholder="{{ kill.victim }}"
+          type="number"
+          value="{{ kill.victim }}"
         />
 
         <label class="block text-gray-700 text-sm font-bold mb-2" for="story">
@@ -49,6 +50,7 @@
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="story"
           type="text"
+          value="{{ kill.story }}"
           placeholder="{{ kill.story }}"
         />
 
@@ -59,14 +61,16 @@
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lat"
-          type="text"
+          type="number"
+          value="{{ kill.lat }}"
           placeholder="Latitude"
         />
         <input
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lng"
-          type="text"
+          type="number"
+          value="{{ kill.lng }}"
           placeholder="Longitude"
         />
       </div>

@@ -45,6 +45,32 @@ export class KillService {
     });
   }
 
+  public updateKill(killUpdate: {
+    id: number;
+    story: string;
+    lat: number;
+    lng: number;
+    killer: number;
+    victim: number;
+    game: number;
+    timeOfDeath: string;
+  }): void {
+    this.http
+      .put<Kill>(
+        `${APIKill.replace('{gameId}', killUpdate.game + '')}/${killUpdate.id}`,
+        killUpdate
+      )
+      .subscribe({
+        next: () => {
+          this.fetchKills(killUpdate.game);
+          window.location.reload();
+        },
+        error: (error: HttpErrorResponse) => {
+          this._error = error.message;
+        },
+      });
+  }
+
   public addKill(killPostDTO: {
     killPosterId: number;
     killerId: number;
