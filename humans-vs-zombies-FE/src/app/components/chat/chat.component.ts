@@ -12,11 +12,11 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   styleUrls: [],
 })
 export class ChatComponent implements AfterViewInit {
+
   public _player?: any = undefined;
   public _chats: Chat[] = [];
   public game: Game | undefined = undefined;
   public squad: Squad | undefined = undefined;
-  private activeChat: string = 'GLOBAL';
   public globalColor = 'red';
   public factionColor = 'black';
   public squadColor = 'black';
@@ -33,6 +33,7 @@ export class ChatComponent implements AfterViewInit {
     this.chatService.globalChat.subscribe((chats: Chat[]) => {
       this._chats = chats;
     });
+    this.chatService.activeChat = "GLOBAL";
   }
 
   fetchChat(): void {
@@ -55,7 +56,7 @@ export class ChatComponent implements AfterViewInit {
     this.globalColor = 'red';
     this.factionColor = 'black';
     this.squadColor = 'black';
-    this.activeChat = 'GLOBAL';
+    this.chatService.activeChat = "GLOBAL";
     this.chatService.globalChat.subscribe((chats: Chat[]) => {
       this._chats = chats;
     });
@@ -65,7 +66,7 @@ export class ChatComponent implements AfterViewInit {
     this.globalColor = 'black';
     this.factionColor = 'red';
     this.squadColor = 'black';
-    this.activeChat = 'FACTION';
+    this.chatService.activeChat = "FACTION";
     this.chatService.factionChat.subscribe((chats: Chat[]) => {
       this._chats = chats;
     });
@@ -75,15 +76,14 @@ export class ChatComponent implements AfterViewInit {
     this.globalColor = 'black';
     this.factionColor = 'black';
     this.squadColor = 'red';
-    this.activeChat = 'SQUAD';
+    this.chatService.activeChat = "SQUAD";
     this.chatService.squadChat.subscribe((chats: Chat[]) => {
       this._chats = chats;
     });
-    console.log(this._chats);
   }
 
   public sendMessage(newMessage: string): void {
-    this.chatService.addMessage(newMessage, this.activeChat);
+    this.chatService.addMessage(newMessage);
 
     if (this.chatService.error !== '') {
       alert(this.chatService.error);

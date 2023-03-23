@@ -11,9 +11,9 @@ import { PlayerService } from './player.service';
 export class GameService {
   constructor(private readonly playerService: PlayerService) {}
 
-  public joinGame(gameId: number | undefined): void {
+  public async joinGame(gameId: number | undefined): Promise<void> {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
-    this.playerService.setPlayer(gameId, user!.id);
+    await this.playerService.setPlayer(gameId, user!.id);
     this.playerService.player.subscribe((player: Player | undefined) => {
       if (player === undefined) this.playerService.createPlayer(gameId, user!);
     });
