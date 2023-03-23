@@ -76,8 +76,13 @@ export class ChatService {
             factionMessages.push(message);
           }
         })
-        this.updateGlobalChat(globalMessages);
-        this.updateFactionChat(factionMessages);
+        if (this.activeChat == "GLOBAL") {
+          this.updateFactionChat(factionMessages);
+          this.updateGlobalChat(globalMessages);
+        } else {
+          this.updateGlobalChat(globalMessages);
+          this.updateFactionChat(factionMessages);
+        }
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.message);
