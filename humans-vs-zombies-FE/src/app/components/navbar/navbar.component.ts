@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Mission } from 'src/app/models/mission.model';
 import { environment } from 'src/environments/environment';
+import { Location } from '@angular/common';
+
 import keycloak from 'src/keycloak';
+import { Router } from '@angular/router';
 const {APIGames} = environment;
 @Component({
   selector: 'app-navbar',
@@ -38,6 +41,7 @@ export class NavbarComponent implements OnInit{
   }
 
   acceptedTime: boolean = true;
+  createdGame: boolean = false;
   showModal = false;
   showCreateGameModal = false;
   showAddMissionModal = false;
@@ -48,6 +52,9 @@ export class NavbarComponent implements OnInit{
 
   toggleCreateGameModal() {
     this.showCreateGameModal = !this.showCreateGameModal;
+  }
+  toggleameCreated(){
+    
   }
 
   toggleAddMissionModal() {
@@ -64,14 +71,20 @@ export class NavbarComponent implements OnInit{
     this._newGame = game;
 
     if (game.endTime > game.startTime){
+      this.createdGame = true;
       this.http.post(APIGames + "/add-new-game", game)
       .subscribe((res) => {
         console.log(res);
       });
+      this.location.go(this.location.path());
+      window.location.reload();
+      
     } else {
-      console.log("from else")
       this.acceptedTime = false;
     }
+    
+    
+    
 
   }
 
@@ -103,8 +116,18 @@ export class NavbarComponent implements OnInit{
 
     }
   }
+  submit(){
+    console.log("from submit");
+    this.location.replaceState(this.location.path());
+    this.router.navigateByUrl("/game-list-view");
 
-  constructor(
-    private readonly http: HttpClient,
-    public datepipe: DatePipe) {}
+
+  }
+
+  constructor(private readonly http: HttpClient,
+    private readonly location: Location,
+    public datepipe: DatePipe,
+    private readonly router: Router
+    ) {}
+
 }

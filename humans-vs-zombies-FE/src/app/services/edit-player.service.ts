@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Player } from '../models/player.model';
+import { PlayerListService } from './player-list.service';
 const {APIGames} = environment;
 
 @Injectable({
@@ -25,35 +25,24 @@ export class EditPlayerService {
     return this._loading;
   }
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient,
+  private readonly playerListService: PlayerListService) { }
 
-
-  public findAllPlayers(): void {
-    this._loading = true;
-    this.http.get<Player[]>(APIGames + "/3/player")
-    .pipe(
-      finalize(() => { //will run after last
-        this._loading = false;
-      })
-    )
-    .subscribe({
-      next: (players: Player[]) => {
-        this._players = players;
-        console.log("players " + this._players);
+  updateObjectProperty(playerId: number, stateValue: any) {
+    const player: Player | undefined = this.playerListService.playerById(playerId);
+    if(!player){
+      throw new Error("updatePlayer: No player with Id: " + playerId);
+    }
+    player.state = stateValue.states;
+    const url = `${APIGames}/${localStorage.getItem('game-id')}/player/${playerId}`;
+    return this.http.put(url, player).subscribe({
+      next:(response: any) => {
+        console.log("NEXT: ", response)
       },
-      error: (error: HttpErrorResponse) => {
-        this._error = error.message;
+      error:(error: HttpErrorResponse) => {
+        console.log("ERROR: ", error.message);
       }
-    })
+      
+    });;
   }
-
-  updatePlayerState(playerId: number, propertyValue: any): Observable<Player> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${APIGames}/${localStorage.getItem('id')}/player/${playerId}`;
-    const updatedFields = { ["state"]: propertyValue };
-    console.log("UPDATE")
-    return this.http.put<Player>(url, updatedFields, { headers });
-  }
-
-  
 }
