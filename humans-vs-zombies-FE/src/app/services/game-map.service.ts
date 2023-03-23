@@ -75,13 +75,13 @@ export class GameMapService {
   }
 
   public findCenter(
-    nwLat: any,
+    nwLat: number,
     nwLng: number,
     seLat: number,
     seLng: number
   ): Coordinate {
-    const centerLat: number = (seLat + nwLat) / 2;
-    const centerLng: number = (nwLng + seLng) / 2;
+    const centerLat: number = ((seLat - nwLat) / 2) + nwLat;
+    const centerLng: number = ((seLng - nwLng) / 2) + nwLng;
     return fromLonLat([centerLat, centerLng]);
   }
 

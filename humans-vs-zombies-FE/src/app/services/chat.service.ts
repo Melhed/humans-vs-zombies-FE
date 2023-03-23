@@ -31,8 +31,19 @@ export class ChatService {
 
   private _error: string = '';
 
+
   public get error(): string {
     return this._error;
+  }
+
+  private _activeChat: string = "";
+
+  public get activeChat() {
+    return this._activeChat;
+  }
+
+  public set activeChat(activeChat: string) {
+    this._activeChat = activeChat;
   }
 
   private updateGlobalChat(chats: Chat[]) {
@@ -73,9 +84,14 @@ export class ChatService {
           ) {
             factionMessages.push(message);
           }
-        });
-        this.updateGlobalChat(globalMessages);
-        this.updateFactionChat(factionMessages);
+        })
+        if (this.activeChat == "GLOBAL") {
+          this.updateFactionChat(factionMessages);
+          this.updateGlobalChat(globalMessages);
+        } else {
+          this.updateGlobalChat(globalMessages);
+          this.updateFactionChat(factionMessages);
+        }
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -101,17 +117,15 @@ export class ChatService {
       });
   }
 
-  addMessage(newMessage: string, type: string): void {
+  addMessage(newMessage: string): void {
     const player: any = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
     const current = new Date();
     let chatDTO: Object = {};
     let url = `${APIGames}/${game?.id}/chat`;
-    console.log(squad);
-
-    switch (type) {
-      case 'GLOBAL':
+    switch (this._activeChat) {
+      case "GLOBAL":
         chatDTO = {
           id: null,
           message: newMessage,
