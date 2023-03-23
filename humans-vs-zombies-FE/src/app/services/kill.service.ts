@@ -35,7 +35,7 @@ export class KillService {
     return this._loading;
   }
 
-  public fetchKills(gameId: number): Observable<Kill[] | void> {
+  public fetchKills(gameId: number | undefined): Observable<Kill[] | void> {
     return this.http
       .get<Kill[]>(`${APIKill.replace('{gameId}', gameId + '')}`)
       .pipe(catchError(async (err) => console.log(err)));

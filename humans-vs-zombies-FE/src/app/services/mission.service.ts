@@ -11,7 +11,7 @@ const { APIMission, APIKey } = environment;
 })
 export class MissionService {
   constructor(private readonly http: HttpClient) {}
-  
+
   private _missions: Mission[] = [];
   private _error: String = '';
 
@@ -28,7 +28,7 @@ export class MissionService {
     return this._loading;
   }
 
-  public fetchMissions(gameId: number): Observable<Mission[] | void> {
+  public fetchMissions(gameId: number | undefined): Observable<Mission[] | void> {
     console.log(`${APIMission.replace('{gameId}', gameId + '')}`);
     return this.http.get<Mission[]>(`${APIMission.replace('{gameId}', (gameId) + '')}`)
     .pipe(catchError(async (err) => console.log(err)));

@@ -1,10 +1,11 @@
 export interface Player {
 
     id: number;
+    state: string,
     biteCode: string;
     isHuman: boolean;
-    is_patient_zero: boolean;
-    state: playerState; //TODO: does this enum work?
+    isPatientZero?: boolean;
+    user: string;
     game: number;
     hvzuser_id: number;
 }
