@@ -20,6 +20,7 @@ import { RefreshTokenHttpInterceptor } from './interceptors/refresh-token-http.i
 import { ChatComponent } from './components/chat/chat.component';
 import { EditPlayerPage } from './pages/edit-player/edit-player.page';
 import { PlayerListComponent } from './components/player-list/player-list.component';
+import { KillModalComponent } from './components/modals/kill-modal/kill-modal.component';
 import { DatePipe } from '@angular/common';
 import { AddMissionComponent } from './components/add-mission/add-mission.component';
 import { CreateGameComponent } from './components/create-game/create-game.component';
@@ -43,6 +44,7 @@ import { CreateGameComponent } from './components/create-game/create-game.compon
     ChatComponent,
     AddMissionComponent,
     CreateGameComponent,
+    KillModalComponent,
   ],
   imports: [
     //Modules
@@ -63,9 +65,8 @@ import { CreateGameComponent } from './components/create-game/create-game.compon
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpAuthInterceptor,
-      multi: true
-    }
-
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

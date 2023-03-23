@@ -4,7 +4,6 @@ import { GameListService } from 'src/app/services/game-list.service';
 import { KillService } from 'src/app/services/kill.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
-import { GameMarkerService } from 'src/app/services/game-marker.service';
 
 @Injectable()
 @Component({
@@ -16,9 +15,8 @@ export class GameViewPage implements OnInit {
   constructor(
     private readonly squadListService: SquadListService,
     private readonly gameListService: GameListService,
-    private readonly killService: KillService,
-  ) { }
-
+    private readonly killService: KillService
+  ) {}
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
@@ -33,7 +31,12 @@ export class GameViewPage implements OnInit {
     this.showBiteCodeModal = !this.showBiteCodeModal;
   }
 
-  addKill(kill : {biteCode: string, story: string, lat: string, long: string}) {
+  addKill(kill: {
+    biteCode: string;
+    story: string;
+    lat: string;
+    long: string;
+  }) {
     const player: any = StorageUtil.storageRead(StorageKeys.Player);
     const killInfo = {
       killPosterId: player.id,
@@ -41,13 +44,13 @@ export class GameViewPage implements OnInit {
       biteCode: kill.biteCode,
       story: kill.story,
       lat: kill.lat,
-      lng: kill.long
-    }
+      lng: kill.long,
+    };
     this.killService.addKill(killInfo);
     this.toggleBiteCodeModal();
     if (this.killService.mostRecentKill !== undefined) {
       /** TODO: create marker */
-      alert("Bite has been registered");
+      alert('Bite has been registered');
     } else {
       alert(this.killService.error);
     }
@@ -63,10 +66,5 @@ export class GameViewPage implements OnInit {
   ngOnInit(): void {
     this.squadListService.findAllSquads();
     this.gameToShow = StorageUtil.storageRead(StorageKeys.Game);
-    // this.gameListService
-    //   .getGameById(this.gameToShow)
-    //   .subscribe((game) => {
-    //     this.gameToShow = game;
-    //   });
   }
 }

@@ -1,8 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Map } from 'ol';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Map, Overlay } from 'ol';
+import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
 import { Kill } from 'src/app/models/kill.model';
+import { MarkerType } from 'src/app/models/marker.model';
 import { Marker } from 'src/app/models/marker.model';
 import { Mission } from 'src/app/models/mission.model';
 import { GameMapService } from 'src/app/services/game-map.service';
@@ -17,40 +26,96 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   templateUrl: './game-map.component.html',
   styleUrls: ['.//game-map.component.css'],
 })
-export class GameMapComponent implements OnInit {
-  private gameMap?: Map;
-  private kills?: Kill[] | undefined;
-  private missions?: Mission[] | undefined;
-
+export class GameMapComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly gameMapService: GameMapService,
     private readonly gameService: GameService,
     private readonly killService: KillService,
     private readonly missionService: MissionService,
-    private readonly gameMarkerService: GameMarkerService,
+    private readonly gameMarkerService: GameMarkerService
   ) {}
 
+  @ViewChild('popupcontainer') popupContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('popupinfo') popupInfo!: ElementRef<HTMLDivElement>;
+  private _gameMap?: Map;
+  private _showModal: boolean = false;
+  private _currentMarkerData?: any = undefined;
+  private _currentMarkerType?: MarkerType = undefined;
+
+  public get currentMarkerData(): any {
+    return this._currentMarkerData;
+  }
+
+  public get currentMarkerType(): any {
+    return this._currentMarkerType;
+  }
+
+  public set currentMarkerData(currentData: any) {
+    this._currentMarkerData = currentData;
+  }
+
+  public set showModal(showModal: boolean) {
+    this._showModal = showModal;
+  }
+
+  public get showModal(): boolean {
+    return this._showModal;
+  }
+
   ngOnInit(): void {
-    // this.kills = this.killService.fetchKills(1).subscribe((kills) => {
-    //   if (kills !== null) return kills;
-    // });
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
-    this.gameMap = this.gameMapService.createGameMap(
+    this._gameMap = this.gameMapService.createGameMap(
       game!.nwLat,
       game!.nwLng,
       game!.seLat,
       game!.seLng
     );
-    this.killService.fetchKills(game!.id);
-    this.kills = this.killService.kills;
     this.missionService.fetchMissions(game?.id);
-    this.missions = this.missionService.missions;
+    this.killService.fetchKills(game!.id!);
 
-    let killLayer = this.gameMarkerService.createKillMarkerLayer(this.kills);
-    let missionLayer = this.gameMarkerService.createMissionMarkers(this.missions);
+    this.killService.kills.subscribe((kills: Kill[]) => {
+      if (kills[0]) {
+        const killLayer: VectorLayer<VectorSource> =
+          this.gameMarkerService.createKillMarkerLayer(kills);
 
-    this.gameMap = this.gameMapService.map;
-    this.gameMap!.addLayer(killLayer);
-    this.gameMap?.addLayer(missionLayer);
+        this._gameMap!.addLayer(killLayer);
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this._gameMap!.on('click', (e) => {
+      const feature = this._gameMap!.forEachFeatureAtPixel(
+        e.pixel,
+        function (feature) {
+          return feature;
+        }
+      );
+
+      if (feature) {
+        if (
+          this.currentMarkerData === undefined ||
+          this.currentMarkerType !== feature.getProperties()['type'] ||
+          this.currentMarkerData.id !== feature.getProperties()['id']
+        ) {
+          this.gameMarkerService.fetchMarkerData(feature.getProperties());
+          this.gameMarkerService.clickedMarkerData.subscribe((data) => {
+            if (data.killer) this.setKillerMarkerData(data);
+            console.log('called');
+          });
+        }
+
+        this.showModal = true;
+      }
+    });
+  }
+
+  receiveDisableModal($event: boolean) {
+    this._showModal = $event;
+  }
+
+  setKillerMarkerData(kill: Kill): void {
+    this._currentMarkerType = MarkerType.KILL;
+    this._currentMarkerData = kill;
   }
 }

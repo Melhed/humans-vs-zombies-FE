@@ -10,11 +10,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 const { APIGames } = environment;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayerService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   private _player$ = new BehaviorSubject<Player | undefined>(undefined);
   player = this._player$.asObservable();
@@ -24,35 +23,40 @@ export class PlayerService {
   }
 
   public createPlayer(gameId: number | undefined, user: User): void {
-    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user)
-    .subscribe({
+    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
       next: (player: Player) => {
+        console.log(player);
+
+        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
         this.updatePlayer(player);
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
-      }
-    })
+      },
+    });
   }
 
-  public checkPlayer(gameId: number | undefined, userId: string): Observable<Player | void> {
-    return this.http.get<Player>(`${APIGames}/${gameId}/player/user/${userId}`).pipe(
-      catchError(async (err) => console.log(err))
-    );
+  public checkPlayer(
+    gameId: number | undefined,
+    userId: string
+  ): Observable<Player | void> {
+    return this.http
+      .get<Player>(`${APIGames}/${gameId}/player/user/${userId}`)
+      .pipe(catchError(async (err) => console.log(err)));
   }
 
   public setPlayer(gameId: number | undefined, userId: string): void {
-    this.http.get<Player>(`${APIGames}/${gameId}/player/user/${userId}`)
-    .subscribe({
-      next: (player: Player) => {
-        this.updatePlayer(player);
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
-        console.log(StorageUtil.storageRead<Player>(StorageKeys.Player));
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      }
-    })
+    this.http
+      .get<Player>(`${APIGames}/${gameId}/player/user/${userId}`)
+      .subscribe({
+        next: (player: Player) => {
+          this.updatePlayer(player);
+          StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
+          console.log(StorageUtil.storageRead<Player>(StorageKeys.Player));
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
   }
 }
