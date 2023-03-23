@@ -52,7 +52,7 @@ export class GameMarkerService {
             mission.lng,
             mission.lat,
             MarkerType.MISSION,
-            mission.id!
+            mission.missionID!
           )
         );
       }
@@ -83,7 +83,7 @@ export class GameMarkerService {
           mission.lng,
           mission.lat,
           MarkerType.KILL,
-          mission.id!
+          mission.missionID!
         );
         features.push(marker);
       }

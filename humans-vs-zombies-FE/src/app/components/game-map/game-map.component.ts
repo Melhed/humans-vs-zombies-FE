@@ -71,8 +71,15 @@ export class GameMapComponent implements OnInit, AfterViewInit {
       game!.seLat,
       game!.seLng
     );
-    this.missionService.fetchMissions(game?.id);
+    this.missionService.fetchMissions();
     this.killService.fetchKills(game!.id!);
+
+    this.missionService.missions.subscribe((missions: Mission[]) => {
+      if(missions[0]) {
+        const missionLayer: VectorLayer<VectorSource> = this.gameMarkerService.createMissionMarkerLayer(missions);
+        this._gameMap?.addLayer(missionLayer);
+      }
+    })
 
     this.killService.kills.subscribe((kills: Kill[]) => {
       if (kills[0]) {

@@ -1,7 +1,7 @@
 export interface Mission {
-  id?: number;
-  name: String;
-  description?: String;
+  missionID?: number;
+  name: string;
+  description?: string;
   startTime?: Date;
   endTime?: Date;
   lat?: number;
