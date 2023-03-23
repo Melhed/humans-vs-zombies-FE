@@ -57,10 +57,6 @@ export class GameViewPage implements OnInit {
     }
   }
 
-  get squads(): Squad[] {
-    return this.squadListService.squads;
-  }
-
   get loading(): boolean {
     return this.squadListService.loading;
   }
@@ -70,10 +66,11 @@ export class GameViewPage implements OnInit {
 
   ngOnInit(): void {
     this.squadListService.findAllSquads();
-    this.gameListService
-      .getGameById(localStorage.getItem('game-id'))
-      .subscribe((game) => {
-        this.gameToShow = game;
-      });
+    this.gameToShow = StorageUtil.storageRead(StorageKeys.Game);
+    // this.gameListService
+    //   .getGameById(this.gameToShow)
+    //   .subscribe((game) => {
+    //     this.gameToShow = game;
+    //   });
   }
 }

@@ -7,14 +7,18 @@ import {
 } from '@angular/core';
 import { Map, Overlay } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
+import { StorageKeys } from 'src/app/consts/storage-keys.enum';
+import { Game } from 'src/app/models/game.model';
 import VectorSource from 'ol/source/Vector';
 import { Kill } from 'src/app/models/kill.model';
 import { MarkerType } from 'src/app/models/marker.model';
 import { Marker } from 'src/app/models/marker.model';
 import { Mission } from 'src/app/models/mission.model';
 import { GameMapService } from 'src/app/services/game-map.service';
-import { GameMarkerService } from 'src/app/services/game-marker.service';
+import { GameService } from 'src/app/services/game.service';
 import { KillService } from 'src/app/services/kill.service';
+import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { MissionService } from 'src/app/services/mission.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
@@ -26,8 +30,10 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 export class GameMapComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly gameMapService: GameMapService,
-    private readonly gameMarkerService: GameMarkerService,
-    private readonly killService: KillService
+    private readonly gameService: GameService,
+    private readonly killService: KillService,
+    private readonly missionService: MissionService,
+    private readonly gameMarkerService: GameMarkerService
   ) {}
 
   @ViewChild('popupcontainer') popupContainer!: ElementRef<HTMLDivElement>;
@@ -60,13 +66,14 @@ export class GameMapComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.killService.fetchKills(localStorage.getItem('game-id')!);
 
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     this._gameMap = this.gameMapService.createGameMap(
-      -408.75,
-      80.78,
-      -344.02,
-      71.73
+      game!.nwLat,
+      game!.nwLng,
+      game!.seLat,
+      game!.seLng
     );
-    this._gameMap = this.gameMapService.map;
+    this.missionService.fetchMissions(game?.id);
 
     this.killService.kills.subscribe((kills: Kill[]) => {
       if (kills[0]) {

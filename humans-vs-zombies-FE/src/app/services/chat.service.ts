@@ -2,9 +2,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Chat } from '../models/chat.model';
-import { Player } from '../models/player.model';
 import { environment } from 'src/environments/environment';
 import { StorageUtil } from '../utils/storage.util';
+import { Game } from '../models/game.model';
+import { BehaviorSubject } from 'rxjs';
+import { SquadListService } from './squad-list.service';
+import { Squad } from '../models/squad.model';
 
 const { APIGames } = environment;
 
@@ -12,31 +15,151 @@ const { APIGames } = environment;
   providedIn: 'root',
 })
 export class ChatService {
-  private _fractionChat: Chat[] = [];
-  private _squadChat: Chat[] = [];
+  constructor(
+    private readonly http: HttpClient,
+    private readonly squadService: SquadListService
+  ) {}
 
-  public get fractionChat(): Chat[] {
-    return this._fractionChat;
+  private _globalChat$ = new BehaviorSubject<Chat[]>([]);
+  globalChat = this._globalChat$.asObservable();
+
+  private _factionChat$ = new BehaviorSubject<Chat[]>([]);
+  factionChat = this._factionChat$.asObservable();
+
+  private _squadChat$ = new BehaviorSubject<Chat[]>([]);
+  squadChat = this._squadChat$.asObservable();
+
+  private _error: string = '';
+
+  public get error(): string {
+    return this._error;
   }
 
-  public get squadChat(): Chat[] {
-    return this._squadChat;
+  private updateGlobalChat(chats: Chat[]) {
+    this._globalChat$.next(chats);
   }
 
-  constructor(private readonly http: HttpClient) {}
+  private updateFactionChat(chats: Chat[]) {
+    this._factionChat$.next(chats);
+  }
 
-  public findAllChats(): void {
-    // const gameId: any = sessionStorage.getItem('game-id');
-    // const player: any = StorageUtil.storageRead(StorageKeys.Player);
-    // console.log(player);
-    // this.http.get<Chat[]>(`${APIGames}/${gameId}/chat?player-is-human=${player.human}`)
-    // .subscribe({
-    //   next: (chat: Chat[]) => {
-    //     this._fractionChat = chat;
-    //   },
-    //   error: (err: HttpErrorResponse) => {
-    //     console.log(err.message);
-    //   }
-    // })
+  private updateSquadChat(chats: Chat[]) {
+    this._squadChat$.next(chats);
+  }
+
+  public findAllChats(
+    gameId: number | undefined,
+    player: any,
+    squad: Squad
+  ): void {
+    this.findGlobalAndFactionChat(gameId, player.human);
+    if (squad !== undefined) this.findSquadChat(gameId, player, squad);
+  }
+
+  private findGlobalAndFactionChat(
+    gameId: number | undefined,
+    playerIsHuman: boolean
+  ): void {
+    this.http.get<Chat[]>(`${APIGames}/${gameId}/chat`).subscribe({
+      next: (chat: Chat[]) => {
+        const globalMessages: Chat[] = [];
+        const factionMessages: Chat[] = [];
+        chat.map((message: any) => {
+          if (
+            message.humanGlobal &&
+            message.zombieGlobal &&
+            message.squadId == null
+          ) {
+            globalMessages.push(message);
+          } else if (
+            (playerIsHuman && message.humanGlobal && message.squadId == null) ||
+            (!playerIsHuman && message.zombieGlobal && message.squadId == null)
+          ) {
+            factionMessages.push(message);
+          }
+        });
+        this.updateGlobalChat(globalMessages);
+        this.updateFactionChat(factionMessages);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err.message);
+      },
+    });
+  }
+
+  private findSquadChat(
+    gameId: number | undefined,
+    player: any,
+    squad: Squad
+  ): void {
+    this.http
+      .get<Chat[]>(`${APIGames}/${gameId}/squad/${squad.id}/chat`)
+      .subscribe({
+        next: (chat: Chat[]) => {
+          console.log(chat);
+          this.updateSquadChat(chat);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err.message);
+        },
+      });
+  }
+
+  addMessage(newMessage: string, type: string): void {
+    const player: any = StorageUtil.storageRead(StorageKeys.Player);
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const squad: Squad | undefined = StorageUtil.storageRead(StorageKeys.Squad);
+    const current = new Date();
+    let chatDTO: Object = {};
+    let url = `${APIGames}/${game?.id}/chat`;
+    console.log(squad);
+
+    switch (type) {
+      case 'GLOBAL':
+        chatDTO = {
+          id: null,
+          message: newMessage,
+          timestamp: current.getTime(),
+          isHumanGlobal: true,
+          isZombieGlobal: true,
+          playerId: player.id,
+          gameId: game?.id,
+          squadId: null,
+        };
+        break;
+      case 'FACTION':
+        chatDTO = {
+          id: null,
+          message: newMessage,
+          timestamp: current.getTime(),
+          isHumanGlobal: player.human,
+          isZombieGlobal: !player.human,
+          playerId: player.id,
+          gameId: game?.id,
+          squadId: null,
+        };
+        break;
+      case 'SQUAD':
+        chatDTO = {
+          id: null,
+          message: newMessage,
+          timestamp: current.getTime(),
+          isHumanGlobal: player.human,
+          isZombieGlobal: !player.human,
+          playerId: player.id,
+          gameId: game?.id,
+          squadId: squad?.id,
+        };
+        url = `${APIGames}/${game?.id}/squad/${squad?.id}/chat`;
+        break;
+    }
+    this.http.post<Chat>(url, chatDTO).subscribe({
+      next: () => {
+        this.findAllChats(game?.id, player, squad!);
+      },
+      error: (err: HttpErrorResponse) => {
+        this._error = err.message;
+      },
+    });
   }
 }

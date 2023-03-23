@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
   declarations: [
     //Components
     AppComponent,
+    ChatComponent,
     LoginPage,
     GameViewPage,
     GameListViewPage,
