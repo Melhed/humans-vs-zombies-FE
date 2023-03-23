@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Player } from 'src/app/models/player.model';
 import { Squad } from 'src/app/models/squad.model';
 import { SquadListService } from 'src/app/services/squad-list.service';
-import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
@@ -14,7 +13,6 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 export class SquadListComponent implements OnInit {
   constructor(
     private readonly squadListService: SquadListService,
-    private readonly playerService: PlayerService
   ) {}
   private _squads: Squad[] = [];
   private _player?: Player = undefined;
