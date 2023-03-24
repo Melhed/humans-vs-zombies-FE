@@ -32,7 +32,6 @@ export class MissionService {
   public fetchMissions(
     gameId: number | undefined
   ): Observable<Mission[] | void> {
-    console.log(`${APIMission.replace('{gameId}', gameId + '')}`);
     return this.http
       .get<Mission[]>(`${APIMission.replace('{gameId}', gameId + '')}`)
       .pipe(catchError(async (err) => console.log(err)));

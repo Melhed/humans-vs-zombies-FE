@@ -31,7 +31,6 @@ export class ChatService {
 
   private _error: string = '';
 
-
   public get error(): string {
     return this._error;
   }

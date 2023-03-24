@@ -40,7 +40,7 @@ export class CreateGameComponent {
   }
 
     onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String, maxPlayers: number, registeredPlayers: number} ){
-    game.registeredPlayers = 0;
+      game.registeredPlayers = 0;
       this._newGame = game;
     console.log(game.maxPlayers);
 

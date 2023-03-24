@@ -5,6 +5,7 @@ import { Game } from 'src/app/models/game.model';
 import { GameListService } from 'src/app/services/game-list.service';
 import { GameService } from 'src/app/services/game.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
+import keycloak from 'src/keycloak';
 
 @Component({
   selector: 'app-game-list',
@@ -21,22 +22,29 @@ export class GameListComponent {
 
   @Input() games: Game[] = [];
 
+  saveGameToStorageAndRedirect(game: Game) {
+    this.gameListService.gameId = game.id;
+    StorageUtil.storageSave(StorageKeys.Game, game);
+    this.router.navigateByUrl("/game-view");
+  }
+
   onJoinGame(game: Game) {
-    if(game.registeredPlayers < game.maxPlayers) {
+    if(game.registeredPlayers < game.maxPlayers && keycloak.authenticated) {
       game.registeredPlayers++;
-      console.log("REGISTERED: " + game.registeredPlayers);
       this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
     } else if (game.registeredPlayers >= game.maxPlayers) {
       alert("This game is full");
+    } else if (!keycloak.authenticated) {
+      alert("You need to login");
     }
     this.gameService.joinGame(game.id);
-    this.onGameDetails(game);
+    this.saveGameToStorageAndRedirect(game);
   }
 
   onGameDetails(game: Game) {
-    this.gameListService.gameId = game.id;
-    StorageUtil.storageSave(StorageKeys.Game, game);
-    console.log("AFTER: " + game.registeredPlayers)
-    this.router.navigateByUrl("/game-view");
+    if(!keycloak.authenticated) {
+      alert("You need to login");
+    }
+    this.saveGameToStorageAndRedirect(game);
   }
 }

@@ -25,10 +25,8 @@ export class NavbarComponent implements OnInit{
 
   ngOnInit(): void {
     this.isAuthenticated = Boolean(keycloak.authenticated);
-    console.log(this.role);
     if(keycloak.realmAccess?.roles.includes("hvz-admin"))
       this.role = "hvz-admin";
-    console.log(this.role);
   }
 
   constructor() {}
