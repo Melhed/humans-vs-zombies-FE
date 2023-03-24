@@ -21,6 +21,7 @@ import VectorSource from 'ol/source/Vector';
 import { Player, PlayerState } from 'src/app/models/player.model';
 import { CheckinService } from 'src/app/services/squad-checkin.service';
 import { SquadCheckin } from 'src/app/models/squad-checkin.model';
+import { Mission } from 'src/app/models/mission.model';
 
 @Component({
   selector: 'app-game-map',

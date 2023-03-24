@@ -88,6 +88,7 @@ export class GameListComponent implements OnInit{
     };
 
     this.reactiveForm.setValue(contact);
+  }
 
   saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
@@ -134,3 +135,7 @@ export class GameListComponent implements OnInit{
 
   }
 }
+function saveGameToStorageAndRedirect(game: any, Game: any) {
+  throw new Error('Function not implemented.');
+}
+
