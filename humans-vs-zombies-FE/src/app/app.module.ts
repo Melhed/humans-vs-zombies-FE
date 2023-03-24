@@ -24,6 +24,7 @@ import { KillModalComponent } from './components/modals/kill-modal/kill-modal.co
 import { DatePipe } from '@angular/common';
 import { CreateMissionModalComponent } from './components/modals/create-mission-modal/create-mission-modal.component';
 import { MissionModalComponent } from './components/modals/mission-modal/mission-modal.component';
+import { SquadCheckinModalComponent } from './components/modals/squad-checkin-modal/squad-checkin-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MissionModalComponent } from './components/modals/mission-modal/mission
     KillModalComponent,
     CreateMissionModalComponent,
     MissionModalComponent,
+    SquadCheckinModalComponent,
   ],
   imports: [
     //Modules

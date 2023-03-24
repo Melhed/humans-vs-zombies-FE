@@ -14,16 +14,14 @@ const { APIMission, APIKey } = environment;
 })
 export class MissionService {
   constructor(private readonly http: HttpClient) {}
+  private _error: String = '';
+  private _loading: boolean = false;
   private _missions$ = new BehaviorSubject<Mission[]>([]);
   missions = this._missions$.asObservable();
 
   updateMissions(missions: Mission[]) {
     this._missions$.next(missions);
   }
-
-  private _error: String = '';
-
-  private _loading: boolean = false;
 
   get error(): String {
     return this._error;

@@ -1,5 +1,5 @@
 export interface SquadCheckin {
-  id: number;
+  id?: number;
   timeStamp: string;
   lat: number;
   lng: number;
