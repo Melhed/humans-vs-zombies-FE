@@ -14,25 +14,8 @@ const { APIGames } = environment;
 })
 export class PlayerService {
   constructor(private readonly http: HttpClient) {}
-
   private _player$ = new BehaviorSubject<Player | undefined>(undefined);
   player = this._player$.asObservable();
-
-  private updatePlayer(player: Player) {
-    this._player$.next(player);
-  }
-
-  public createPlayer(gameId: number | undefined, user: User): void {
-    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
-      next: (player: Player) => {
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
-        this.updatePlayer(player);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
-  }
 
   createPlayerAdmin(gameId: number | undefined, user: User) {
     const playerAdminDTO = {
@@ -56,8 +39,32 @@ export class PlayerService {
     });
   }
 
-  public getPlayerById(gameId: number, playerId: number): Observable<Player | void> {
-    return this.http.get<Player>(`${APIGames}/${gameId}/player/${playerId}`).pipe(catchError(async (err) => console.log(err)));
+
+  private updatePlayer(player: Player) {
+    StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
+    this._player$.next(player);
+  }
+
+  public createPlayer(gameId: number | undefined, user: User): void {
+    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
+      next: (player: Player) => {
+        this.updatePlayer(player);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+
+  public handlePlayerAccess(gameId: number, user: User) {
+    this.checkPlayer(gameId, user.id).subscribe((fetchedPlayer: Player | void) => {
+      if(!fetchedPlayer) {
+        console.log("... creating new player");
+        this.createPlayer(gameId, user);
+        return;
+      }
+      this.updatePlayer(fetchedPlayer);
+    })
   }
 
   public checkPlayer(

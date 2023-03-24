@@ -1,11 +1,16 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
-import { Checkin } from '../models/squad-checkin.model';
+import { SquadCheckin } from '../models/squad-checkin.model';
 import { Player } from '../models/player.model';
 import { StorageUtil } from '../utils/storage.util';
+import { SquadListService } from './squad-list.service';
+import { Game } from '../models/game.model';
+import { SquadMember } from '../models/squad-member.model';
+import { Squad } from '../models/squad.model';
+import { SquadService } from './squad.service';
 
 const { APIGames, APIKey } = environment;
 
@@ -13,13 +18,14 @@ const { APIGames, APIKey } = environment;
   providedIn: 'root',
 })
 export class CheckinService {
-  private _checkins: Checkin[] = [];
+  constructor(private readonly http: HttpClient, private readonly squadListService: SquadListService, private readonly squadService: SquadService) {}
   private _error: String = '';
-
   private _loading: boolean = false;
+  private _checkins$ = new BehaviorSubject<SquadCheckin[]>([]);
+  checkins = this._checkins$.asObservable();
 
-  get checkins(): Checkin[] {
-    return this._checkins;
+  updateCheckins(checkins: SquadCheckin[]) {
+    this._checkins$.next(checkins);
   }
 
   get error(): String {
@@ -29,32 +35,37 @@ export class CheckinService {
     return this._loading;
   }
 
-  constructor(private readonly http: HttpClient) {}
+  public findCheckins() {
+    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    this.squadListService.squads.subscribe((squads: Squad[]) => {
+      squads.forEach((squad: Squad) => {
 
-  public findSquadCheckins(): void {
-    const currentPlayer: Player | undefined = StorageUtil.storageRead(
-      StorageKeys.Player
-    );
+        if(squad.gameId === game!.id) {
+          this.squadService.findSquadMembers(squad.id);
+          this.squadService.squadMembers.subscribe((fetchedSquadMembers: SquadMember[]) => {
+            fetchedSquadMembers.forEach((member: SquadMember) => {
+              if(player!.id === member.playerId) {
+                this.fetchSquadCheckins(member.squadId);
+                return;
+              }
+            })
+          });
+        }
+
+      })
+    })
+  }
+
+
+  private fetchSquadCheckins(squadId: number): void {
+    const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    
     this._loading = true;
 
-    // TODO: Find squad through playerId and squad member service, fetch checkins
-
-    // this.http
-    //   .get<Checkin[]>(
-    //     `${APIGames}/${localStorage.getItem('id')}/squad/${squadId}/check-in`
-    //   )
-    //   .pipe(
-    //     finalize(() => {
-    //       this._loading = false;
-    //     })
-    //   )
-    //   .subscribe({
-    //     next: (checkins: Checkin[]) => {
-    //       this._checkins = checkins;
-    //     },
-    //     error: (error: HttpErrorResponse) => {
-    //       this._error = error.message;
-    //     },
-    //   });
+    this.http.get<SquadCheckin[]>(`${APIGames}/${game!.id}/squad/${squadId}/check-in`).subscribe((squadCheckins: SquadCheckin[]) => {
+      this.updateCheckins(squadCheckins)
+      console.log(squadCheckins);
+    })
   }
 }

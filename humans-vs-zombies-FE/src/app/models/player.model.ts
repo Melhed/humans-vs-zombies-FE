@@ -9,9 +9,9 @@ export interface Player {
 }
 
 
-export enum playerState {
-    ADMINISTRATOR,
-    NO_SQUAD,
-    SQUAD_MEMBER,
-    UNREGISTERED
+export enum PlayerState {
+    ADMINISTRATOR = "ADMINISTRATOR",
+    NO_SQUAD = "NO_SQUAD",
+    SQUAD_MEMBER = "SQUAD_MEMBER",
+    UNREGISTERED = "UNREGISTERED"
 }
