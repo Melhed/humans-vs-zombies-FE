@@ -125,17 +125,24 @@
   >
     <!--header-->
     <div
-      class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+      class="flex justify-between p-5 border-b border-solid border-slate-200 rounded-t"
     >
       <h2 class="text-3xl font-semibold">Kill #{{ kill.id }}</h2>
-      <button
-        *ngIf="isAdmin"
-        class="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button"
-        (click)="inEditMode = true"
+      <div *ngIf="isAdmin">
+        <button
+        (click)="deleteKill(kill.id)"
+        class="float-right text-red-500 background-transparent font-bold uppercase pr-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
       >
-        Edit
+        Delete
       </button>
+        <button
+          class="float-right text-blue-500 background-transparent font-bold uppercase pr-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="inEditMode = true"
+        >
+          Edit
+        </button>
+      </div>
     </div>
     <!--body-->
     <div class="w-1/2 md:w-full relative p-6 flex-auto">

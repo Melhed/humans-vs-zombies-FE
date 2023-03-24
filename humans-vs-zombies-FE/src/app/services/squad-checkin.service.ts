@@ -57,7 +57,6 @@ export class CheckinService {
     })
   }
 
-
   private fetchSquadCheckins(squadId: number): void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     
