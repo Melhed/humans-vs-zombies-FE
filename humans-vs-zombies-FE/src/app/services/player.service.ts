@@ -19,7 +19,6 @@ export class PlayerService {
   player = this._player$.asObservable();
 
   private updatePlayer(player: Player) {
-    console.log("Update player: " + player);
     this._player$.next(player);
   }
 
@@ -48,7 +47,6 @@ export class PlayerService {
 
     this.http.post<Player>(`${APIGames}/${gameId}/player`, playerAdminDTO).subscribe({
       next: (player: any) => {
-        console.log(player);
         StorageUtil.storageSave<Player>(StorageKeys.Player, player);
         this.updatePlayer(player);
       },
@@ -56,6 +54,10 @@ export class PlayerService {
         console.log(error.message);
       },
     });
+  }
+
+  public getPlayerById(gameId: number, playerId: number): Observable<Player | void> {
+    return this.http.get<Player>(`${APIGames}/${gameId}/player/${playerId}`).pipe(catchError(async (err) => console.log(err)));
   }
 
   public checkPlayer(

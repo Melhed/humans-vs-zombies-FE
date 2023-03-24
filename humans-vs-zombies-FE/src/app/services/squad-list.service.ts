@@ -7,6 +7,7 @@ import { Game } from '../models/game.model';
 import { Player, playerState } from '../models/player.model';
 import { Squad } from '../models/squad.model';
 import { StorageUtil } from '../utils/storage.util';
+import { ChatService } from './chat.service';
 import { GameService } from './game.service';
 import { PlayerService } from './player.service';
 
@@ -65,7 +66,6 @@ export class SquadListService {
         next: () => {
           StorageUtil.storageSave(StorageKeys.Squad, squad);
           StorageUtil.storageRemove(StorageKeys.Player);
-          console.log(StorageUtil.storageRead(StorageKeys.Player));
           this.playerService.setPlayer(game?.id, player!.user);
         },
         error: (error: HttpErrorResponse) => {
