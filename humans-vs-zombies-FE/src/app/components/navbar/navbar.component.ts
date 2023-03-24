@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import keycloak from 'src/keycloak';
 
 @Component({
@@ -15,12 +14,6 @@ export class NavbarComponent implements OnInit{
 
   get authenticated(): boolean {
     return Boolean(keycloak.authenticated);
-  }
-
-  showModal = false;
-
-  toggleModal() {
-    this.showModal = !this.showModal;
   }
 
   ngOnInit(): void {

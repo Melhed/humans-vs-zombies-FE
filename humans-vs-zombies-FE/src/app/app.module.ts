@@ -28,6 +28,7 @@ import { CreateMissionModalComponent } from './components/modals/create-mission-
 import { MissionModalComponent } from './components/modals/mission-modal/mission-modal.component';
 import { CreateSquadCheckinModalComponent } from './components/modals/create-squad-checkin-modal/create-squad-checkin-modal.component';
 import { CheckinModalComponent } from './components/modals/checkin-modal/checkin-modal.component';
+import { RulesModalComponent } from './components/modals/rules-modal/rules-modal.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CheckinModalComponent } from './components/modals/checkin-modal/checkin
     MissionModalComponent,
     CreateSquadCheckinModalComponent,
     CheckinModalComponent,
+    RulesModalComponent
   ],
   imports: [
     //Modules
