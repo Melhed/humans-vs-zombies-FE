@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
@@ -73,8 +73,8 @@ export class KillService {
   }
 
   public addKill(killPostDTO: {
-    killPosterId: number;
-    killerId: number;
+    killPosterId: number | undefined;
+    killerId: number | undefined;
     biteCode: string;
     story: string;
     lat: string;

@@ -6,6 +6,7 @@ import { Game } from '../models/game.model';
 import { Player, PlayerState } from '../models/player.model';
 import { Squad } from '../models/squad.model';
 import { StorageUtil } from '../utils/storage.util';
+import { ChatService } from './chat.service';
 import { GameService } from './game.service';
 import { PlayerService } from './player.service';
 import { environment } from 'src/environments/environment';
@@ -18,8 +19,8 @@ export class SquadListService {
   constructor(
     private readonly http: HttpClient,
     private readonly gameService: GameService,
-    private readonly playerService: PlayerService
-  ) {}
+    private readonly playerService: PlayerService,
+  ) { }
 
   private _squads$ = new BehaviorSubject<Squad[]>([]);
   squads = this._squads$.asObservable();

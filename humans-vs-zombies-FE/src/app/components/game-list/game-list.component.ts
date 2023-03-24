@@ -4,8 +4,11 @@ import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
+import { Player } from 'src/app/models/player.model';
+import { User } from 'src/app/models/user.model';
 import { GameListService } from 'src/app/services/game-list.service';
 import { GameService } from 'src/app/services/game.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { environment } from 'src/environments/environment';
 const {APIGames} = environment;
@@ -21,6 +24,7 @@ export class GameListComponent implements OnInit{
     private readonly router: Router,
     private readonly gameListService: GameListService,
     private readonly gameService: GameService,
+    private readonly playerService: PlayerService,
     private readonly http: HttpClient
   ) {}
 
@@ -32,7 +36,7 @@ export class GameListComponent implements OnInit{
     nwLng: new FormControl(),
     seLat: new FormControl(),
     seLng:new FormControl()
-    
+
   })
 
   @Input() games: Game[] = [];
@@ -57,21 +61,21 @@ export class GameListComponent implements OnInit{
         seLat: this.reactiveForm.get("seLat")?.value,
         seLng: this.reactiveForm.get("seLng")?.value,
       }
-      
+
       this.reactiveForm.setValue(currentGameValues);
       this.gameListService.updateGame(currentGameValues);
       this.showUpdateGameModal = !this.showUpdateGameModal;
-      
-       
+
+
     }else{
       this.acceptedTime = false;
     }
-    
+
   }
 
   setDefault() {
     let currentGame = this.games.find((game) => {return game.id === Number(localStorage.getItem('game-id'))});
-    
+
     let contact = {
       name: currentGame?.name,
       startTime: currentGame?.startTime,
@@ -81,24 +85,35 @@ export class GameListComponent implements OnInit{
       seLat: currentGame?.seLat,
       seLng: currentGame?.seLng
     };
- 
+
     this.reactiveForm.setValue(contact);
-    
+
   }
 
-  onJoinGame(game: Game) {
+  public async onJoinGame(game: Game) {
     this.gameService.joinGame(game.id);
-    this.onGameDetails(game);
-  }
-
-  onGameDetails(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
+    await this.delay(100);
     this.router.navigateByUrl("/game-view");
   }
 
+  private async delay(ms: number) {
+    return await new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
-  deleteGame(gameId: number): void {
+  public async onGameDetails(game: Game) {
+    this.gameListService.gameId = game.id;
+    StorageUtil.storageSave(StorageKeys.Game, game);
+    const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
+    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
+    if (player === undefined)
+      this.playerService.setDummyPlayer(user!.id);
+    await this.delay(100);
+    this.router.navigateByUrl("/game-view");
+  }
+
+  public deleteGame(gameId: number): void {
     console.log(gameId);
     this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
 

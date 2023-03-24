@@ -77,8 +77,6 @@ export class ChatService {
     this.http.get<Chat[]>(`${APIGames}/${gameId}/chat`).subscribe({
       next: (chat: Chat[]) => {
         this.updateAdminChat(chat);
-        console.log(chat);
-
         const globalMessages: Chat[] = [];
         const factionMessages: Chat[] = [];
         chat.map((message: any) => {
