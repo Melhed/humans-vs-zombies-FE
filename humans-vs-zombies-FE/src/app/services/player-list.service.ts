@@ -46,7 +46,6 @@ export class PlayerListService {
     })
   }
   public playerById(id: number): Player | undefined{
-    console.log("the is ", id);
     return this._players.find(player => player.id === id);
   }
 }

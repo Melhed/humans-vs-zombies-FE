@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { UnaryOperator } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -49,7 +50,35 @@ export class GameListService {
     })
   }
 
-  public getGameById(id: any): Observable<Game> {
-    return this.http.get<Game>(`${APIGames}/${id}`);
+  
+  public gameById(): Game | undefined{
+    return this._games.find(game => game.id === Number(localStorage.getItem('game-id')));
+  }
+
+  updateGame(updatedGame: any) {
+    const game: Game | undefined = this.gameById();
+    if(!game){
+      throw new Error("updateGame: No game provided");
+    }
+    
+    game.name = updatedGame.name;
+    game.startTime = updatedGame.startTime;
+    game.endTime = updatedGame.endTime;
+    game.nwLat = updatedGame.nwLat;
+    game.seLat = updatedGame.seLat;
+    game.nwLng = updatedGame.nwLng;
+    game.seLng = updatedGame.seLng;
+
+    console.log("Game with new values ---> " , game.name);
+    const url = `${APIGames}/${localStorage.getItem('game-id')}`;
+    return this.http.put(url, game).subscribe({
+      next:(response: any) => {
+        console.log("NEXT: ", response)
+      },
+      error:(error: HttpErrorResponse) => {
+        console.log("ERROR: ", error.message);
+      }
+      
+    });;
   }
 }
