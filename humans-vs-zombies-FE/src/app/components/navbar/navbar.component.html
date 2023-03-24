@@ -4,10 +4,11 @@
       <img
         src="https://cdn-icons-png.flaticon.com/512/218/218153.png?w=1060&t=st=1678699409~exp=1678700009~hmac=7bd31a33b252527797d84fbf7e49e6864153bee6d006790b23958961c81f28b3"
         class="h-6 mr-3 sm:h-9"
-        alt="HUMANS vs ZOMBIES Logo"/>
+        alt="HUMANS vs ZOMBIES Logo"
+        />
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-        >HUMANS vs ZOMBIES</span>
+        class="self-center text-xl font-semibold whitespace-nowrap
+        dark:text-white">HUMANS vs ZOMBIES</span>
     </div>
     <div
       id="adminControls"
@@ -47,7 +48,11 @@
         <li>
           <div id="rules">
             <button
-              class="block py-2 pl-2 pr-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              class="block py-2 pl-2 pr-2 text-gray-700 rounded
+              hover:bg-gray-100 md:hover:bg-transparent md:border-0
+              md:hover:text-blue-700 md:p-0 dark:text-gray-400
+              md:dark:hover:text-white dark:hover:bg-gray-700
+              dark:hover:text-white md:dark:hover:bg-transparent"
               type="button"
               (click)="toggleModal()">
               Rules
@@ -97,9 +102,13 @@
                   </div>
                   <!--footer-->
                   <div
-                    class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    class="flex items-center justify-end p-6 border-t
+                    border-solid border-slate-200 rounded-b">
                     <button
-                      class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      class="text-red-500 background-transparent font-bold
+                      uppercase px-6 py-2 text-sm outline-none
+                      focus:outline-none mr-1 mb-1 ease-linear transition-all
+                      duration-150"
                       type="button"
                       (click)="toggleModal()">
                       Close
@@ -107,15 +116,14 @@
                   </div>
                   <div
                     *ngIf="showModal"
-                    class="opacity-25 fixed inset-0 z-40 bg-black"
-                  ></div>
+                    class="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </div>
               </div>
             </div>
           </div>
         </li>
         <li>
-         <app-login-component></app-login-component>
+          <app-login-component></app-login-component>
         </li>
       </ul>
     </div>

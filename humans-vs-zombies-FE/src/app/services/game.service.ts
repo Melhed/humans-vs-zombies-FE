@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import keycloak from 'src/keycloak';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
 import { Player } from '../models/player.model';
@@ -20,11 +21,17 @@ export class GameService {
     private readonly gameListService: GameListService,
     private readonly http: HttpClient,) {}
 
-  public async joinGame(gameId: number | undefined): Promise<void> {
+  public joinGame(gameId: number | undefined): void {
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
-    await this.playerService.setPlayer(gameId, user!.id);
+    this.playerService.setPlayer(gameId, user!.id);
     this.playerService.player.subscribe((player: Player | undefined) => {
-      if (player === undefined) this.playerService.createPlayer(gameId, user!);
+      if (player === undefined) {
+        if (keycloak.hasRealmRole('hvz-admin')) {
+          this.playerService.createPlayerAdmin(gameId, user!);
+          return;
+        }
+        this.playerService.createPlayer(gameId, user!);
+      }
     });
   }
 

@@ -19,9 +19,7 @@ export class SquadListComponent implements OnInit {
   public showCreateSquadModal = false;
 
   ngOnInit(): void {
-    console.log(StorageUtil.storageRead(StorageKeys.Player));
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
-
     this.squadListService.squads.subscribe((squads: Squad[]) => {
       if (squads[0]) this._squads = squads;
     });
@@ -39,28 +37,35 @@ export class SquadListComponent implements OnInit {
     return this._squads;
   }
 
-  joinSquad(squad: Squad): void {
-    const player: any = StorageUtil.storageRead(StorageKeys.Player);
-    this.squadListService.joinSquad(squad, player);
+  public async joinSquad(squad: Squad): Promise<void> {
+    this.squadListService.joinSquad(squad, this.player);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
+    await this.delay(100);
+    this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.ngOnInit();
-    //window.location.reload();
+    window.location.reload();
   }
 
-  createSquad(squadInfo: { name: string }): void {
+  private async delay(ms: number) {
+      return await new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  public async createSquad(squadInfo: { name: string }): Promise<void> {
     this.squadListService.createNewSquad(squadInfo.name, this._player);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
+    await this.delay(100);
+    this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.ngOnInit();
-    // window.location.reload();
+    window.location.reload();
   }
 
-  toggleCreateSquadModal(): void {
+  public toggleCreateSquadModal(): void {
     this.showCreateSquadModal = !this.showCreateSquadModal;
   }
 }

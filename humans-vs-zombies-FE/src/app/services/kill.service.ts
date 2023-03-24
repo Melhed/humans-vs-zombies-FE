@@ -1,11 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
 import { Kill } from '../models/kill.model';
 import { StorageUtil } from '../utils/storage.util';
+import { CheckinService } from './squad-checkin.service';
 
 const { APIKill, APIKey } = environment;
 
@@ -45,9 +46,35 @@ export class KillService {
     });
   }
 
+  public updateKill(killUpdate: {
+    id: number;
+    story: string;
+    lat: number;
+    lng: number;
+    killer: number;
+    victim: number;
+    game: number;
+    timeOfDeath: string;
+  }): void {
+    this.http
+      .put<Kill>(
+        `${APIKill.replace('{gameId}', killUpdate.game + '')}/${killUpdate.id}`,
+        killUpdate
+      )
+      .subscribe({
+        next: () => {
+          this.fetchKills(killUpdate.game);
+          window.location.reload();
+        },
+        error: (error: HttpErrorResponse) => {
+          this._error = error.message;
+        },
+      });
+  }
+
   public addKill(killPostDTO: {
-    killPosterId: number;
-    killerId: number;
+    killPosterId: number | undefined;
+    killerId: number | undefined;
     biteCode: string;
     story: string;
     lat: string;
@@ -66,5 +93,15 @@ export class KillService {
           this._error = error.message;
         },
       });
+  }
+
+  public deleteKill(killId: number) {
+    const game: Game = StorageUtil.storageRead(StorageKeys.Game)!;
+    this.http.delete(`${APIKill.replace('{gameId}', game.id + '')}/${killId}`).subscribe({
+      next: () => {
+        this.fetchKills(game.id!);
+        window.location.reload();
+      }
+    });
   }
 }

@@ -24,6 +24,10 @@ import { KillModalComponent } from './components/modals/kill-modal/kill-modal.co
 import { DatePipe } from '@angular/common';
 import { AddMissionComponent } from './components/add-mission/add-mission.component';
 import { CreateGameComponent } from './components/create-game/create-game.component';
+import { CreateMissionModalComponent } from './components/modals/create-mission-modal/create-mission-modal.component';
+import { MissionModalComponent } from './components/modals/mission-modal/mission-modal.component';
+import { CreateSquadCheckinModalComponent } from './components/modals/create-squad-checkin-modal/create-squad-checkin-modal.component';
+import { CheckinModalComponent } from './components/modals/checkin-modal/checkin-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,10 @@ import { CreateGameComponent } from './components/create-game/create-game.compon
     AddMissionComponent,
     CreateGameComponent,
     KillModalComponent,
+    CreateMissionModalComponent,
+    MissionModalComponent,
+    CreateSquadCheckinModalComponent,
+    CheckinModalComponent,
   ],
   imports: [
     //Modules
