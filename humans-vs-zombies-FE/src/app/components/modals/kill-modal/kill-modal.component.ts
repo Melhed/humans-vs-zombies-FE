@@ -65,7 +65,6 @@ export class KillModalComponent implements OnInit {
   }
 
   deleteKill(killId: number) {
-    console.log(killId);
     this.killService.deleteKill(killId);
     this.sendDisableModal();
   }
