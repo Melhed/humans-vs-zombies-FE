@@ -65,4 +65,14 @@ export class MissionService {
         },
       });
   }
+
+  public deleteMission(missionId: number) {
+    const game: Game = StorageUtil.storageRead(StorageKeys.Game)!;
+    this.http.delete(`${APIMission.replace('{gameId}', game.id + '')}/${missionId}`).subscribe({
+      next: () => {
+        this.fetchMissions();
+        window.location.reload();
+      }
+    });
+  }
 }

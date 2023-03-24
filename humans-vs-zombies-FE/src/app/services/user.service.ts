@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, finalize, Observable } from 'rxjs';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
@@ -13,6 +13,10 @@ const { APIUsers, APIKey } = environment;
 })
 export class UserService {
   private _user?: User; //? is the same as "| undefined"
+
+  private _allUsers: User[] = [];
+  private _loading: boolean = false;
+  private _error: string = "";
 
   public get user(): User | undefined {
     return this._user;
@@ -50,4 +54,28 @@ export class UserService {
   constructor(private readonly http: HttpClient) {
     this._user = StorageUtil.storageRead<User>(StorageKeys.User);
   }
+
+
+  public findAllUsers(): void {
+    this._loading = true;
+    this.http.get<User[]>(APIUsers).pipe(
+      finalize(()=> {
+        this._loading = false;
+      })
+    )
+    .subscribe({
+      next: (users: User[]) => {
+        this._allUsers = users;
+      },
+      error: (error: HttpErrorResponse) => {
+        this._error = error.message;
+      }
+    })
+  }
+
+  public userById(id: any): User | undefined{
+    return this._allUsers.find(user => user.id === id);
+  }
+
+  
 }

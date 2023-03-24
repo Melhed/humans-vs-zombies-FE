@@ -23,9 +23,11 @@ export class PlayerListComponent implements OnInit{
     private readonly router: Router,
     private readonly formBuilder: FormBuilder,
     private readonly playerListService: PlayerListService,
+    private readonly userServices: UserService,
     ){}
 
   @Input() players: Player[] = [];
+  @Input() allUsers: User[] = [];
 
   contactForm: FormGroup = new FormGroup({});
   state = [
@@ -39,11 +41,23 @@ export class PlayerListComponent implements OnInit{
     this.contactForm = this.formBuilder.group({
       states: [null]
     });
+    this.userServices.findAllUsers();
     this.playerListService.findAllPlayers();
     this.router.navigateByUrl("/edit-player");
   }
 
+
+
   submit(playerId: any) {
     this.editPlayerService.updateObjectProperty(playerId, this.contactForm.value);
+  }
+
+  getUserById(userId: any) {
+    let currentGame = this.userServices.userById(userId);
+    if(!currentGame){
+      throw new Error("getUserById: can't find user with ID: ", userId);
+    }
+    let playerName: string = currentGame.firstName + " " + currentGame.lastName;
+    return playerName;
   }
 }

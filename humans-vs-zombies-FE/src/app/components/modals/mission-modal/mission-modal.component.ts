@@ -68,6 +68,11 @@ export class MissionModalComponent implements OnInit {
     this.missionService.updateMission(missionInfo);
   }
 
+  deleteMission(missionId: number) {
+    this.missionService.deleteMission(missionId);
+    this.sendDisableModal();
+  }
+
   public get isAdmin(): boolean {
     return this._isAdmin;
   }

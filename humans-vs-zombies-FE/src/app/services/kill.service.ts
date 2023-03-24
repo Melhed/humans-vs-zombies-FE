@@ -6,6 +6,7 @@ import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
 import { Kill } from '../models/kill.model';
 import { StorageUtil } from '../utils/storage.util';
+import { CheckinService } from './squad-checkin.service';
 
 const { APIKill, APIKey } = environment;
 
@@ -92,5 +93,15 @@ export class KillService {
           this._error = error.message;
         },
       });
+  }
+
+  public deleteKill(killId: number) {
+    const game: Game = StorageUtil.storageRead(StorageKeys.Game)!;
+    this.http.delete(`${APIKill.replace('{gameId}', game.id + '')}/${killId}`).subscribe({
+      next: () => {
+        this.fetchKills(game.id!);
+        window.location.reload();
+      }
+    });
   }
 }
