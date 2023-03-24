@@ -64,6 +64,8 @@ export class SquadService {
             fetchedSquadMembers.forEach((member: SquadMember) => {
               if(player!.id === member.playerId) {
                 this.updatePlayerSquadInfo({playerMemberId: member.id, playerSquadId: member.squadId});
+                console.log(member);
+                
                 return;
               }
             })

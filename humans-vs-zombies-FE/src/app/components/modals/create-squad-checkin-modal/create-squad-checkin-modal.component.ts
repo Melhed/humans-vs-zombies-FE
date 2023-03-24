@@ -15,11 +15,11 @@ import { environment } from 'src/environments/environment';
 const { APIGames } = environment;
 
 @Component({
-  selector: 'app-squad-checkin-modal',
-  templateUrl: './squad-checkin-modal.component.html'
+  selector: 'app-create-squad-checkin-modal',
+  templateUrl: './create-squad-checkin-modal.component.html'
 })
 
-export class SquadCheckinModalComponent implements OnInit{
+export class CreateSquadCheckinModalComponent implements OnInit{
   constructor(private readonly squadCheckinService: CheckinService, private readonly http: HttpClient, private readonly squadListService: SquadListService, private readonly squadService: SquadService){}
   @Output() disableModalEvent = new EventEmitter<boolean>();
   private _playerSquadInfo: PlayerSquadInfo | undefined = undefined;
@@ -40,19 +40,18 @@ export class SquadCheckinModalComponent implements OnInit{
   }
   
   addCheckin(checkin: {
-    timestamp: Date;
     lat: number;
     lng: number;
   }):void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const squadId = this._playerSquadInfo!.playerSquadId;
     const newCheckin = {
-      timeStamp: checkin.timestamp, lat: checkin.lat, lng: checkin.lng, 
+      lat: checkin.lat, lng: checkin.lng, 
       gameId: game!.id, squadId: this._playerSquadInfo!.playerSquadId, squadMemberId: this._playerSquadInfo!.playerMemberId
     }
-    
+
     this.http.post<SquadCheckin>(`${APIGames}/${game?.id}/squad/${squadId}/check-in`, newCheckin).subscribe({
-      next: (checkin: SquadCheckin) => {
+      next: () => {
         this.squadCheckinService.findCheckins();
         window.location.reload();
       },

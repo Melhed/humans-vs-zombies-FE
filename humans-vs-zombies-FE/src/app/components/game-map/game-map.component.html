@@ -15,6 +15,12 @@
       [mission]="currentMarkerData"
     ></app-mission-modal>
   </div>
+  <div *ngIf="currentMarkerType.toString() === 'SQUADCHECKIN'">
+    <app-checkin-modal
+      (disableModalEvent)="receiveDisableModal($event)"
+      [checkin]="currentMarkerData"
+    ></app-checkin-modal>
+  </div>
 </div>
 
 <div id="ol-map" class="map-container"></div>
