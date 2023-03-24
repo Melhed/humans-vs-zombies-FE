@@ -64,6 +64,12 @@ export class KillModalComponent implements OnInit {
     this.killService.updateKill(killInfo);
   }
 
+  deleteKill(killId: number) {
+    console.log(killId);
+    this.killService.deleteKill(killId);
+    this.sendDisableModal();
+  }
+
   public get isAdmin(): boolean {
     return this._isAdmin;
   }
