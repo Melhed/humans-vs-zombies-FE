@@ -5,22 +5,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Map, Overlay } from 'ol';
+import { Map } from 'ol';
 import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat, fromUserCoordinate, Projection } from 'ol/proj';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
-import VectorSource from 'ol/source/Vector';
 import { Kill } from 'src/app/models/kill.model';
 import { MarkerType } from 'src/app/models/marker.model';
-import { Marker } from 'src/app/models/marker.model';
-import { Mission } from 'src/app/models/mission.model';
 import { GameMapService } from 'src/app/services/game-map.service';
 import { GameService } from 'src/app/services/game.service';
 import { KillService } from 'src/app/services/kill.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { MissionService } from 'src/app/services/mission.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
+import VectorSource from 'ol/source/Vector';
 import { Player, PlayerState } from 'src/app/models/player.model';
 import { CheckinService } from 'src/app/services/squad-checkin.service';
 import { SquadCheckin } from 'src/app/models/squad-checkin.model';
@@ -33,7 +30,6 @@ import { SquadCheckin } from 'src/app/models/squad-checkin.model';
 export class GameMapComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly gameMapService: GameMapService,
-    private readonly gameService: GameService,
     private readonly killService: KillService,
     private readonly missionService: MissionService,
     private readonly gameMarkerService: GameMarkerService,

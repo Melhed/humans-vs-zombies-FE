@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
 import { StorageUtil } from '../utils/storage.util';
 
-const { APIUsers, APIKey } = environment;
+const { APIUsers } = environment;
 
 @Injectable({
   providedIn: 'root',

@@ -16,7 +16,7 @@ export class GameListService {
   private _games: Game[] = [];
   private _error: string = "";
   private _loading: boolean = false;
-  gameId: any = 0; 
+  gameId: any = 0;
 
   public get games(): Game[] {
     return this._games;
@@ -79,5 +79,9 @@ export class GameListService {
       }
       
     });;
+  }
+
+  public gameByID(id: number): Game | undefined {
+    return this._games.find(game => game.id === id);
   }
 }

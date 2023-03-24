@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    redirectTo: "login"
+    redirectTo: "game-list-view"
   },
   {
     path: "login",
@@ -29,11 +29,11 @@ const routes: Routes = [
   {
     path: "game-list-view",
     component: GameListViewPage,
-    canActivate: [AuthenticationGuard]
+    //canActivate: [AuthenticationGuard]
   },
   {
     path: "**",
-    redirectTo: "login",
+    redirectTo: "game-list-view",
     pathMatch: "full"
   }
 ];

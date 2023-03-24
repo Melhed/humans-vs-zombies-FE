@@ -10,6 +10,7 @@ import { GameListService } from 'src/app/services/game-list.service';
 import { GameService } from 'src/app/services/game.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
+import keycloak from 'src/keycloak';
 import { environment } from 'src/environments/environment';
 const {APIGames} = environment;
 
@@ -88,29 +89,40 @@ export class GameListComponent implements OnInit{
 
     this.reactiveForm.setValue(contact);
 
-  }
-
-  public async onJoinGame(game: Game) {
-    this.gameService.joinGame(game.id);
+  saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
-    await this.delay(100);
     this.router.navigateByUrl("/game-view");
   }
 
-  private async delay(ms: number) {
-    return await new Promise( resolve => setTimeout(resolve, ms) );
+  public async onJoinGame(game: Game) {
+    if(game.registeredPlayers < game.maxPlayers && keycloak.authenticated) {
+      game.registeredPlayers++;
+      this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
+    } else if (game.registeredPlayers >= game.maxPlayers) {
+      alert("This game is full");
+    } else if (!keycloak.authenticated) {
+      alert("You need to login");
+    }
+    this.gameService.joinGame(game.id);
+    await this.delay(100);
+    this.saveGameToStorageAndRedirect(game);
   }
 
   public async onGameDetails(game: Game) {
-    this.gameListService.gameId = game.id;
-    StorageUtil.storageSave(StorageKeys.Game, game);
+    if(!keycloak.authenticated) {
+      alert("You need to login");
+    }
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
     const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
     if (player === undefined)
       this.playerService.setDummyPlayer(user!.id);
     await this.delay(100);
-    this.router.navigateByUrl("/game-view");
+    this.saveGameToStorageAndRedirect(game);
+  }
+
+  private async delay(ms: number) {
+    return await new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   public deleteGame(gameId: number): void {

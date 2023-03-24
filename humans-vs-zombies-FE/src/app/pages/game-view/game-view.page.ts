@@ -1,6 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { SquadListService } from 'src/app/services/squad-list.service';
-import { Squad } from 'src/app/models/squad.model';
 import { GameListService } from 'src/app/services/game-list.service';
 import { KillService } from 'src/app/services/kill.service';
 import { StorageUtil } from 'src/app/utils/storage.util';

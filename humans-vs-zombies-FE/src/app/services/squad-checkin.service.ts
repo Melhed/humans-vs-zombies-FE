@@ -1,5 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { StorageKeys } from '../consts/storage-keys.enum';
+//import { Checkin } from '../models/squad-checkin.model';
 import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
@@ -18,12 +21,16 @@ const { APIGames, APIKey } = environment;
   providedIn: 'root',
 })
 export class CheckinService {
+  //private _checkins: Checkin[] = [];
   constructor(private readonly http: HttpClient, private readonly squadListService: SquadListService, private readonly squadService: SquadService) {}
   private _error: String = '';
   private _loading: boolean = false;
   private _checkins$ = new BehaviorSubject<SquadCheckin[]>([]);
   checkins = this._checkins$.asObservable();
 
+  /*get checkins(): Checkin[] {
+    return this._checkins;
+  }*/
   updateCheckins(checkins: SquadCheckin[]) {
     this._checkins$.next(checkins);
   }

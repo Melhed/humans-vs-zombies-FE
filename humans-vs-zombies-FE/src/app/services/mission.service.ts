@@ -7,7 +7,7 @@ import { Game } from '../models/game.model';
 import { Mission } from '../models/mission.model';
 import { StorageUtil } from '../utils/storage.util';
 
-const { APIMission, APIKey } = environment;
+const { APIMission } = environment;
 
 @Injectable({
   providedIn: 'root',

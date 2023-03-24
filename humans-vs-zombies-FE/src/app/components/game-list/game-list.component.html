@@ -1,36 +1,21 @@
-
-<div class="flex justify-center items-center w-screen h-screen text-slate-500
-  font-quicksand">
-  <div class="self-center bg-transparent w-9/12 h-screen mt-10">
-    <div class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid
-      grid-cols-4 gap-2 text-center text-slate-700">
-      <div class="font-bold">GAME NAME</div>
-      <div class="font-bold">TIME</div>
-      <div class="font-bold">NUMBER OF PLAYERS</div>
-      <div class="font-bold">GAME STATE</div>
-    </div>
-    <div *ngFor="let game of games" class="bg-slate-100 w-auto h-auto m-1 p-3
-      border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group
-      items-center">
-      <div class="text-center font-bold text-slate-600">{{ game.name }}</div>
-      <div class="text-center">
-        <span>{{ game.startTime| date : 'yyyy-MM-dd HH:mm:ss' }}</span> - <span>{{
-          game.endTime| date : 'yyyy-MM-dd HH:mm:ss' }}</span>
-      </div>
-      <div class="text-center text-[#785fce] font-bold">TODO: Implement this</div>
-      <div class="text-center">{{ game.state }}</div>
-      <div class="col-start-4 flex justify-end">
-        <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame(game)"
-          class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105
-          h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
-        <button *ngIf="(game.state=='REGISTRATION')"
-          (click)="onGameDetails(game)" class="hidden group-hover:block
-          bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game
-          Details</button>
-
-
-        <!-- ***************************** -->
-
+<div class="flex justify-center items-center w-screen h-screen text-slate-500 font-quicksand">
+    <div class="self-center bg-transparent w-9/12 h-screen mt-10">
+        <div class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid grid-cols-4 gap-2 text-center text-slate-700">
+            <div class="font-bold">GAME NAME</div>
+            <div class="font-bold">TIME</div>
+            <div class="font-bold">NUMBER OF PLAYERS</div>
+            <div class="font-bold">GAME STATE</div>
+        </div>
+        <div *ngFor="let game of games" class="bg-slate-100 w-auto h-auto m-1 p-3 border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group items-center">
+            <div class="text-center font-bold text-slate-600">{{ game.name }}</div>
+            <div class="text-center">
+                <span>{{ game.startTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span> - <span>{{ game.endTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
+            </div>
+            <div class="text-center text-[#785fce]">{{game.registeredPlayers}}/{{game.maxPlayers}}</div>
+            <div class="text-center">{{ game.state }}</div>
+            <div class="col-start-4 flex justify-end">
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame(game)" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails(game)" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button>
         <button *ngIf="(game.state=='REGISTRATION')"
           class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105
           h-fit p-2 rounded-full text-[#458f74]"
@@ -58,7 +43,6 @@
                 <form [formGroup]="reactiveForm" (ngSubmit)="setDefault()"
                   novalidate>
                   <div class="w-1/2 md:w-full relative p-6 flex-auto">
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="name">
@@ -66,8 +50,6 @@
                     </label>
                     <input type="text" id="name" name="name"
                       formControlName="name">
-
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="startTime">
@@ -75,8 +57,6 @@
                     </label>
                     <input type="datetime-local" id="startTime" name="startTime"
                       formControlName="startTime">
-
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="endTime">
@@ -84,8 +64,6 @@
                     </label>
                     <input type="datetime-local" id="endTime" name="endTime"
                       formControlName="endTime">
-
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="nwLat">
@@ -93,7 +71,6 @@
                     </label>
                     <input type="text" id="nwLat" name="nwLat"
                       formControlName="nwLat">
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="nwLng">
@@ -101,7 +78,6 @@
                     </label>
                     <input type="text" id="nwLng" name="nwLng"
                       formControlName="nwLng">
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="seLat">
@@ -110,7 +86,6 @@
                     <input class="border-black-400" type="text" id="seLat"
                       name="seLat"
                       formControlName="seLat">
-
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
                       for="seLng">
@@ -118,18 +93,14 @@
                     </label>
                     <input type="text" id="seLng" name="seLng"
                       formControlName="seLng">
-
                     <div>
                       <label class="block text-red-600 text-lg font-bold mb-2
                         pt-4"
                         *ngIf="!acceptedTime">Invalid
                         date</label>
                     </div>
-
-
                     <div class="flex items-center justify-end p-6 border-t
                       border-solid border-slate-200 rounded-b">
-
                       <button
                         class="text-white bg-gradient-to-r from-green-400
                         via-blue-500 to-green-600 hover:bg-gradient-to-br
@@ -159,9 +130,6 @@
             </div>
           </div>
         </div>
-        <!-- ***************************** -->
-
-
       </div>
       <button *ngIf="(game.state=='IN_PROGRESS' || game.state=='COMPLETE')"
         (click)="onGameDetails(game)" class="hidden group-hover:block

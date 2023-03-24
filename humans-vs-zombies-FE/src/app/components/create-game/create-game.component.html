@@ -1,0 +1,180 @@
+<div id="Modal/dialog div">
+    <button
+      class="md:hover:text-blue-700 md:p-0"
+      type="button"
+      (click)="toggleCreateGameModal()"
+    >
+      Create game
+    </button>
+    <div
+      *ngIf="showCreateGameModal"
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+    >
+      <div class="relative w-auto my-6 mx-auto max-w-6xl">
+        <!--content-->
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        >
+          <!--header-->
+          <div
+            class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+          >
+            <h3 class="text-3xl font-semibold">Create game</h3>
+          </div>
+          <!--body-->
+          <div class="form-area">
+            <form
+              #gameForm="ngForm"
+              (ngSubmit)="onGameCreate(gameForm.value)"
+            >
+              <div class="w-1/2 md:w-full relative p-6 flex-auto">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gamename"
+                >
+                  Game name
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="name"
+                  type="text"
+                  placeholder="game name"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gameStarTtime"
+                >
+                  Start time
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="startTime"
+                  type="datetime-local"
+                  placeholder="start time"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gameEndTime"
+                >
+                  End time
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="endTime"
+                  type="datetime-local"
+                  placeholder="end
+                  time"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gameEndTime"
+                >
+                  nwLat
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="nwLat"
+                  type="text"
+                  placeholder="nwLat"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gameEndTime"
+                >
+                  nwLng
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="nwLng"
+                  type="text"
+                  placeholder="nwLng"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gameEndTime"
+                >
+                  seLat
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="seLat"
+                  type="text"
+                  placeholder="seLat"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="seLng"
+                >
+                  seLng
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="seLng"
+                  type="text"
+                  placeholder="seLng"
+                />
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="maxPlayers"
+                >
+                  Max players
+                </label>
+                <input
+                  ngModel
+                  required
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="maxPlayers"
+                  type="text"
+                  placeholder="5"
+                />
+                <div>
+                  <span
+                    *ngIf="!acceptedTime"
+                    class="block text-red-600 text-sm font-bold mb-2"
+                    >Invalid date</span
+                  >
+                </div>
+              </div>
+              <!--footer-->
+              <div
+                class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+              >
+                <button
+                  class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  type="submit"
+                  [disabled]="gameForm.invalid"
+                >
+                  Create
+                </button>
+                <button
+                  class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  (click)="toggleCreateGameModal()"
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="showCreateGameModal"
+      class="opacity-25 fixed inset-0 z-40 bg-black"
+    ></div>
+  </div>

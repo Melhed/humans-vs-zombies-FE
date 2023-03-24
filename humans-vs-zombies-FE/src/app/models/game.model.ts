@@ -8,4 +8,6 @@ export interface Game {
     nwLng: number;
     seLat: number;
     seLng: number;
+    maxPlayers: number;
+    registeredPlayers: number;
 }

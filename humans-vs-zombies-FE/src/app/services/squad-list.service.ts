@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
