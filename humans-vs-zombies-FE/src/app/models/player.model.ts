@@ -1,13 +1,11 @@
 export interface Player {
-
-    id: number;
-    state: string,
-    biteCode: string;
-    isHuman: boolean;
+    id?: number;
+    state?: string,
+    biteCode?: string;
+    isHuman?: boolean;
     isPatientZero?: boolean;
     user: string;
-    game: number;
-    hvzuser_id: number;
+    game?: number;
 }
 
 

@@ -19,7 +19,7 @@ export class SquadListService {
   constructor(
     private readonly http: HttpClient,
     private readonly gameService: GameService,
-    private readonly playerService: PlayerService
+    private readonly playerService: PlayerService,
   ) { }
 
   private _squads$ = new BehaviorSubject<Squad[]>([]);
@@ -67,7 +67,6 @@ export class SquadListService {
           StorageUtil.storageRemove(StorageKeys.Player);
           console.log(StorageUtil.storageRead(StorageKeys.Player));
           this.playerService.setPlayer(game?.id, player!.user);
-          this.findAllSquads();
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
