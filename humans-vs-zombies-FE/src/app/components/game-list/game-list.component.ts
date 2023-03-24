@@ -22,16 +22,21 @@ export class GameListComponent {
   @Input() games: Game[] = [];
 
   onJoinGame(game: Game) {
+    if(game.registeredPlayers < game.maxPlayers) {
+      game.registeredPlayers++;
+      console.log("REGISTERED: " + game.registeredPlayers);
+      this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
+    } else if (game.registeredPlayers >= game.maxPlayers) {
+      alert("This game is full");
+    }
     this.gameService.joinGame(game.id);
     this.onGameDetails(game);
   }
 
   onGameDetails(game: Game) {
     this.gameListService.gameId = game.id;
-    game.registeredPlayers++;
-    console.log("REGISTERED: " + game.registeredPlayers);
-    this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
     StorageUtil.storageSave(StorageKeys.Game, game);
-    //this.router.navigateByUrl("/game-view");
+    console.log("AFTER: " + game.registeredPlayers)
+    this.router.navigateByUrl("/game-view");
   }
 }

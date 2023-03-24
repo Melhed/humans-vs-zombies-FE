@@ -33,9 +33,9 @@ export class GameService {
     if(!game) {
       throw new Error("updateGame: No game with ID: " + gameId);
     }
-    game.registeredPlayers = stateValue.states;
+    game.registeredPlayers = stateValue;
     const url = `${APIGames}/${gameId}`;
-    return this.http.put(url,game).subscribe({
+    return this.http.put(url, game).subscribe({
       next:(response: any) => {
         console.log("NEXT: " , response);
       },

@@ -26,7 +26,9 @@ export class CreateGameComponent {
     "nwLat": 0,
     "nwLng": 0,
     "seLat": 0,
-    "seLng": 0
+    "seLng": 0,
+    "maxPlayers": 0,
+    "registeredPlayers": 0
   };
 
   acceptedTime: boolean = true;
@@ -37,8 +39,10 @@ export class CreateGameComponent {
     this.showCreateGameModal = !this.showCreateGameModal;
   }
 
-    onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String} ){
-    this._newGame = game;
+    onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String, maxPlayers: number, registeredPlayers: number} ){
+    game.registeredPlayers = 0;
+      this._newGame = game;
+    console.log(game.maxPlayers);
 
     if (game.endTime > game.startTime){
       this.createdGame = true;

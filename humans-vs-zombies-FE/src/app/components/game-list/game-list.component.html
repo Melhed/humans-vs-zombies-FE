@@ -12,7 +12,7 @@
             <div class="text-center">
                 <span>{{ game.startTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span> - <span>{{ game.endTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
             </div>
-            <div class="text-center text-[#785fce]">{{game.registeredPlayers}}/{{game.amountOfPlayers}}</div>
+            <div class="text-center text-[#785fce]">{{game.registeredPlayers}}/{{game.maxPlayers}}</div>
             <div class="text-center">{{ game.state }}</div>
             <div class="col-start-4 flex justify-end">
                 <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame(game)" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
