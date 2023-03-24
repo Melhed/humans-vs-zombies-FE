@@ -92,11 +92,7 @@ export class PlayerService {
 
   public setDummyPlayer(userId: string) {
     const dummyPlayer: Player = {
-      id: undefined,
-      isHuman: true,
-      state: undefined,
       user: userId,
-      biteCode: undefined,
     }
     this.updatePlayer(dummyPlayer);
     StorageUtil.storageSave<Player>(StorageKeys.Player, dummyPlayer);

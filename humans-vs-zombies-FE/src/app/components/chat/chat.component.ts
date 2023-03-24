@@ -28,9 +28,6 @@ export class ChatComponent implements AfterViewInit, OnInit {
     this.game = StorageUtil.storageRead(StorageKeys.Game);
     this.squad = StorageUtil.storageRead(StorageKeys.Squad);
     this._player = StorageUtil.storageRead(StorageKeys.Player);
-    if (this._player === undefined) {
-      window.location.reload();
-    }
   }
 
   ngOnInit(): void {

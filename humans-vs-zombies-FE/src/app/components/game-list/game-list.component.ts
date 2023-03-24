@@ -29,24 +29,30 @@ export class GameListComponent {
 
   @Input() games: Game[] = [];
 
-  onJoinGame(game: Game) {
+  public async onJoinGame(game: Game) {
     this.gameService.joinGame(game.id);
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
+    await this.delay(100);
     this.router.navigateByUrl("/game-view");
   }
 
-  onGameDetails(game: Game) {
+  private async delay(ms: number) {
+    return await new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  public async onGameDetails(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
     const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
     if (player === undefined)
       this.playerService.setDummyPlayer(user!.id);
+    await this.delay(100);
     this.router.navigateByUrl("/game-view");
   }
 
-  deleteGame(gameId: number): void {
+  public deleteGame(gameId: number): void {
     console.log(gameId);
     this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
   }
