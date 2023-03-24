@@ -19,5 +19,6 @@
                 <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails(game)" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button>
             </div>
             <button *ngIf="(game.state=='IN_PROGRESS' || game.state=='COMPLETE')" (click)="onGameDetails(game)" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full justify-self-end m-2 col-span-4 text-white">Game Details</button>
+            <button (click)="deleteGame(game.id!)">Delete game</button>
         </div>  
 </div>

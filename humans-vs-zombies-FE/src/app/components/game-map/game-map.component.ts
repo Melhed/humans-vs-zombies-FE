@@ -21,6 +21,9 @@ import { KillService } from 'src/app/services/kill.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { MissionService } from 'src/app/services/mission.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
+import { Player, PlayerState } from 'src/app/models/player.model';
+import { CheckinService } from 'src/app/services/squad-checkin.service';
+import { SquadCheckin } from 'src/app/models/squad-checkin.model';
 
 @Component({
   selector: 'app-game-map',
@@ -33,7 +36,8 @@ export class GameMapComponent implements OnInit, AfterViewInit {
     private readonly gameService: GameService,
     private readonly killService: KillService,
     private readonly missionService: MissionService,
-    private readonly gameMarkerService: GameMarkerService
+    private readonly gameMarkerService: GameMarkerService,
+    private readonly squadCheckinService: CheckinService
   ) {}
 
   @ViewChild('popupcontainer') popupContainer!: ElementRef<HTMLDivElement>;
@@ -65,6 +69,8 @@ export class GameMapComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
+
     this._gameMap = this.gameMapService.createGameMap(
       game!.nwLat,
       game!.nwLng,
@@ -73,6 +79,9 @@ export class GameMapComponent implements OnInit, AfterViewInit {
     );
     this.missionService.fetchMissions();
     this.killService.fetchKills(game!.id!);
+    if(player?.state === PlayerState.SQUAD_MEMBER) {
+      this.squadCheckinService.findCheckins();
+    }
 
     this.missionService.missions.subscribe((missions: Mission[]) => {
       if(missions[0]) {
@@ -89,7 +98,19 @@ export class GameMapComponent implements OnInit, AfterViewInit {
         this._gameMap!.addLayer(killLayer);
       }
     });
+
+    if(player?.state === PlayerState.SQUAD_MEMBER) {
+      this.squadCheckinService.checkins.subscribe((checkins: SquadCheckin[]) => {
+        if(checkins[0]) {
+          const checkinLayer: VectorLayer<VectorSource> = this.gameMarkerService.createSquadCheckinMarkerLayer(checkins);
+          this._gameMap!.addLayer(checkinLayer);
+        }
+      })
+    }
+
   }
+
+  
 
   ngAfterViewInit(): void {
     this._gameMap!.on('click', (e) => {
@@ -112,6 +133,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
           this.gameMarkerService.clickedMarkerData.subscribe((data) => {
             if (data.killer) this.setKillerMarkerData(data);
             if (data.missionID) this.setMissionMarkerData(data);
+            if (data.squadMemberId) this.setCheckinMarkerData(data);
           });
         }
 
@@ -122,6 +144,11 @@ export class GameMapComponent implements OnInit, AfterViewInit {
 
   receiveDisableModal($event: boolean) {
     this._showModal = $event;
+  }
+
+  setCheckinMarkerData(checkin: SquadCheckin): void {
+    this._currentMarkerType = MarkerType.SQUADCHECKIN;
+    this._currentMarkerData = checkin;
   }
 
   setMissionMarkerData(mission: Mission): void {

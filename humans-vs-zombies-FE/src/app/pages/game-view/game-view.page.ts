@@ -33,6 +33,11 @@ export class GameViewPage implements OnInit {
     this.showCreateMissionModal = !this.showCreateMissionModal;
   }
 
+  showSquadCheckinModal = false;
+  toggleSquadCheckinModal() {
+    this.showSquadCheckinModal = !this.showSquadCheckinModal;
+  }
+
   showBiteCodeModal = false;
   toggleBiteCodeModal() {
     this.showBiteCodeModal = !this.showBiteCodeModal;

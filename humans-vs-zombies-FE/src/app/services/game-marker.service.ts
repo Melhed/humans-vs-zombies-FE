@@ -14,12 +14,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { KillService } from './kill.service';
 import { SquadCheckin } from '../models/squad-checkin.model';
 import { MissionService } from './mission.service';
+import { CheckinService } from './squad-checkin.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameMarkerService {
-  constructor(private readonly killService: KillService, private readonly missionService: MissionService) {}
+  constructor(private readonly killService: KillService, private readonly missionService: MissionService, private readonly squadCheckinService: CheckinService) {}
 
   _clickedMarkerData$ = new BehaviorSubject<any>(undefined);
   clickedMarkerData = this._clickedMarkerData$.asObservable();
@@ -45,6 +46,17 @@ export class GameMarkerService {
           missions.forEach((mission) => {
             if(mission.missionID === markerProperties.id) {
               this.updateClickedMarkerData(mission);
+            }
+          })
+        }
+      })
+    }
+    if(markerProperties.type === MarkerType.SQUADCHECKIN) {
+      this.squadCheckinService.checkins.subscribe({
+        next: (checkins: SquadCheckin[]) => {
+          checkins.forEach((checkin) => {
+            if(checkin.id === markerProperties.id) {
+              this.updateClickedMarkerData(checkin);
             }
           })
         }
@@ -137,7 +149,7 @@ export class GameMarkerService {
       }),
       style: new Style({
         image: new Icon({
-          src: `../../assets/Grave_Marker_64.png`,
+          src: `../../assets/Checkin_Marker_64.png`,
           anchor: [0.5, 1],
           size: [64, 64],
           scale: 0.5,

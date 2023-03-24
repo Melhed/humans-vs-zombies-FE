@@ -13,6 +13,10 @@ const { APIGames } = environment;
   providedIn: 'root',
 })
 export class PlayerService {
+  constructor(private readonly http: HttpClient) {}
+  private _player$ = new BehaviorSubject<Player | undefined>(undefined);
+  player = this._player$.asObservable();
+
   createPlayerAdmin(gameId: number | undefined, user: User) {
     const playerAdminDTO = {
       id: null,
@@ -35,27 +39,33 @@ export class PlayerService {
       },
     });
   }
-  constructor(private readonly http: HttpClient) {}
 
-  private _player$ = new BehaviorSubject<Player | undefined>(undefined);
-  player = this._player$.asObservable();
 
   private updatePlayer(player: Player) {
+    StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
     this._player$.next(player);
   }
 
   public createPlayer(gameId: number | undefined, user: User): void {
     this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
       next: (player: Player) => {
-        console.log(player);
-
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
         this.updatePlayer(player);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
+  }
+
+  public handlePlayerAccess(gameId: number, user: User) {
+    this.checkPlayer(gameId, user.id).subscribe((fetchedPlayer: Player | void) => {
+      if(!fetchedPlayer) {
+        console.log("... creating new player");
+        this.createPlayer(gameId, user);
+        return;
+      }
+      this.updatePlayer(fetchedPlayer);
+    })
   }
 
   public checkPlayer(
@@ -67,18 +77,18 @@ export class PlayerService {
       .pipe(catchError(async (err) => console.log(err)));
   }
 
-  public setPlayer(gameId: number | undefined, userId: string): void {
-    this.http
-      .get<Player>(`${APIGames}/${gameId}/player/user/${userId}`)
-      .subscribe({
-        next: (player: Player) => {
-          this.updatePlayer(player);
-          StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
-          console.log(StorageUtil.storageRead<Player>(StorageKeys.Player));
-        },
-        error: (error: HttpErrorResponse) => {
-          console.log(error.message);
-        },
-      });
-  }
+  // public setPlayer(gameId: number | undefined, userId: string): void {
+  //   this.http
+  //     .get<Player>(`${APIGames}/${gameId}/player/user/${userId}`)
+  //     .subscribe({
+  //       next: (player: Player) => {
+  //         this.updatePlayer(player);
+  //         StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
+  //         console.log(StorageUtil.storageRead<Player>(StorageKeys.Player));
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //         console.log(error.message);
+  //       },
+  //     });
+  // }
 }

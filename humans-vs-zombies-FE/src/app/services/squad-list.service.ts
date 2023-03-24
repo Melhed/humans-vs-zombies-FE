@@ -1,15 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, finalize } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
-import { Player, playerState } from '../models/player.model';
+import { Player, PlayerState } from '../models/player.model';
 import { Squad } from '../models/squad.model';
 import { StorageUtil } from '../utils/storage.util';
 import { GameService } from './game.service';
 import { PlayerService } from './player.service';
-
+import { environment } from 'src/environments/environment';
+import { User } from '../models/user.model';
 const { APIGames } = environment;
 @Injectable({
   providedIn: 'root',
@@ -59,14 +59,14 @@ export class SquadListService {
 
   joinSquad(squad: Squad, player: Player | undefined): void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
     this.http
       .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
       .subscribe({
         next: () => {
           StorageUtil.storageSave(StorageKeys.Squad, squad);
           StorageUtil.storageRemove(StorageKeys.Player);
-          console.log(StorageUtil.storageRead(StorageKeys.Player));
-          this.playerService.setPlayer(game?.id, player!.user);
+          this.playerService.handlePlayerAccess(game!.id!, user!);
           this.findAllSquads();
         },
         error: (error: HttpErrorResponse) => {
@@ -77,6 +77,7 @@ export class SquadListService {
 
   createNewSquad(name: string, player: Player | undefined) {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
+    const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
     const squadDTO = {
       playerId: player!.id,
       squadName: name,
@@ -86,7 +87,7 @@ export class SquadListService {
       next: (squad: Squad) => {
         StorageUtil.storageSave(StorageKeys.Squad, squad);
         StorageUtil.storageRemove(StorageKeys.Player);
-        this.playerService.setPlayer(game?.id, player!.user);
+        this.playerService.handlePlayerAccess(game!.id!, user!);
         this.findAllSquads();
       },
       error: (error: HttpErrorResponse) => {
