@@ -43,8 +43,6 @@ export class GameListComponent implements OnInit{
 
     const start = new Date(this.reactiveForm.get("startTime")?.value);
     const end = new Date(this.reactiveForm.get("endTime")?.value);
-    console.log(this.reactiveForm.get("endTime")?.value);
-    console.log(this.reactiveForm.get("startTime")?.value); 
     if(start < end){
       let currentGameValues = {
         name: this.reactiveForm.get("name")?.value,
@@ -62,7 +60,6 @@ export class GameListComponent implements OnInit{
       
        
     }else{
-      console.log("from else")
       this.acceptedTime = false;
     }
     
