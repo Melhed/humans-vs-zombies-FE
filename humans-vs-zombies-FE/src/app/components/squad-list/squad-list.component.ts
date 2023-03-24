@@ -45,7 +45,6 @@ export class SquadListComponent implements OnInit {
     }
     await this.delay(100);
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
-    console.log(this.player);
     this.ngOnInit();
     window.location.reload();
   }
@@ -54,14 +53,16 @@ export class SquadListComponent implements OnInit {
       return await new Promise( resolve => setTimeout(resolve, ms) );
   }
 
-  public createSquad(squadInfo: { name: string }): void {
+  public async createSquad(squadInfo: { name: string }): Promise<void> {
     this.squadListService.createNewSquad(squadInfo.name, this._player);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
+    await this.delay(100);
+    this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.ngOnInit();
-    // window.location.reload();
+    window.location.reload();
   }
 
   public toggleCreateSquadModal(): void {
