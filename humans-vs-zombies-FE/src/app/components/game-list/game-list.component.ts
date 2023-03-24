@@ -32,32 +32,45 @@ export class GameListComponent implements OnInit{
   })
 
   @Input() games: Game[] = [];
-
-  showUpdateGameModal = false;
+  acceptedTime: boolean = true;
+  showUpdateGameModal: boolean = false;
   toggleUpdateGameModal() {
     this.showUpdateGameModal = !this.showUpdateGameModal;
     this.setDefault();
   }
 
-  onUpdateGame(){
-    let currentGame = this.games.find((game) => {return game.id === Number(localStorage.getItem('game-id'))});
-    let currentGameValues = {
-      name: this.reactiveForm.get("name")?.value,
-      startTime: currentGame?.startTime,
-      endTime:currentGame?.endTime,
-      nwLat: currentGame?.nwLat,
-      nwLng: currentGame?.nwLng,
-      seLat: currentGame?.seLat,
-      seLng: currentGame?.seLng
+  onUpdateGame(form: FormGroup){
+
+    const start = new Date(this.reactiveForm.get("startTime")?.value);
+    const end = new Date(this.reactiveForm.get("endTime")?.value);
+    console.log(this.reactiveForm.get("endTime")?.value);
+    console.log(this.reactiveForm.get("startTime")?.value); 
+    if(start < end){
+      let currentGameValues = {
+        name: this.reactiveForm.get("name")?.value,
+        startTime: this.reactiveForm.get("startTime")?.value,
+        endTime:this.reactiveForm.get("endTime")?.value,
+        nwLat: this.reactiveForm.get("nwLat")?.value,
+        nwLng: this.reactiveForm.get("nwLng")?.value,
+        seLat: this.reactiveForm.get("seLat")?.value,
+        seLng: this.reactiveForm.get("seLng")?.value,
+      }
+      
+      this.reactiveForm.setValue(currentGameValues);
+      this.gameListService.updateGame(currentGameValues);
+      this.showUpdateGameModal = !this.showUpdateGameModal;
+      
+       
+    }else{
+      console.log("from else")
+      this.acceptedTime = false;
     }
     
-    this.reactiveForm.setValue(currentGameValues);
-    this.gameListService.updateGame(currentGameValues);
   }
 
   setDefault() {
     let currentGame = this.games.find((game) => {return game.id === Number(localStorage.getItem('game-id'))});
-
+    
     let contact = {
       name: currentGame?.name,
       startTime: currentGame?.startTime,
@@ -69,7 +82,7 @@ export class GameListComponent implements OnInit{
     };
  
     this.reactiveForm.setValue(contact);
-    console.log(this.reactiveForm.value);
+    
   }
 
   onJoinGame(game: Game) {

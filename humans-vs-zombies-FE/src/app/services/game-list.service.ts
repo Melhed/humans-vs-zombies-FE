@@ -68,8 +68,7 @@ export class GameListService {
     game.seLat = updatedGame.seLat;
     game.nwLng = updatedGame.nwLng;
     game.seLng = updatedGame.seLng;
-
-    console.log("Game with new values ---> " , game.name);
+    
     const url = `${APIGames}/${localStorage.getItem('game-id')}`;
     return this.http.put(url, game).subscribe({
       next:(response: any) => {

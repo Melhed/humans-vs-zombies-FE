@@ -8,6 +8,7 @@ export interface Player {
     user: string;
     game: number;
     hvzuser_id: number;
+    
 }
 
 
