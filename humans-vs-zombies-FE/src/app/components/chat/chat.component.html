@@ -1,4 +1,4 @@
-<div *ngIf="player.id !== undefined" class="order-last mr-3">
+<div *ngIf="player && player.id !== undefined" class="order-last mr-3">
   <div class="w-96 h-96 p-4 border-2 border-gray-900 bg-white">
     <div class="font-bold text-xl mb-2">
       Chat Box
@@ -57,8 +57,12 @@
     <div *ngIf="player && player.state === 'ADMINISTRATOR'">
       <div class="overflow-auto max-h-52">
         <div *ngFor="let chat of chats" class="font-thin text-base mb-1">
-          <p>{{ chat.message }} from: {{ chat.playerId }}, squad: {{ chat.squadId }}, Is visible for Zombies: {{ chat.zombieGlobal }}
-            Is visible for Humans: {{ chat.humanGlobal }}</p>
+          <p>
+            {{ chat.message }} from: {{ chat.playerId }}, squad:
+            {{ chat.squadId }}, Is visible for Zombies:
+            {{ chat.zombieGlobal }} Is visible for Humans:
+            {{ chat.humanGlobal }}
+          </p>
           <p class="text-stone-500 text-xs">
             {{ chat.timestamp | date : "yyyy-MM-dd HH:mm:ss" }}
           </p>

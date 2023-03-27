@@ -5,7 +5,7 @@ import keycloak from 'src/keycloak';
 @Component({
   selector: 'app-login-component',
   templateUrl: './login.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class LoginComponent {
   public isAuthenticated: boolean = false;
@@ -16,6 +16,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.isAuthenticated = Boolean(keycloak.authenticated);
+    if (this.authenticated) {
+      keycloak.redirectUri = window.location.origin + '/game-list-view';
+    }
   }
 
   doLogin(): void {

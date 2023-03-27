@@ -11,9 +11,7 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   styleUrls: [],
 })
 export class SquadListComponent implements OnInit {
-  constructor(
-    private readonly squadListService: SquadListService,
-  ) {}
+  constructor(private readonly squadListService: SquadListService) {}
   private _squads: Squad[] = [];
   private _player?: Player = undefined;
   public showCreateSquadModal = false;
@@ -50,7 +48,7 @@ export class SquadListComponent implements OnInit {
   }
 
   private async delay(ms: number) {
-      return await new Promise( resolve => setTimeout(resolve, ms) );
+    return await new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   public async createSquad(squadInfo: { name: string }): Promise<void> {
