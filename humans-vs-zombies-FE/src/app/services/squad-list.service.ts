@@ -19,8 +19,8 @@ export class SquadListService {
   constructor(
     private readonly http: HttpClient,
     private readonly gameService: GameService,
-    private readonly playerService: PlayerService,
-  ) { }
+    private readonly playerService: PlayerService
+  ) {}
 
   private _squads$ = new BehaviorSubject<Squad[]>([]);
   squads = this._squads$.asObservable();
@@ -66,7 +66,11 @@ export class SquadListService {
       .subscribe({
         next: () => {
           StorageUtil.storageSave(StorageKeys.Squad, squad);
-          StorageUtil.storageRemove(StorageKeys.Player);
+
+          let player: Player = StorageUtil.storageRead(StorageKeys.Player)!;
+          player.state = PlayerState.SQUAD_MEMBER;
+          StorageUtil.storageSave(StorageKeys.Player, player);
+
           this.playerService.handlePlayerAccess(game!.id!, user!);
           this.findAllSquads();
         },

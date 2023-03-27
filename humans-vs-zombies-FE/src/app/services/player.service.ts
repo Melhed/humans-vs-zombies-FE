@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { StorageUtil } from '../utils/storage.util';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import keycloak from 'src/keycloak';
 
 const { APIGames } = environment;
 
@@ -20,25 +21,26 @@ export class PlayerService {
   createPlayerAdmin(gameId: number | undefined, user: User) {
     const playerAdminDTO = {
       id: null,
-      state: "ADMINISTRATOR",
+      state: 'ADMINISTRATOR',
       isHuman: true,
       isPatientZero: false,
       biteCode: null,
       user: user.id,
-      game: gameId
-    }
+      game: gameId,
+    };
 
-    this.http.post<Player>(`${APIGames}/${gameId}/player`, playerAdminDTO).subscribe({
-      next: (player: any) => {
-        StorageUtil.storageSave<Player>(StorageKeys.Player, player);
-        this.updatePlayer(player);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
+    this.http
+      .post<Player>(`${APIGames}/${gameId}/player`, playerAdminDTO)
+      .subscribe({
+        next: (player: Player) => {
+          StorageUtil.storageSave<Player>(StorageKeys.Player, player);
+          this.updatePlayer(player);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
   }
-
 
   private updatePlayer(player: Player) {
     StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
@@ -46,7 +48,7 @@ export class PlayerService {
   }
 
   public createPlayer(gameId: number | undefined, user: User): void {
-    this.http.post<Player>(`${APIGames}/${gameId}/player`, user).subscribe({
+    this.http.post<Player>(`${APIGames}/${gameId}/player/u`, user).subscribe({
       next: (player: Player) => {
         this.updatePlayer(player);
       },
@@ -57,14 +59,17 @@ export class PlayerService {
   }
 
   public handlePlayerAccess(gameId: number, user: User) {
-    this.checkPlayer(gameId, user.id).subscribe((fetchedPlayer: Player | void) => {
-      if(!fetchedPlayer) {
-        console.log("... creating new player");
-        this.createPlayer(gameId, user);
-        return;
+    this.checkPlayer(gameId, user.id).subscribe(
+      (fetchedPlayer: Player | void) => {
+        if (!(fetchedPlayer instanceof Object)) {
+          console.log('... creating new player');
+          if (keycloak.hasRealmRole('hvz-admin')) {
+            return this.createPlayerAdmin(gameId, user);
+          }
+          return this.createPlayer(gameId, user);
+        }
       }
-      this.updatePlayer(fetchedPlayer);
-    })
+    );
   }
 
   public checkPlayer(
@@ -93,7 +98,7 @@ export class PlayerService {
   public setDummyPlayer(userId: string) {
     const dummyPlayer: Player = {
       user: userId,
-    }
+    };
     this.updatePlayer(dummyPlayer);
     StorageUtil.storageSave<Player>(StorageKeys.Player, dummyPlayer);
   }

@@ -38,7 +38,7 @@ export class ChatService {
     return this._error;
   }
 
-  private _activeChat: string = "";
+  private _activeChat: string = '';
 
   public get activeChat() {
     return this._activeChat;
@@ -91,8 +91,8 @@ export class ChatService {
           ) {
             factionMessages.push(message);
           }
-        })
-        if (this.activeChat == "GLOBAL") {
+        });
+        if (this.activeChat == 'GLOBAL') {
           this.updateFactionChat(factionMessages);
           this.updateGlobalChat(globalMessages);
         } else {
@@ -106,10 +106,7 @@ export class ChatService {
     });
   }
 
-  private findSquadChat(
-    gameId: number | undefined,
-    squad: Squad
-  ): void {
+  private findSquadChat(gameId: number | undefined, squad: Squad): void {
     this.http
       .get<Chat[]>(`${APIGames}/${gameId}/squad/${squad.id}/chat`)
       .subscribe({
@@ -130,7 +127,7 @@ export class ChatService {
     let chatDTO: Object = {};
     let url = `${APIGames}/${game?.id}/chat`;
     switch (this._activeChat) {
-      case "GLOBAL":
+      case 'GLOBAL':
         chatDTO = {
           id: null,
           message: newMessage,
