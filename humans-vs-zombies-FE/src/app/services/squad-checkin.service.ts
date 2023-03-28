@@ -4,8 +4,6 @@ import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 //import { Checkin } from '../models/squad-checkin.model';
 import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { StorageKeys } from '../consts/storage-keys.enum';
 import { SquadCheckin } from '../models/squad-checkin.model';
 import { Player } from '../models/player.model';
 import { StorageUtil } from '../utils/storage.util';

@@ -88,6 +88,7 @@ export class GameListComponent implements OnInit{
     };
 
     this.reactiveForm.setValue(contact);
+  }
 
   saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
