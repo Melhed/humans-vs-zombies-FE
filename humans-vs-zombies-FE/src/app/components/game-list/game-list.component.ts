@@ -29,6 +29,8 @@ export class GameListComponent implements OnInit{
     private readonly http: HttpClient
   ) {}
 
+  role = "none";
+
   reactiveForm = new FormGroup({
     name: new FormControl(),
     startTime: new FormControl(),
@@ -37,7 +39,6 @@ export class GameListComponent implements OnInit{
     nwLng: new FormControl(),
     seLat: new FormControl(),
     seLng:new FormControl()
-
   })
 
   @Input() games: Game[] = [];
@@ -49,7 +50,6 @@ export class GameListComponent implements OnInit{
   }
 
   onUpdateGame(form: FormGroup){
-
     const start = new Date(this.reactiveForm.get("startTime")?.value);
     const end = new Date(this.reactiveForm.get("endTime")?.value);
     if(start < end){
@@ -67,11 +67,9 @@ export class GameListComponent implements OnInit{
       this.gameListService.updateGame(currentGameValues);
       this.showUpdateGameModal = !this.showUpdateGameModal;
 
-
     }else{
       this.acceptedTime = false;
     }
-
   }
 
   setDefault() {
@@ -129,9 +127,10 @@ export class GameListComponent implements OnInit{
   public deleteGame(gameId: number): void {
     console.log(gameId);
     this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
-
   }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    if(keycloak.realmAccess?.roles.includes("hvz-admin"))
+      this.role = "hvz-admin";
   }
 }
