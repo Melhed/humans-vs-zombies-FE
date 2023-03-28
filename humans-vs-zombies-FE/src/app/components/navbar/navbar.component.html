@@ -45,8 +45,15 @@
             </button>
           </a>
         </li>
-        <li>
-          <app-rules-modal></app-rules-modal>
+        <li id="rules">
+          <button
+            type="button"
+            (click)="toggleRulesModal()">
+            Rules
+          </button>
+          <div *ngIf="showRulesModal">
+            <app-rules-modal (disableModalEvent)="toggleRulesModal()"></app-rules-modal>
+          </div>
         </li>
         <li>
           <app-login-component></app-login-component>
