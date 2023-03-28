@@ -18,7 +18,7 @@
       </div>
       <div class="text-center">{{ game.state }}</div>
       <div class="col-start-1 flex justify-start">
-        <button *ngIf="game.state == 'REGISTRATION'"
+        <button *ngIf="game.state == 'REGISTRATION' && role == 'hvz-admin'"
           class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit w-fit p-2 rounded-full text-[#458f74]"
           type="button" (click)="toggleUpdateGameModal()">
           Update game

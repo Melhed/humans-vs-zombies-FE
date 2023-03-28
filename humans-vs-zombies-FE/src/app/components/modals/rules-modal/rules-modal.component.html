@@ -1,4 +1,4 @@
-<div id="rules">
+<div>
     <button
       class="block py-2 pl-2 pr-2 text-gray-700 rounded
       hover:bg-gray-100 md:hover:bg-transparent md:border-0
@@ -9,8 +9,7 @@
       (click)="toggleModal()">
       Rules
     </button>
-    <div
-      *ngIf="showModal"
+    <div *ngIf="showModal"
       class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-6xl">
         <!--content-->
@@ -57,7 +56,7 @@
             class="flex items-center justify-end p-6 border-t
             border-solid border-slate-200 rounded-b">
             <button
-              class="text-red-500 background-transparent font-bold
+              class="text-[#785fce] hover:scale-105 background-transparent font-bold
               uppercase px-6 py-2 text-sm outline-none
               focus:outline-none mr-1 mb-1 ease-linear transition-all
               duration-150"
