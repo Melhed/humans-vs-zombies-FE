@@ -3,6 +3,7 @@ import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Player } from 'src/app/models/player.model';
 import { Squad } from 'src/app/models/squad.model';
 import { SquadListService } from 'src/app/services/squad-list.service';
+import { SquadService } from 'src/app/services/squad.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
@@ -11,16 +12,34 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   styleUrls: [],
 })
 export class SquadListComponent implements OnInit {
-  constructor(private readonly squadListService: SquadListService) {}
+  constructor(private readonly squadListService: SquadListService, private readonly squadService: SquadService) {}
   private _squads: Squad[] = [];
   private _player?: Player = undefined;
   public showCreateSquadModal = false;
+  private _loading = true;
+
+  public get loading(): boolean {
+    return this._loading;
+  }
+
+  public set loading(isLoading: boolean) {
+    this._loading = isLoading;
+  }
 
   ngOnInit(): void {
+    this.squadService.findPlayersSquad();
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.squadListService.squads.subscribe((squads: Squad[]) => {
       if (squads[0]) this._squads = squads;
     });
+    this.squadService.currentPlayerSquad.subscribe((squad: Squad | undefined) => {
+      if(squad) {
+        console.log(squad);
+        
+      }
+      this._loading = false;
+    })
+    
   }
 
   get player(): Player {
@@ -36,13 +55,12 @@ export class SquadListComponent implements OnInit {
   }
 
   public async joinSquad(squad: Squad): Promise<void> {
-    this.squadListService.joinSquad(squad, this.player);
+    this.squadListService.joinSquad(squad);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
     await this.delay(100);
-    this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.ngOnInit();
     window.location.reload();
   }
