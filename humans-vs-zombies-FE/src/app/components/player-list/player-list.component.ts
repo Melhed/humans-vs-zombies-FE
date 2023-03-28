@@ -12,7 +12,6 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './player-list.component.html'
 })
 
-
 export class PlayerListComponent implements OnInit{
 
   errorMessage: string = '';
