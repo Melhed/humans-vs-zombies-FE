@@ -27,13 +27,19 @@ export class SquadListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.squadService.findPlayersSquad();
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.squadListService.squads.subscribe((squads: Squad[]) => {
       if (squads[0]) this._squads = squads;
     });
-    this.squadService.findPlayersSquad();
+    this.squadService.currentPlayerSquad.subscribe((squad: Squad | undefined) => {
+      if(squad) {
+        console.log(squad);
+        
+      }
+      this._loading = false;
+    })
     
-    this._loading = false;
   }
 
   get player(): Player {
@@ -49,13 +55,12 @@ export class SquadListComponent implements OnInit {
   }
 
   public async joinSquad(squad: Squad): Promise<void> {
-    this.squadListService.joinSquad(squad, this.player);
+    this.squadListService.joinSquad(squad);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
     await this.delay(100);
-    this.player = StorageUtil.storageRead(StorageKeys.Player)!;
     this.ngOnInit();
     window.location.reload();
   }

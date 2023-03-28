@@ -33,15 +33,18 @@ export class ChatComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+
     this._player = StorageUtil.storageRead(StorageKeys.Player);
   }
 
   ngAfterViewInit(): void {
-    this.fetchChat();
-    this.chatService.globalChat.subscribe((chats: Chat[]) => {
-      this._chats = chats;
-    });
-    this.chatService.activeChat = 'GLOBAL';
+    if(this._player !== null) {
+      this.fetchChat();
+      this.chatService.globalChat.subscribe((chats: Chat[]) => {
+        this._chats = chats;
+      });
+      this.chatService.activeChat = 'GLOBAL';
+    }
   }
 
   fetchChat(): void {

@@ -58,21 +58,22 @@ export class SquadListService {
       });
   }
 
-  joinSquad(squad: Squad, player: Player | undefined): void {
+  joinSquad(squad: Squad): void {
+    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
-    this.http
-      .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
-      .subscribe({
-        next: () => {
-          StorageUtil.storageSave(StorageKeys.Squad, squad);
 
-          let player: Player = StorageUtil.storageRead(StorageKeys.Player)!;
-          player.state = PlayerState.SQUAD_MEMBER;
-          StorageUtil.storageSave(StorageKeys.Player, player);
+    this.http
+    .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
+    .subscribe({
+      next: () => {
+        StorageUtil.storageSave(StorageKeys.Squad, squad);
+        player!.state = PlayerState.SQUAD_MEMBER;
+        StorageUtil.storageSave(StorageKeys.Player, player);
 
           this.playerService.handlePlayerAccess(game!.id!, user!);
           this.findAllSquads();
+          window.location.reload();
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
