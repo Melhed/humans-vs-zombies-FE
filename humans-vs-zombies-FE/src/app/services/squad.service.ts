@@ -31,6 +31,13 @@ export class SquadService {
     this._playerSquadInfo$.next(playerSquadInfo);
   }
 
+  private _currentPlayerSquad$ = new BehaviorSubject<Squad | undefined>(undefined);
+  currentPlayerSquad = this._currentPlayerSquad$.asObservable();
+
+  updateCurrentPlayerSquad(squad: Squad) {
+    this._currentPlayerSquad$.next(squad);
+  }
+
   private _squadmembers$ = new BehaviorSubject<SquadMember[]>([]);
   squadMembers = this._squadmembers$.asObservable();
 
@@ -64,9 +71,8 @@ export class SquadService {
             fetchedSquadMembers.forEach((member: SquadMember) => {
               if(player!.id === member.playerId) {
                 this.updatePlayerSquadInfo({playerMemberId: member.id, playerSquadId: member.squadId});
-                console.log(member);
-                
-                return;
+                this.updateCurrentPlayerSquad(squad);
+                StorageUtil.storageSave(StorageKeys.Squad, squad);
               }
             })
           });

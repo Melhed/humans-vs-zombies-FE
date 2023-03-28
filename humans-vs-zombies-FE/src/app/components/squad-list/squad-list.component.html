@@ -1,4 +1,4 @@
-<ul class="font-quicksand">
+<ul *ngIf="!loading" class="font-quicksand">
   <li *ngFor="let squad of squads">
     <span>{{ squad.name }}</span>
     <button
@@ -37,7 +37,7 @@
               <div class="w-1/2 md:w-full relative p-6 flex-auto">
                 <label
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  for="gamename"
+                  for="name"
                 >
                   Squad name
                 </label>
@@ -75,3 +75,5 @@
     </div>
   </div>
 </ul>
+
+<div *ngIf="loading">Loading...</div>
