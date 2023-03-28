@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-rules-modal',
@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./rules-modal.component.css']
 })
 export class RulesModalComponent {
-  showModal = false;
+  @Output() disableModalEvent = new EventEmitter<boolean>();
   
-  toggleModal() {
-    this.showModal = !this.showModal;
+  sendDisableModalEvent() {
+    this.disableModalEvent.emit(false);
   }
 
 }

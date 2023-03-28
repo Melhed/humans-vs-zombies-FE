@@ -1,75 +1,61 @@
-<div id="rules">
-    <button
-      class="block py-2 pl-2 pr-2 text-gray-700 rounded
-      hover:bg-gray-100 md:hover:bg-transparent md:border-0
-      md:hover:text-blue-700 md:p-0 dark:text-gray-400
-      md:dark:hover:text-white dark:hover:bg-gray-700
-      dark:hover:text-white md:dark:hover:bg-transparent"
-      type="button"
-      (click)="toggleModal()">
-      Rules
-    </button>
-    <div
-      *ngIf="showModal"
-      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
-      <div class="relative w-auto my-6 mx-auto max-w-6xl">
-        <!--content-->
+<div>
+  <div
+    class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+    <div class="relative w-auto my-6 mx-auto max-w-6xl">
+      <!--content-->
+      <div
+        class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <!--header-->
         <div
-          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-          <!--header-->
-          <div
-            class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-            <h3 class="text-3xl font-semibold">Rules</h3>
-          </div>
-          <!--body-->
-          <div class="relative p-6 flex-auto">
-            <ul
-              style="list-style-type: disc"
-              class="my-4 text-slate-500 text-lg leading-relaxed p-4">
-              <li>
-                The game begins with one or more “Original Zombies” (OZ)
-                or patient zero. The purpose of the OZ is to infect
-                human players by tagging them. Once tagged, a human
-                becomes a zombie for the remainder of the game.
-              </li>
-              <li>
-                Human players are able to defend themselves against the
-                zombie horde using Nerf weapons and clean, rolled-up
-                socks which may be thrown to stun an unsuspecting
-                zombie.
-              </li>
-              <li>
-                Many variants of the game rules exist which introduce
-                additional rules and activities into the game; for
-                example, the Rhodes University variant introduces a
-                web-based game map where markers appear showing the
-                location of missions and supplies. The appearance of
-                supplies forces humans to leave their safe zones and
-                risk being turned.
-              </li>
-              <li class="font-bold">
-                This will be edited later to fit our rules
-              </li>
-            </ul>
-          </div>
-          <!--footer-->
-          <div
-            class="flex items-center justify-end p-6 border-t
-            border-solid border-slate-200 rounded-b">
-            <button
-              class="text-red-500 background-transparent font-bold
-              uppercase px-6 py-2 text-sm outline-none
-              focus:outline-none mr-1 mb-1 ease-linear transition-all
-              duration-150"
-              type="button"
-              (click)="toggleModal()">
-              Close
-            </button>
-          </div>
-          <div
-            *ngIf="showModal"
-            class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+          <h3 class="text-3xl font-semibold">Rules</h3>
+        </div>
+        <!--body-->
+        <div class="relative p-6 flex-auto">
+          <ul
+            style="list-style-type: disc"
+            class="my-4 text-slate-500 text-lg leading-relaxed p-4">
+            <li>
+              The game begins with one or more “Original Zombies” (OZ)
+              or patient zero. The purpose of the OZ is to infect
+              human players by tagging them. Once tagged, a human
+              becomes a zombie for the remainder of the game.
+            </li>
+            <li>
+              Human players are able to defend themselves against the
+              zombie horde using Nerf weapons and clean, rolled-up
+              socks which may be thrown to stun an unsuspecting
+              zombie.
+            </li>
+            <li>
+              Many variants of the game rules exist which introduce
+              additional rules and activities into the game; for
+              example, the Rhodes University variant introduces a
+              web-based game map where markers appear showing the
+              location of missions and supplies. The appearance of
+              supplies forces humans to leave their safe zones and
+              risk being turned.
+            </li>
+            <li class="font-bold">
+              This will be edited later to fit our rules
+            </li>
+          </ul>
+        </div>
+        <!--footer-->
+        <div
+          class="flex items-center justify-end p-6 border-t
+          border-solid border-slate-200 rounded-b">
+          <button
+            class="text-[#785fce] hover:scale-105 background-transparent font-bold
+            uppercase px-6 py-2 text-sm outline-none
+            focus:outline-none mr-1 mb-1 ease-linear transition-all
+            duration-150"
+            type="button"
+            (click)="sendDisableModalEvent()">
+            Close
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>

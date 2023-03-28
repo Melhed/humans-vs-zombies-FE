@@ -1,4 +1,4 @@
-<nav class="bg-gray-500 border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
+<nav class="bg-[#785fce] border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 font-quicksand sticky top-0">
   <div class="container flex flex-wrap items-center justify-between mx-auto">
     <div class="flex items-center">
       <img
@@ -7,7 +7,7 @@
         alt="HUMANS vs ZOMBIES Logo"
         />
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap
+        class="self-center text-xl text-white font-semibold whitespace-nowrap
         dark:text-white">HUMANS vs ZOMBIES</span>
     </div>
     <div
@@ -45,8 +45,15 @@
             </button>
           </a>
         </li>
-        <li>
-          <app-rules-modal></app-rules-modal>
+        <li id="rules">
+          <button
+            type="button"
+            (click)="toggleRulesModal()">
+            Rules
+          </button>
+          <div *ngIf="showRulesModal">
+            <app-rules-modal (disableModalEvent)="toggleRulesModal()"></app-rules-modal>
+          </div>
         </li>
         <li>
           <app-login-component></app-login-component>

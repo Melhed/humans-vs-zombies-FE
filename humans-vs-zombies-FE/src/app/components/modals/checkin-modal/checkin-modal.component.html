@@ -1,46 +1,45 @@
-<div class="relative w-auto my-6 mx-auto max-w-6xl">
-    <!--content-->
-  
+<div class="relative w-auto my-6 mx-auto max-w-6xl font-quicksand">
+  <!--content-->
+  <div
+    class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+  >
+    <!--header-->
     <div
-      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+      class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
     >
-      <!--header-->
-      <div
-        class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+      <h2 class="text-3xl font-semibold">Squad Checkin #{{ checkin.id }}</h2>
+    </div>
+    <!--body-->
+    <div class="w-1/2 md:w-full relative p-6 flex-auto">
+      <h3 class="block text-gray-700 text-sm font-bold">Squad Member ID</h3>
+      <p>{{ checkin.squadMemberId }}</p>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Squad ID</h3>
+      <p>{{ checkin.squadId }}</p>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Timestamp</h3>
+      <p>
+        {{ checkin.timeStamp | date : "yyyy-MM-dd HH:mm:ss" }}
+      </p>
+
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">Checkin Location</h3>
+      <p>
+        Latitude: {{ checkin.lat }} Longitude:
+        {{ checkin.lng }}
+      </p>
+    </div>
+
+    <!--footer-->
+    <div
+      class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+    >
+      <button
+        class="text-[#785fce] hover:scale-105 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        (click)="sendDisableModal()"
       >
-        <h2 class="text-3xl font-semibold">Squad Checkin #{{ checkin.id }}</h2>
-      </div>
-      <!--body-->
-      <div class="w-1/2 md:w-full relative p-6 flex-auto">
-        <h3 class="block text-gray-700 text-sm font-bold">Squad Member ID</h3>
-        <p>{{ checkin.squadMemberId }}</p>
-  
-        <h3 class="block text-gray-700 text-sm font-bold mt-1">Squad ID</h3>
-        <p>{{ checkin.squadId }}</p>
-  
-        <h3 class="block text-gray-700 text-sm font-bold mt-1">Timestamp</h3>
-        <p>
-          {{ checkin.timeStamp | date : "yyyy-MM-dd HH:mm:ss" }}
-        </p>
-  
-        <h3 class="block text-gray-700 text-sm font-bold mt-1">Checkin Location</h3>
-        <p>
-          Latitude: {{ checkin.lat }} Longitude:
-          {{ checkin.lng }}
-        </p>
-      </div>
-  
-      <!--footer-->
-      <div
-        class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
-      >
-        <button
-          class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          (click)="sendDisableModal()"
-        >
-          Close
-        </button>
-      </div>
+        Close
+      </button>
     </div>
   </div>
+</div>
