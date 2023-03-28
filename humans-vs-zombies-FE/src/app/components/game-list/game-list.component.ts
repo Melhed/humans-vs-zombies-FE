@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
@@ -12,7 +12,7 @@ import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 import { environment } from 'src/environments/environment';
-import { PlayerListService } from 'src/app/services/player-list.service';
+
 const {APIGames} = environment;
 
 @Component({

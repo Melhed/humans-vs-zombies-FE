@@ -1,12 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
+import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
 import { Player } from '../models/player.model';
 import { StorageUtil } from '../utils/storage.util';
-const {APIGames} = environment;
+const { APIGames } = environment;
 
 @Injectable({
   providedIn: 'root'
@@ -27,22 +27,20 @@ export class PlayerListService {
   public get loading(): boolean {
     return this._loading;
   }
-  
+
   constructor(private readonly http: HttpClient) { }
   public findAllPlayers(): void {
     const currentGame: Game = StorageUtil.storageRead(StorageKeys.Game)!;
     this._loading = true;
     this.http.get<Player[]>(`${APIGames}/${currentGame.id}/player`)
     .pipe(
-      finalize(() => { 
+      finalize(() => {
         this._loading = false;
       })
     )
     .subscribe({
       next: (players: Player[]) => {
         this._players = players;
-        console.log("All player : ", this._players);
-        console.log("******  " , this._players.find(player => player.id === 1));
       },
       error: (error: HttpErrorResponse) => {
         this._error = error.message;

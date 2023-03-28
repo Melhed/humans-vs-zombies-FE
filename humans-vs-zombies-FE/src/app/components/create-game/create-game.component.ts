@@ -7,7 +7,7 @@ const { APIGames } = environment;
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
-  styleUrls: ['./create-game.component.css']
+  styleUrls: []
 })
 export class CreateGameComponent {
 

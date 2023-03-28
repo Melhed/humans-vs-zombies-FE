@@ -33,13 +33,11 @@ export class SquadListComponent implements OnInit {
       if (squads[0]) this._squads = squads;
     });
     this.squadService.currentPlayerSquad.subscribe((squad: Squad | undefined) => {
-      if(squad) {
+      if(squad)
         console.log(squad);
-        
-      }
       this._loading = false;
     })
-    
+
   }
 
   get player(): Player {

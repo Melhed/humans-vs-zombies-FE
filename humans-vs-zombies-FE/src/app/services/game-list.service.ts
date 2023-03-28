@@ -4,7 +4,6 @@ import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Game } from '../models/game.model';
 import { Player } from '../models/player.model';
-import { PlayerListService } from './player-list.service';
 
 const {APIGames} = environment;
 
@@ -31,8 +30,7 @@ export class GameListService {
     return this._loading;
   }
 
-  constructor(private readonly http: HttpClient,
-    private readonly playerListService: PlayerListService) { }
+  constructor(private readonly http: HttpClient) { }
 
   public findAllGames(): void {
     this._loading = true;
@@ -99,8 +97,7 @@ export class GameListService {
       error:(error: HttpErrorResponse) => {
         console.log("ERROR: ", error.message);
       }
-
-    });;
+    });
   }
 
   public gameByID(id: number): Game | undefined {

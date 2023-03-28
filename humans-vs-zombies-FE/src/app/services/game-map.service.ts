@@ -1,15 +1,9 @@
-import {
-  ElementRef,
-  Injectable,
-  ViewChild,
-  AfterViewInit,
-  OnInit,
-} from '@angular/core';
-import { Map, Overlay } from 'ol';
+import { Injectable } from '@angular/core';
+import { Map } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import View from 'ol/View';
 import OSM from 'ol/source/OSM';
-import { LineString, Point } from 'ol/geom';
+import { LineString } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
@@ -109,5 +103,5 @@ export class GameMapService {
     });
   }
 
-  constructor(private readonly gameMarkerService: GameMarkerService) {}
+  constructor() { }
 }

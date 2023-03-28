@@ -28,21 +28,21 @@ export class GameViewPage implements OnInit {
   }
 
   showCreateMissionModal = false;
-  toggleCreateMissionModal() {
+  public toggleCreateMissionModal() {
     this.showCreateMissionModal = !this.showCreateMissionModal;
   }
 
   showSquadCheckinModal = false;
-  toggleSquadCheckinModal() {
+  public toggleSquadCheckinModal() {
     this.showSquadCheckinModal = !this.showSquadCheckinModal;
   }
 
   showBiteCodeModal = false;
-  toggleBiteCodeModal() {
+  public toggleBiteCodeModal() {
     this.showBiteCodeModal = !this.showBiteCodeModal;
   }
 
-  addKill(kill: {
+  public addKill(kill: {
     biteCode: string;
     story: string;
     lat: string;

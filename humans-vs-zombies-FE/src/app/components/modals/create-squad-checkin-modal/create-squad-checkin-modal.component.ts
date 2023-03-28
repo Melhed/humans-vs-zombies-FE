@@ -3,10 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
 import { PlayerSquadInfo } from 'src/app/models/player-squad-info.model';
-import { Player } from 'src/app/models/player.model';
 import { SquadCheckin } from 'src/app/models/squad-checkin.model';
-import { SquadMember } from 'src/app/models/squad-member.model';
-import { Squad } from 'src/app/models/squad.model';
 import { CheckinService } from 'src/app/services/squad-checkin.service';
 import { SquadListService } from 'src/app/services/squad-list.service';
 import { SquadService } from 'src/app/services/squad.service';
@@ -33,12 +30,10 @@ export class CreateSquadCheckinModalComponent implements OnInit{
     this.squadService.playerSquadInfo.subscribe((playerSquadInfo: PlayerSquadInfo | undefined) => {
       if(playerSquadInfo !== undefined) {
         this._playerSquadInfo = playerSquadInfo;
-        
       }
     })
-    
   }
-  
+
   addCheckin(checkin: {
     lat: number;
     lng: number;
@@ -46,7 +41,7 @@ export class CreateSquadCheckinModalComponent implements OnInit{
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const squadId = this._playerSquadInfo!.playerSquadId;
     const newCheckin = {
-      lat: checkin.lat, lng: checkin.lng, 
+      lat: checkin.lat, lng: checkin.lng,
       gameId: game!.id, squadId: this._playerSquadInfo!.playerSquadId, squadMemberId: this._playerSquadInfo!.playerMemberId
     }
 
