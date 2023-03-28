@@ -1,58 +1,58 @@
 <form #addCheckinForm="ngForm" (ngSubmit)="addCheckin(addCheckinForm.value)">
-    <div class="relative w-auto my-6 mx-auto max-w-6xl">
-      <!--content-->
-  
+  <div class="relative w-auto my-6 mx-auto max-w-6xl font-quicksand">
+    <!--content-->
+
+    <div
+      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+    >
+      <!--header-->
       <div
-        class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
       >
-        <!--header-->
-        <div
-          class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
+        <h3 class="text-3xl font-semibold">Squad Checkin</h3>
+      </div>
+      <!--body-->
+      <div class="w-1/2 md:w-full relative p-6 flex-auto">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="lat">
+          Latitude
+        </label>
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="lat"
+          type="number"
+        />
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="lng">
+          Longitude
+        </label>
+        <input
+          ngModel
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="lng"
+          type="number"
+        />
+      </div>
+
+      <!--footer-->
+      <div
+        class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+      >
+        <button
+          class="text-[#785fce] hover:scale-105 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="submit"
+          [disabled]="addCheckinForm.invalid"
         >
-          <h3 class="text-3xl font-semibold">Squad Checkin</h3>
-        </div>
-        <!--body-->
-        <div class="w-1/2 md:w-full relative p-6 flex-auto">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="lat">
-            Latitude
-          </label>
-          <input
-            ngModel
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="lat"
-            type="number"
-          />
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="lng">
-            Longitude
-          </label>
-          <input
-            ngModel
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="lng"
-            type="number"
-          />
-        </div>
-  
-        <!--footer-->
-        <div
-          class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+          Add
+        </button>
+        <button
+          class="text-[#785fce] hover:scale-105 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="sendDisableModalEvent()"
         >
-          <button
-            class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-            type="submit"
-            [disabled]="addCheckinForm.invalid"
-          >
-            Add
-          </button>
-          <button
-            class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-            type="button"
-            (click)="sendDisableModalEvent()"
-          >
-            Close
-          </button>
-        </div>
+          Close
+        </button>
       </div>
     </div>
-  </form>
+  </div>
+</form>
   
