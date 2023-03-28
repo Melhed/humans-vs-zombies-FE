@@ -12,6 +12,7 @@ import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 import { environment } from 'src/environments/environment';
+import { PlayerListService } from 'src/app/services/player-list.service';
 const {APIGames} = environment;
 
 @Component({
@@ -19,7 +20,7 @@ const {APIGames} = environment;
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
-export class GameListComponent implements OnInit{
+export class GameListComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
@@ -90,21 +91,21 @@ export class GameListComponent implements OnInit{
     this.reactiveForm.setValue(contact);
   }
 
-  saveGameToStorageAndRedirect(game: Game) {
+  public saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
     this.router.navigateByUrl("/game-view");
   }
 
   public async onJoinGame(game: Game) {
-    if(game.registeredPlayers < game.maxPlayers && keycloak.authenticated) {
-      game.registeredPlayers++;
-      this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
-    } else if (game.registeredPlayers >= game.maxPlayers) {
-      alert("This game is full");
-    } else if (!keycloak.authenticated) {
-      alert("You need to login");
-    }
+    // if(game.registeredPlayers < game.maxPlayers && keycloak.authenticated) {
+    //   game.registeredPlayers++;
+    //   this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
+    // } else if (game.registeredPlayers >= game.maxPlayers) {
+    //   alert("This game is full");
+    // } else if (!keycloak.authenticated) {
+    //   alert("You need to login");
+    // }
     this.gameService.joinGame(game.id);
     await this.delay(100);
     this.saveGameToStorageAndRedirect(game);
@@ -127,15 +128,10 @@ export class GameListComponent implements OnInit{
   }
 
   public deleteGame(gameId: number): void {
-    console.log(gameId);
     this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
-
   }
+
   ngOnInit(): void {
-
   }
-}
-function saveGameToStorageAndRedirect(game: any, Game: any) {
-  throw new Error('Function not implemented.');
 }
 

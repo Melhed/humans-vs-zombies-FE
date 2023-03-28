@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { UnaryOperator } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
+import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Game } from '../models/game.model';
+import { Player } from '../models/player.model';
+import { PlayerListService } from './player-list.service';
 
 const {APIGames} = environment;
 
@@ -30,14 +31,15 @@ export class GameListService {
     return this._loading;
   }
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient,
+    private readonly playerListService: PlayerListService) { }
 
   public findAllGames(): void {
     this._loading = true;
     this.http.get<Game[]>(APIGames)
     .pipe(
       finalize(() => { //will run after last
-        this._loading = false;
+        this.setNoPlayers();
       })
     )
     .subscribe({
@@ -50,7 +52,28 @@ export class GameListService {
     })
   }
 
-  
+  private setNoPlayers() {
+    const games: Game[] = [];
+    this._games.map((game: Game) => {
+      this.http.get<Player[]>(`${APIGames}/${game.id}/player`)
+        .pipe(
+          finalize(() => {
+            this._loading = false;
+          })
+        )
+        .subscribe({
+          next: (players: Player[]) => {
+            game.registeredPlayers = players.length;
+          },
+          error: (error: HttpErrorResponse) => {
+            this._error = error.message;
+          }
+        })
+      games.push(game);
+    })
+    this._games = games;
+  }
+
   public gameById(): Game | undefined{
     return this._games.find(game => game.id === Number(localStorage.getItem('game-id')));
   }
@@ -60,7 +83,7 @@ export class GameListService {
     if(!game){
       throw new Error("updateGame: No game provided");
     }
-    
+
     game.name = updatedGame.name;
     game.startTime = updatedGame.startTime;
     game.endTime = updatedGame.endTime;
@@ -68,7 +91,7 @@ export class GameListService {
     game.seLat = updatedGame.seLat;
     game.nwLng = updatedGame.nwLng;
     game.seLng = updatedGame.seLng;
-    
+
     const url = `${APIGames}/${localStorage.getItem('game-id')}`;
     return this.http.put(url, game).subscribe({
       next:(response: any) => {
@@ -77,7 +100,7 @@ export class GameListService {
       error:(error: HttpErrorResponse) => {
         console.log("ERROR: ", error.message);
       }
-      
+
     });;
   }
 
