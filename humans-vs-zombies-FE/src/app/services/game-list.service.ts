@@ -78,22 +78,21 @@ export class GameListService {
     return this._games.find(game => game.id === Number(localStorage.getItem('game-id')));
   }
 
-  updateGame(updatedGame: any) {
-    const game: Game | undefined = this.gameById();
-    if(!game){
+  updateGame(updatedGame: any, currentGame: Game) {
+    if(!currentGame){
       throw new Error("updateGame: No game provided");
     }
 
-    game.name = updatedGame.name;
-    game.startTime = updatedGame.startTime;
-    game.endTime = updatedGame.endTime;
-    game.nwLat = updatedGame.nwLat;
-    game.seLat = updatedGame.seLat;
-    game.nwLng = updatedGame.nwLng;
-    game.seLng = updatedGame.seLng;
+    currentGame.name = updatedGame.name;
+    currentGame.startTime = updatedGame.startTime;
+    currentGame.endTime = updatedGame.endTime;
+    currentGame.nwLat = updatedGame.nwLat;
+    currentGame.seLat = updatedGame.seLat;
+    currentGame.nwLng = updatedGame.nwLng;
+    currentGame.seLng = updatedGame.seLng;
 
-    const url = `${APIGames}/${localStorage.getItem('game-id')}`;
-    return this.http.put(url, game).subscribe({
+    const url = `${APIGames}/${currentGame.id}`;
+    return this.http.put(url, currentGame).subscribe({
       next:(response: any) => {
         console.log("NEXT: ", response)
       },

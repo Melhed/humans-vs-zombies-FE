@@ -14,8 +14,8 @@
             <div class="text-center text-[#785fce]">{{ game.registeredPlayers }}</div>
             <div class="text-center">{{ game.state }}</div>
             <div class="col-start-4 flex justify-end">
-                <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame(game)" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
-                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails(game)" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button>
+                <!-- <button *ngIf="(game.state=='REGISTRATION')" (click)="onJoinGame(game)" class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105 h-fit p-2 rounded-full text-[#458f74]">Join Game</button>
+                <button *ngIf="(game.state=='REGISTRATION')" (click)="onGameDetails(game)" class="hidden group-hover:block bg-[#785fce] hover:scale-105 h-fit w-fit p-2 rounded-full text-white">Game Details</button> -->
         <button *ngIf="(game.state=='REGISTRATION')"
           class="hidden mx-4 group-hover:block bg-[#e3f6f0] hover:scale-105
           h-fit p-2 rounded-full text-[#458f74]"
@@ -74,7 +74,7 @@
                         class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                         type="submit"
                         [disabled]="reactiveForm.invalid"
-                        (click)="onUpdateGame(reactiveForm)">
+                        (click)="onUpdateGame(reactiveForm, game)">
                         Update
                       </button>
                       <button
