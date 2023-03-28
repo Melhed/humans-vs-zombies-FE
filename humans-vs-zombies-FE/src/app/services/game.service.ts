@@ -23,7 +23,6 @@ export class GameService {
   ) {}
 
   public joinGame(gameId: number | undefined): void {
-    console.log('jmm');
     const user = StorageUtil.storageRead<User>(StorageKeys.User);
     this.playerService.setPlayer(gameId, user!.id);
     this.playerService.player.subscribe((player: Player | undefined) => {
