@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
-//import { Checkin } from '../models/squad-checkin.model';
-import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SquadCheckin } from '../models/squad-checkin.model';
 import { Player } from '../models/player.model';
 import { StorageUtil } from '../utils/storage.util';
@@ -64,12 +63,11 @@ export class CheckinService {
 
   private fetchSquadCheckins(squadId: number): void {
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
-    
+
     this._loading = true;
 
     this.http.get<SquadCheckin[]>(`${APIGames}/${game!.id}/squad/${squadId}/check-in`).subscribe((squadCheckins: SquadCheckin[]) => {
       this.updateCheckins(squadCheckins)
-      console.log(squadCheckins);
     })
   }
 }

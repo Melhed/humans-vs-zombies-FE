@@ -2,7 +2,7 @@ export interface Player {
     id?: number;
     state?: string,
     biteCode?: string;
-    isHuman?: boolean;
+    human?: boolean;
     isPatientZero?: boolean;
     user: string;
     game?: number;

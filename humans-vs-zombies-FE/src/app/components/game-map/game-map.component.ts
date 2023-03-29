@@ -12,7 +12,6 @@ import { Game } from 'src/app/models/game.model';
 import { Kill } from 'src/app/models/kill.model';
 import { MarkerType } from 'src/app/models/marker.model';
 import { GameMapService } from 'src/app/services/game-map.service';
-import { GameService } from 'src/app/services/game.service';
 import { KillService } from 'src/app/services/kill.service';
 import { GameMarkerService } from 'src/app/services/game-marker.service';
 import { MissionService } from 'src/app/services/mission.service';
@@ -107,7 +106,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
 
   }
 
-  
+
 
   ngAfterViewInit(): void {
     this._gameMap!.on('click', (e) => {
@@ -117,10 +116,7 @@ export class GameMapComponent implements OnInit, AfterViewInit {
           return feature;
         }
       );
-
       if (feature) {
-        console.log(feature.getProperties());
-        
         if (
           this.currentMarkerData === undefined ||
           this.currentMarkerType !== feature.getProperties()['type'] ||
@@ -133,7 +129,6 @@ export class GameMapComponent implements OnInit, AfterViewInit {
             if (data.squadMemberId) this.setCheckinMarkerData(data);
           });
         }
-
         this.showModal = true;
       }
     });

@@ -30,7 +30,6 @@ export class MissionModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this._isAdmin);
     this.gameMarkerService.clickedMarkerData.subscribe(
       (mission: Mission) => (this.currentMission = mission)
     );
@@ -63,8 +62,6 @@ export class MissionModalComponent implements OnInit {
       isZombieVisible: mission.isZombieVisible !== "" ? true : false,
       gameId: this.currentMission.gameId!
     };
-
-    console.log(missionInfo);
     this.missionService.updateMission(missionInfo);
   }
 

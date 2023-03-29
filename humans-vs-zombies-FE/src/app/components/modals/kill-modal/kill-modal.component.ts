@@ -30,7 +30,6 @@ export class KillModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this._isAdmin);
     this.gameMarkerService.clickedMarkerData.subscribe(
       (kill: Kill) => (this.currentKill = kill)
     );
@@ -59,8 +58,6 @@ export class KillModalComponent implements OnInit {
       game: this.currentKill.game,
       timeOfDeath: this.currentKill.timeOfDeath,
     };
-
-    console.log(killInfo);
     this.killService.updateKill(killInfo);
   }
 

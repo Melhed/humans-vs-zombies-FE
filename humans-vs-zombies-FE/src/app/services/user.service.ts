@@ -76,6 +76,4 @@ export class UserService {
   public userById(id: any): User | undefined{
     return this._allUsers.find(user => user.id === id);
   }
-
-  
 }

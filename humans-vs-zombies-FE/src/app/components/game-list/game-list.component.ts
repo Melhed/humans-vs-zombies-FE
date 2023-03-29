@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Game } from 'src/app/models/game.model';
@@ -12,6 +12,7 @@ import { PlayerService } from 'src/app/services/player.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 import { environment } from 'src/environments/environment';
+
 const {APIGames} = environment;
 
 @Component({
@@ -19,7 +20,7 @@ const {APIGames} = environment;
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
-export class GameListComponent implements OnInit{
+export class GameListComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
@@ -44,12 +45,13 @@ export class GameListComponent implements OnInit{
   @Input() games: Game[] = [];
   acceptedTime: boolean = true;
   showUpdateGameModal: boolean = false;
-  toggleUpdateGameModal() {
+
+  public toggleUpdateGameModal() {
     this.showUpdateGameModal = !this.showUpdateGameModal;
     this.setDefault();
   }
 
-  onUpdateGame(form: FormGroup){
+  public onUpdateGame(form: FormGroup, game: Game){
     const start = new Date(this.reactiveForm.get("startTime")?.value);
     const end = new Date(this.reactiveForm.get("endTime")?.value);
     if(start < end){
@@ -62,9 +64,8 @@ export class GameListComponent implements OnInit{
         seLat: this.reactiveForm.get("seLat")?.value,
         seLng: this.reactiveForm.get("seLng")?.value,
       }
-
       this.reactiveForm.setValue(currentGameValues);
-      this.gameListService.updateGame(currentGameValues);
+      this.gameListService.updateGame(currentGameValues, game);
       this.showUpdateGameModal = !this.showUpdateGameModal;
 
     }else{
@@ -88,21 +89,13 @@ export class GameListComponent implements OnInit{
     this.reactiveForm.setValue(contact);
   }
 
-  saveGameToStorageAndRedirect(game: Game) {
+  public saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
     this.router.navigateByUrl("/game-view");
   }
 
   public async onJoinGame(game: Game) {
-    if(game.registeredPlayers < game.maxPlayers && keycloak.authenticated) {
-      game.registeredPlayers++;
-      this.gameService.updateObjectProperty(game.id!, game.registeredPlayers);
-    } else if (game.registeredPlayers >= game.maxPlayers) {
-      alert("This game is full");
-    } else if (!keycloak.authenticated) {
-      alert("You need to login");
-    }
     this.gameService.joinGame(game.id);
     await this.delay(100);
     this.saveGameToStorageAndRedirect(game);
@@ -125,7 +118,6 @@ export class GameListComponent implements OnInit{
   }
 
   public deleteGame(gameId: number): void {
-    console.log(gameId);
     this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
   }
 
@@ -133,8 +125,5 @@ export class GameListComponent implements OnInit{
     if(keycloak.realmAccess?.roles.includes("hvz-admin"))
       this.role = "hvz-admin";
   }
-}
-function saveGameToStorageAndRedirect(game: any, Game: any) {
-  throw new Error('Function not implemented.');
 }
 

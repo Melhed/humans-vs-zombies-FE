@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable } from 'rxjs';
+import { BehaviorSubject, finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
@@ -56,8 +56,6 @@ export class MissionService {
       )
       .subscribe({
         next: (missions: Mission[]) => {
-          console.log(missions);
-          
           this.updateMissions(missions);
         },
         error: (error: HttpErrorResponse) => {

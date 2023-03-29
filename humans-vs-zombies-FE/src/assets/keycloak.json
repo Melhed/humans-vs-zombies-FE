@@ -1,6 +1,6 @@
 {
-  "realm": "hvz",
-  "auth-server-url": "http://localhost:8083/auth/",
+  "realm": "hvz-case",
+  "auth-server-url": "https://lemur-3.cloud-iam.com/auth/",
   "ssl-required": "external",
   "resource": "angular-cli",
   "public-client": true,

@@ -13,7 +13,7 @@ const {APIMission} = environment;
 @Component({
   selector: 'app-add-mission',
   templateUrl: './add-mission.component.html',
-  styleUrls: ['./add-mission.component.css']
+  styleUrls: []
 })
 export class AddMissionComponent {
   constructor(
@@ -36,7 +36,7 @@ export class AddMissionComponent {
   toggleAddMissionModal() {
     this.showAddMissionModal = !this.showAddMissionModal;
   }
-  
+
   onAddMission(mission: {title: String, description: String, startTime: Date, endTime: Date, lat: number, lng: number, humanVisible: boolean, zombieVisible: boolean, gameId: number}) {
     this._mission = mission;
 

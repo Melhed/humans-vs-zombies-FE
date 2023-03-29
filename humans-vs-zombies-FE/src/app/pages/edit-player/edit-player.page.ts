@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from 'src/app/models/player.model';
 import { User } from 'src/app/models/user.model';
-import { EditPlayerService } from 'src/app/services/edit-player.service';
 import { UserService } from 'src/app/services/user.service';
 import keycloak from 'src/keycloak';
 import { KeycloakProfile } from 'keycloak-js';
@@ -10,7 +9,7 @@ import { PlayerListService } from 'src/app/services/player-list.service';
 @Component({
   selector: 'app-edit-player',
   templateUrl: './edit-player.page.html',
-  styleUrls: ['./edit-player.page.css']
+  styleUrls: []
 })
 export class EditPlayerPage implements OnInit{
 
@@ -28,9 +27,10 @@ export class EditPlayerPage implements OnInit{
 
   private user?: User = undefined;
 
-  constructor (private readonly editPlayerService: EditPlayerService, 
+  constructor (
     private readonly userService: UserService,
-    private readonly playerListService: PlayerListService) { }
+    private readonly playerListService: PlayerListService
+  ) { }
 
     async ngOnInit(): Promise<void> {
     this.playerListService.findAllPlayers();

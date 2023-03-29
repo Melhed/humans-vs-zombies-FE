@@ -6,9 +6,8 @@ import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
 import { Kill } from '../models/kill.model';
 import { StorageUtil } from '../utils/storage.util';
-import { CheckinService } from './squad-checkin.service';
 
-const { APIKill, APIKey } = environment;
+const { APIKill } = environment;
 
 @Injectable({
   providedIn: 'root',

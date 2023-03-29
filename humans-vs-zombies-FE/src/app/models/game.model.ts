@@ -9,5 +9,5 @@ export interface Game {
     seLat: number;
     seLng: number;
     maxPlayers: number;
-    registeredPlayers: number;
+    registeredPlayers?: number;
 }

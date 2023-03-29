@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageKeys } from '../consts/storage-keys.enum';
 import { Game } from '../models/game.model';
@@ -8,10 +8,9 @@ import { environment } from 'src/environments/environment';
 import { SquadDetails } from '../models/squad-details.model';
 import { Player } from '../models/player.model';
 import { SquadMember } from '../models/squad-member.model';
-import { BehaviorSubject, finalize } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SquadListService } from './squad-list.service';
 import { PlayerSquadInfo } from '../models/player-squad-info.model';
-import { CheckinService } from './squad-checkin.service';
 import { SquadCheckin } from '../models/squad-checkin.model';
 const { APIGames } = environment;
 
