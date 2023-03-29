@@ -29,16 +29,20 @@ export class ChatComponent implements AfterViewInit, OnInit {
   ) {
     this.game = StorageUtil.storageRead(StorageKeys.Game);
     this.squad = StorageUtil.storageRead(StorageKeys.Squad);
-    this._player = StorageUtil.storageRead(StorageKeys.Player);
+  }
+
+  get isLoading(): boolean {
+    return this.playerService.isLoading;
   }
 
   ngOnInit(): void {
-
-    this._player = StorageUtil.storageRead(StorageKeys.Player);
+    this.playerService.player.subscribe((player: Player | undefined) => {
+      if (this.player !== undefined) this._player = player;
+    });
   }
 
   ngAfterViewInit(): void {
-    if(this._player !== null) {
+    if (this._player !== null && this._player !== undefined) {
       this.fetchChat();
       this.chatService.globalChat.subscribe((chats: Chat[]) => {
         this._chats = chats;
@@ -50,7 +54,7 @@ export class ChatComponent implements AfterViewInit, OnInit {
   fetchChat(): void {
     this.chatService.findAllChats(
       StorageUtil.storageRead(StorageKeys.Game)!,
-      StorageUtil.storageRead(StorageKeys.Player),
+      this._player,
       StorageUtil.storageRead(StorageKeys.Squad)!
     );
   }
