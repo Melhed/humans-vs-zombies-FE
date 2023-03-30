@@ -21,6 +21,7 @@ export class SquadListService {
 
   private _squads$ = new BehaviorSubject<Squad[]>([]);
   squads = this._squads$.asObservable();
+
   private _error: String = '';
   private _loading: boolean = false;
 
@@ -56,21 +57,22 @@ export class SquadListService {
   }
 
   joinSquad(squad: Squad): void {
+    this._loading = true;
     const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
 
     this.http
-    .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
-    .subscribe({
-      next: () => {
-        StorageUtil.storageSave(StorageKeys.Squad, squad);
-        player!.state = PlayerState.SQUAD_MEMBER;
-        StorageUtil.storageSave(StorageKeys.Player, player);
+      .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
+      .pipe(finalize(() => this._loading = false))
+      .subscribe({
+        next: () => {
+          StorageUtil.storageSave(StorageKeys.Squad, squad);
+          player!.state = PlayerState.SQUAD_MEMBER;
+          StorageUtil.storageSave(StorageKeys.Player, player);
 
           this.playerService.handlePlayerAccess(game!.id!, user!);
           this.findAllSquads();
-          window.location.reload();
         },
         error: (error: HttpErrorResponse) => {
           this._error = error.message;
@@ -79,6 +81,7 @@ export class SquadListService {
   }
 
   createNewSquad(name: string, player: Player | undefined) {
+    this._loading = true;
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
     const squadDTO = {
@@ -86,7 +89,9 @@ export class SquadListService {
       squadName: name,
     };
 
-    this.http.post<Squad>(`${APIGames}/${game!.id}/squad`, squadDTO).subscribe({
+    this.http.post<Squad>(`${APIGames}/${game!.id}/squad`, squadDTO)
+    .pipe(finalize(() => this._loading = false))
+    .subscribe({
       next: (squad: Squad) => {
         StorageUtil.storageSave(StorageKeys.Squad, squad);
         StorageUtil.storageRemove(StorageKeys.Player);

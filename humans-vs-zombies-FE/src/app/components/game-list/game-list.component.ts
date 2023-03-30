@@ -13,15 +13,14 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 import keycloak from 'src/keycloak';
 import { environment } from 'src/environments/environment';
 
-const {APIGames} = environment;
+const { APIGames } = environment;
 
 @Component({
   selector: 'app-game-list',
   templateUrl: './game-list.component.html',
-  styleUrls: ['./game-list.component.css']
+  styleUrls: ['./game-list.component.css'],
 })
 export class GameListComponent implements OnInit {
-
   constructor(
     private readonly router: Router,
     private readonly gameListService: GameListService,
@@ -30,7 +29,7 @@ export class GameListComponent implements OnInit {
     private readonly http: HttpClient
   ) {}
 
-  role = "none";
+  role = 'none';
 
   reactiveForm = new FormGroup({
     name: new FormControl(),
@@ -39,8 +38,8 @@ export class GameListComponent implements OnInit {
     nwLat: new FormControl(),
     nwLng: new FormControl(),
     seLat: new FormControl(),
-    seLng:new FormControl()
-  })
+    seLng: new FormControl(),
+  });
 
   @Input() games: Game[] = [];
   acceptedTime: boolean = true;
@@ -51,30 +50,31 @@ export class GameListComponent implements OnInit {
     this.setDefault();
   }
 
-  public onUpdateGame(form: FormGroup, game: Game){
-    const start = new Date(this.reactiveForm.get("startTime")?.value);
-    const end = new Date(this.reactiveForm.get("endTime")?.value);
-    if(start < end){
+  public onUpdateGame(form: FormGroup, game: Game) {
+    const start = new Date(this.reactiveForm.get('startTime')?.value);
+    const end = new Date(this.reactiveForm.get('endTime')?.value);
+    if (start < end) {
       let currentGameValues = {
-        name: this.reactiveForm.get("name")?.value,
-        startTime: this.reactiveForm.get("startTime")?.value,
-        endTime:this.reactiveForm.get("endTime")?.value,
-        nwLat: this.reactiveForm.get("nwLat")?.value,
-        nwLng: this.reactiveForm.get("nwLng")?.value,
-        seLat: this.reactiveForm.get("seLat")?.value,
-        seLng: this.reactiveForm.get("seLng")?.value,
-      }
+        name: this.reactiveForm.get('name')?.value,
+        startTime: this.reactiveForm.get('startTime')?.value,
+        endTime: this.reactiveForm.get('endTime')?.value,
+        nwLat: this.reactiveForm.get('nwLat')?.value,
+        nwLng: this.reactiveForm.get('nwLng')?.value,
+        seLat: this.reactiveForm.get('seLat')?.value,
+        seLng: this.reactiveForm.get('seLng')?.value,
+      };
       this.reactiveForm.setValue(currentGameValues);
       this.gameListService.updateGame(currentGameValues, game);
       this.showUpdateGameModal = !this.showUpdateGameModal;
-
-    }else{
+    } else {
       this.acceptedTime = false;
     }
   }
 
   setDefault() {
-    let currentGame = this.games.find((game) => {return game.id === Number(localStorage.getItem('game-id'))});
+    let currentGame = this.games.find((game) => {
+      return game.id === Number(localStorage.getItem('game-id'));
+    });
 
     let contact = {
       name: currentGame?.name,
@@ -83,7 +83,7 @@ export class GameListComponent implements OnInit {
       nwLat: currentGame?.nwLat,
       nwLng: currentGame?.nwLng,
       seLat: currentGame?.seLat,
-      seLng: currentGame?.seLng
+      seLng: currentGame?.seLng,
     };
 
     this.reactiveForm.setValue(contact);
@@ -92,38 +92,44 @@ export class GameListComponent implements OnInit {
   public saveGameToStorageAndRedirect(game: Game) {
     this.gameListService.gameId = game.id;
     StorageUtil.storageSave(StorageKeys.Game, game);
-    this.router.navigateByUrl("/game-view");
+    this.router.navigateByUrl('/game-view');
+  }
+
+  public onGameDelete(gameId: number) {
+    this.gameService.deleteGame(gameId);
   }
 
   public async onJoinGame(game: Game) {
     this.gameService.joinGame(game.id);
-    await this.delay(100);
+    await this.delay(500);
     this.saveGameToStorageAndRedirect(game);
   }
 
   public async onGameDetails(game: Game) {
-    if(!keycloak.authenticated) {
-      alert("You need to login");
+    if (!keycloak.authenticated) {
+      alert('You need to login');
     }
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
-    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
-    if (player === undefined)
-      this.playerService.setDummyPlayer(user!.id);
+    const player: Player | undefined = StorageUtil.storageRead(
+      StorageKeys.Player
+    );
+    if (player === undefined) this.playerService.setDummyPlayer(user!.id);
     await this.delay(100);
     this.saveGameToStorageAndRedirect(game);
   }
 
   private async delay(ms: number) {
-    return await new Promise( resolve => setTimeout(resolve, ms) );
+    return await new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   public deleteGame(gameId: number): void {
-    this.http.delete(`${APIGames}/${gameId}`).subscribe(() => window.location.reload)
+    this.http
+      .delete(`${APIGames}/${gameId}`)
+      .subscribe(() => window.location.reload);
   }
 
   ngOnInit(): void {
-    if(keycloak.realmAccess?.roles.includes("hvz-admin"))
-      this.role = "hvz-admin";
+    if (keycloak.realmAccess?.roles.includes('hvz-admin'))
+      this.role = 'hvz-admin';
   }
 }
-

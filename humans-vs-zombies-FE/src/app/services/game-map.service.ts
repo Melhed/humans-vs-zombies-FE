@@ -11,7 +11,6 @@ import { fromLonLat } from 'ol/proj';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 import { Coordinate } from 'ol/coordinate';
-import { GameMarkerService } from './game-marker.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,14 +32,14 @@ export class GameMapService {
     seLat: number,
     seLng: number
   ): Map {
-    const nw = fromLonLat([nwLat, nwLng]);
-    const se = fromLonLat([seLat, seLng]);
-    const ne = fromLonLat([nwLat, seLng]);
-    const sw = fromLonLat([seLat, nwLng]);
+    const nw = fromLonLat([nwLng, nwLat]);
+    const se = fromLonLat([seLng, seLat]);
+    const ne = fromLonLat([seLng, nwLat]);
+    const sw = fromLonLat([nwLng, seLat]);
 
     const view: View = new View({
-      center: this.findCenter(nwLat, nwLng, seLat, seLng),
-      zoom: 3,
+      center: nw,
+      zoom: 14,
     });
 
     const nwNeVector = this.createVectorLayer(nw, ne);
@@ -68,17 +67,6 @@ export class GameMapService {
     return this._map;
   }
 
-  public findCenter(
-    nwLat: number,
-    nwLng: number,
-    seLat: number,
-    seLng: number
-  ): Coordinate {
-    const centerLat: number = ((seLat - nwLat) / 2) + nwLat;
-    const centerLng: number = ((seLng - nwLng) / 2) + nwLng;
-    return fromLonLat([centerLat, centerLng]);
-  }
-
   private createVectorLayer(nw: Coordinate, se: Coordinate): any {
     const lineFeature = new Feature({
       geometry: new LineString([nw, se]),
@@ -103,5 +91,5 @@ export class GameMapService {
     });
   }
 
-  constructor() { }
+  constructor() {}
 }

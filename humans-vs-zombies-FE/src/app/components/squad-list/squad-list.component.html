@@ -1,5 +1,5 @@
 <ul *ngIf="!loading" class="font-quicksand">
-  <li *ngFor="let squad of squads">
+  <li *ngFor="let squad of squads | async">
     <span>{{ squad.name }}</span>
     <button
       *ngIf="player && player.id !== undefined && player.state === 'NO_SQUAD'"

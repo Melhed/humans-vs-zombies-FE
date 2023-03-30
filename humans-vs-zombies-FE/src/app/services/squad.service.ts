@@ -12,25 +12,33 @@ import { BehaviorSubject } from 'rxjs';
 import { SquadListService } from './squad-list.service';
 import { PlayerSquadInfo } from '../models/player-squad-info.model';
 import { SquadCheckin } from '../models/squad-checkin.model';
+import { PlayerService } from './player.service';
 const { APIGames } = environment;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SquadService {
-
-  constructor(private readonly http: HttpClient, private readonly squadListService: SquadListService) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly squadListService: SquadListService
+  ) {}
   private _error: String = '';
+  private _player: Player | undefined = undefined;
   private _loading: boolean = false;
 
-  private _playerSquadInfo$ = new BehaviorSubject<PlayerSquadInfo | undefined>(undefined);
+  private _playerSquadInfo$ = new BehaviorSubject<PlayerSquadInfo | undefined>(
+    undefined
+  );
   playerSquadInfo = this._playerSquadInfo$.asObservable();
 
   updatePlayerSquadInfo(playerSquadInfo: PlayerSquadInfo) {
     this._playerSquadInfo$.next(playerSquadInfo);
   }
 
-  private _currentPlayerSquad$ = new BehaviorSubject<Squad | undefined>(undefined);
+  private _currentPlayerSquad$ = new BehaviorSubject<Squad | undefined>(
+    undefined
+  );
   currentPlayerSquad = this._currentPlayerSquad$.asObservable();
 
   updateCurrentPlayerSquad(squad: Squad) {
@@ -59,35 +67,37 @@ export class SquadService {
   }
 
   public findPlayersSquad() {
-    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
+    this._player = StorageUtil.storageRead(StorageKeys.Player);
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     this.squadListService.squads.subscribe((squads: Squad[]) => {
       squads.forEach((squad: Squad) => {
-
-        if(squad.gameId === game!.id) {
+        if (squad.gameId === game!.id) {
           this.findSquadMembers(squad.id);
           this.squadMembers.subscribe((fetchedSquadMembers: SquadMember[]) => {
             fetchedSquadMembers.forEach((member: SquadMember) => {
-              if(player!.id === member.playerId) {
-                this.updatePlayerSquadInfo({playerMemberId: member.id, playerSquadId: member.squadId});
+              if (this._player!.id === member.playerId) {
+                this.updatePlayerSquadInfo({
+                  playerMemberId: member.id,
+                  playerSquadId: member.squadId,
+                });
                 this.updateCurrentPlayerSquad(squad);
                 StorageUtil.storageSave(StorageKeys.Squad, squad);
               }
-            })
+            });
           });
         }
-
-      })
-    })
+      });
+    });
   }
 
   public findSquadMembers(squadId: number): void {
     this._loading = true;
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
-    this.http.get<SquadDetails>(`${APIGames}/${game?.id}/squad/${squadId}`).subscribe((squadDetails: SquadDetails) => {
-      this.updateSquadMembers(squadDetails.squadMembers);
-      this._loading = false;
-    })
+    this.http
+      .get<SquadDetails>(`${APIGames}/${game?.id}/squad/${squadId}`)
+      .subscribe((squadDetails: SquadDetails) => {
+        this.updateSquadMembers(squadDetails.squadMembers);
+        this._loading = false;
+      });
   }
-
 }

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Chat } from 'src/app/models/chat.model';
 import { Game } from 'src/app/models/game.model';
@@ -29,30 +30,27 @@ export class ChatComponent implements AfterViewInit, OnInit {
   ) {
     this.game = StorageUtil.storageRead(StorageKeys.Game);
     this.squad = StorageUtil.storageRead(StorageKeys.Squad);
-    this._player = StorageUtil.storageRead(StorageKeys.Player);
+  }
+
+  get isLoading(): boolean {
+    return this.playerService.isLoading;
   }
 
   ngOnInit(): void {
-
-    this._player = StorageUtil.storageRead(StorageKeys.Player);
+    console.log(this.isLoading);
   }
 
   ngAfterViewInit(): void {
-    if(this._player !== null) {
-      this.fetchChat();
-      this.chatService.globalChat.subscribe((chats: Chat[]) => {
-        this._chats = chats;
-      });
-      this.chatService.activeChat = 'GLOBAL';
-    }
-  }
-
-  fetchChat(): void {
+    this._player = StorageUtil.storageRead(StorageKeys.Player);
     this.chatService.findAllChats(
-      StorageUtil.storageRead(StorageKeys.Game)!,
-      StorageUtil.storageRead(StorageKeys.Player),
-      StorageUtil.storageRead(StorageKeys.Squad)!
+      this.game!,
+      this._player,
+      this.squad!
     );
+    this.chatService.globalChat.subscribe((chats: Chat[]) => {
+      this._chats = chats;
+    });
+    this.chatService.activeChat = 'GLOBAL';
   }
 
   get chats(): Chat[] {

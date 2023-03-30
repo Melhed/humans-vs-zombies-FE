@@ -1,4 +1,6 @@
-<div class="relative w-auto my-6 mx-auto max-w-6xl font-quicksand">
+<div
+  class="absolute left-0 right-0 mx-auto top-1/2 translate-y-[-50%] w-auto max-w-3xl font-quicksand"
+>
   <!--content-->
   <div
     class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
@@ -22,7 +24,9 @@
         {{ checkin.timeStamp | date : "yyyy-MM-dd HH:mm:ss" }}
       </p>
 
-      <h3 class="block text-gray-700 text-sm font-bold mt-1">Checkin Location</h3>
+      <h3 class="block text-gray-700 text-sm font-bold mt-1">
+        Checkin Location
+      </h3>
       <p>
         Latitude: {{ checkin.lat }} Longitude:
         {{ checkin.lng }}

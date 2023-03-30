@@ -36,7 +36,7 @@ export class GameService {
     });
   }
 
-  updateObjectProperty(gameId: number, stateValue: any) {
+  public updateObjectProperty(gameId: number, stateValue: any) {
     const game: Game | undefined = this.gameListService.gameByID(gameId);
     if (!game) {
       throw new Error('updateGame: No game with ID: ' + gameId);
@@ -46,6 +46,18 @@ export class GameService {
     return this.http.put(url, game).subscribe({
       next: (response: any) => {
         console.log('NEXT: ', response);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('ERROR: ', error.message);
+      },
+    });
+  }
+
+  public deleteGame(gameId: number) {
+    const url = `${APIGames}/${gameId}`;
+    this.http.delete(url).subscribe({
+      next: () => {
+        window.location.reload();
       },
       error: (error: HttpErrorResponse) => {
         console.log('ERROR: ', error.message);

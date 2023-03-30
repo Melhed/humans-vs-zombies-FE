@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Player } from 'src/app/models/player.model';
 import { Squad } from 'src/app/models/squad.model';
@@ -12,32 +13,29 @@ import { StorageUtil } from 'src/app/utils/storage.util';
   styleUrls: [],
 })
 export class SquadListComponent implements OnInit {
-  constructor(private readonly squadListService: SquadListService, private readonly squadService: SquadService) {}
-  private _squads: Squad[] = [];
+  constructor(
+    private readonly squadListService: SquadListService,
+    private readonly squadService: SquadService
+  ) {}
   private _player?: Player = undefined;
   public showCreateSquadModal = false;
-  private _loading = true;
 
   public get loading(): boolean {
-    return this._loading;
+    return this.squadListService.loading;
   }
 
-  public set loading(isLoading: boolean) {
-    this._loading = isLoading;
+  public get squads(): Observable<Squad[]> {
+    return this.squadListService.squads;
   }
 
   ngOnInit(): void {
     this.squadService.findPlayersSquad();
     this.player = StorageUtil.storageRead(StorageKeys.Player)!;
-    this.squadListService.squads.subscribe((squads: Squad[]) => {
-      if (squads[0]) this._squads = squads;
-    });
-    this.squadService.currentPlayerSquad.subscribe((squad: Squad | undefined) => {
-      if(squad)
-        console.log(squad);
-      this._loading = false;
-    })
-
+    this.squadService.currentPlayerSquad.subscribe(
+      (squad: Squad | undefined) => {
+        if (squad) console.log(squad);
+      }
+    );
   }
 
   get player(): Player {
@@ -48,17 +46,13 @@ export class SquadListComponent implements OnInit {
     this._player = player;
   }
 
-  get squads(): Squad[] {
-    return this._squads;
-  }
-
   public async joinSquad(squad: Squad): Promise<void> {
     this.squadListService.joinSquad(squad);
     if (this.squadListService.error !== '') {
       alert(this.squadListService.error);
       return;
     }
-    await this.delay(100);
+    await this.delay(500);
     this.ngOnInit();
     window.location.reload();
   }
