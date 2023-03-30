@@ -20,7 +20,11 @@ import { CheckinService } from './squad-checkin.service';
   providedIn: 'root',
 })
 export class GameMarkerService {
-  constructor(private readonly killService: KillService, private readonly missionService: MissionService, private readonly squadCheckinService: CheckinService) {}
+  constructor(
+    private readonly killService: KillService,
+    private readonly missionService: MissionService,
+    private readonly squadCheckinService: CheckinService
+  ) {}
 
   _clickedMarkerData$ = new BehaviorSubject<any>(undefined);
   clickedMarkerData = this._clickedMarkerData$.asObservable();
@@ -40,58 +44,28 @@ export class GameMarkerService {
         },
       });
     }
-    if(markerProperties.type === MarkerType.MISSION) {
+    if (markerProperties.type === MarkerType.MISSION) {
       this.missionService.missions.subscribe({
         next: (missions: Mission[]) => {
           missions.forEach((mission) => {
-            if(mission.missionID === markerProperties.id) {
+            if (mission.missionID === markerProperties.id) {
               this.updateClickedMarkerData(mission);
             }
-          })
-        }
-      })
+          });
+        },
+      });
     }
-    if(markerProperties.type === MarkerType.SQUADCHECKIN) {
+    if (markerProperties.type === MarkerType.SQUADCHECKIN) {
       this.squadCheckinService.checkins.subscribe({
         next: (checkins: SquadCheckin[]) => {
           checkins.forEach((checkin) => {
-            if(checkin.id === markerProperties.id) {
+            if (checkin.id === markerProperties.id) {
               this.updateClickedMarkerData(checkin);
             }
-          })
-        }
-      })
+          });
+        },
+      });
     }
-  }
-
-  public createMissionMarkers(missions: Mission[]): VectorLayer<VectorSource> {
-    let markers: Feature[] = [];
-
-    missions.map((mission: Mission) => {
-      if (mission.lat !== undefined && mission.lng !== undefined) {
-        markers.push(
-          this.createMarker(
-            mission.lng,
-            mission.lat,
-            MarkerType.MISSION,
-            mission.missionID!
-          )
-        );
-      }
-    });
-
-    let markerLayer: VectorLayer<VectorSource> = new VectorLayer({
-      source: new VectorSource({
-        features: markers,
-      }),
-      style: new Style({
-        image: new Icon({
-          src: `../../assets/Mission_Marker_64.png`,
-          anchor: [0.5, 1],
-        }),
-      }),
-    });
-    return markerLayer;
   }
 
   public createMissionMarkerLayer(

@@ -32,14 +32,14 @@ export class GameMapService {
     seLat: number,
     seLng: number
   ): Map {
-    const nw = fromLonLat([nwLat, nwLng]);
-    const se = fromLonLat([seLat, seLng]);
-    const ne = fromLonLat([nwLat, seLng]);
-    const sw = fromLonLat([seLat, nwLng]);
+    const nw = fromLonLat([nwLng, nwLat]);
+    const se = fromLonLat([seLng, seLat]);
+    const ne = fromLonLat([seLng, nwLat]);
+    const sw = fromLonLat([nwLng, seLat]);
 
     const view: View = new View({
       center: nw,
-      zoom: 3,
+      zoom: 14,
     });
 
     const nwNeVector = this.createVectorLayer(nw, ne);

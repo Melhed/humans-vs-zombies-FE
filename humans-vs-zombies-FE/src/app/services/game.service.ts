@@ -55,14 +55,13 @@ export class GameService {
 
   public deleteGame(gameId: number) {
     const url = `${APIGames}/${gameId}`;
-    this.http.delete(url)
-      .subscribe({
-        next: (response: any) => {
-          console.log('NEXT: ', response);
-        },
-        error: (error: HttpErrorResponse) => {
-          console.log('ERROR: ', error.message);
-        },
-      });
+    this.http.delete(url).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('ERROR: ', error.message);
+      },
+    });
   }
 }
