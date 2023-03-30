@@ -5,6 +5,7 @@ import { KillService } from 'src/app/services/kill.service';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/consts/storage-keys.enum';
 import { Player } from 'src/app/models/player.model';
+import keycloak from 'src/keycloak';
 
 @Injectable()
 @Component({
@@ -18,6 +19,8 @@ export class GameViewPage implements OnInit {
     private readonly gameListService: GameListService,
     private readonly killService: KillService
   ) {}
+
+  role = "";
 
   gameId: any = this.gameListService.gameId;
   gameToShow: any = [];
@@ -78,5 +81,7 @@ export class GameViewPage implements OnInit {
     this._player = StorageUtil.storageRead(StorageKeys.Player);
     this.squadListService.findAllSquads();
     this.gameToShow = StorageUtil.storageRead(StorageKeys.Game);
+    if(keycloak.realmAccess?.roles.includes("hvz-admin"))
+    this.role = "hvz-admin";
   }
 }

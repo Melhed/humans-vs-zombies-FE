@@ -1,9 +1,14 @@
-<div class="flex justify-center items-center w-screen h-screen text-slate-500
-  font-quicksand bg-[#ede9fe]">
+<div class="flex justify-center items-center w-screen h-screen text-slate-500 font-quicksand bg-[#ede9fe] relative">
   <!-- <img class="mb-40"
     src="https://cdn.pixabay.com/photo/2014/11/07/21/35/zombie-521243_960_720.png"
     alt="image description"> -->
-  <div class="self-center bg-transparent w-9/12 h-screen mt-10">
+    <div class="absolute top-10 right-0 opacity-5">
+      <img src="assets/hvz.png" alt="Human bit by zombie" class="scale-100 z-0">
+    </div>
+    <div class="absolute align-middle top-1/3 left-10 opacity-5">
+      <img src="assets/zombie.png" alt="Zombie walking creepily" class="scale-125 z-0">
+    </div>
+  <div class="self-center bg-transparent w-9/12 h-screen mt-10 z-10">
     <div class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid
       grid-cols-4 gap-2 text-center text-black">
       <div class="font-bold">GAME NAME</div>
@@ -11,7 +16,7 @@
       <div class="font-bold">NUMBER OF PLAYERS</div>
       <div class="font-bold">GAME STATE</div>
     </div>
-    <div *ngFor="let game of games" class="bg-[#C4BBE3] w-auto h-auto m-1 p-3
+    <div *ngFor="let game of games" class="bg-[#C4BBE3] bg-opacity-75 w-auto h-auto m-1 p-3
       border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group
       items-center">
       <div class="text-center font-bold text-slate-700">{{ game.name }}</div>
@@ -19,7 +24,7 @@
         <span>{{ game.startTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span> -
         <span>{{ game.endTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
       </div>
-      <div class="text-center text-slate-700">{{ game.registeredPlayers }}</div>
+      <div class="text-center text-slate-700">{{ game.registeredPlayers }}/{{ game.maxPlayers }}</div>
       <div class="text-center text-slate-700">{{ game.state }}</div>
       <div class="col-start-4 flex justify-end">
 
