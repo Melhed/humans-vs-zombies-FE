@@ -4,11 +4,11 @@
       Chat Box
       <div *ngIf="player && player.state !== 'ADMINISTRATOR'">
         <div class="flex flex-row place-content-evenly items-center">
-          <img src="assets/chat.png" alt="An icon of a chatbubble" class="opacity-10">
+          <img src="assets/chat.png" alt="An icon of a chat bubble" class="opacity-10 absolute mt-60 pointer-events-none">
           <h2
             (click)="getGlobalChats()"
             [style.color]="globalColor"
-            class="absolute global font-semibold text-lg hover:text-xl"
+            class="font-semibold text-lg hover:text-xl"
           >
             Global
           </h2>
@@ -16,7 +16,7 @@
             (click)="getFactionChats()"
             [style.color]="factionColor"
             *ngIf="player.human"
-            class="absolute font-semibold text-lg hover:text-xl"
+            class="font-semibold text-lg hover:text-xl"
           >
             Human
           </h2>
@@ -24,7 +24,7 @@
             (click)="getFactionChats()"
             [style.color]="factionColor"
             *ngIf="!player.human"
-            class="absolute font-semibold text-lg hover:text-xl"
+            class="font-semibold text-lg hover:text-xl"
           >
             Zombie
           </h2>
@@ -32,12 +32,12 @@
             (click)="getSquadChats()"
             [style.color]="squadColor"
             *ngIf="player.state !== 'NO_SQUAD'"
-            class="absolute font-semibold text-lg"
+            class="font-semibold text-lg"
           >
             Squad
           </h2>
         </div>
-        <div class="overflow-auto max-h-48 absolute ">
+        <div class="overflow-auto max-h-48">
           <div *ngFor="let chat of chats" class="font-thin text-base mb-1">
             <p>{{ chat.message }}</p>
             <p class="text-stone-500 text-xs">
