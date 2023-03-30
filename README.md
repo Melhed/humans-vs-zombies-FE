@@ -8,11 +8,19 @@
 
 ## Installation
 
-**TODO: Change below so it fits our project**
+Human-vs-zombies requires [Node.js](https://nodejs.org/) v10+ to run.
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
+Follow the steps below:
 
-Install the dependencies and start the server.
+### Install the dependencies and start the server.
+
+* Install Angular CLI
+
+```sh
+npm install -g @angular/cli
+```
+
+* Fork the repo
 
 ```sh
 cd dillinger
@@ -20,9 +28,5 @@ npm i
 node app
 ```
 
-For production environments...
 
-```sh
-npm install --production
-NODE_ENV=production node app
-```
+[More information on the applications features](https://github.com/Melhed/humans-vs-zombies-FE/wiki/User-manual)
