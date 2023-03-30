@@ -21,6 +21,7 @@ export class SquadListService {
 
   private _squads$ = new BehaviorSubject<Squad[]>([]);
   squads = this._squads$.asObservable();
+
   private _error: String = '';
   private _loading: boolean = false;
 
@@ -56,17 +57,19 @@ export class SquadListService {
   }
 
   joinSquad(squad: Squad): void {
-    const player: Player | undefined = StorageUtil.storageRead(StorageKeys.Player);
+    const player: Player | undefined = StorageUtil.storageRead(
+      StorageKeys.Player
+    );
     const game: Game | undefined = StorageUtil.storageRead(StorageKeys.Game);
     const user: User | undefined = StorageUtil.storageRead(StorageKeys.User);
 
     this.http
-    .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
-    .subscribe({
-      next: () => {
-        StorageUtil.storageSave(StorageKeys.Squad, squad);
-        player!.state = PlayerState.SQUAD_MEMBER;
-        StorageUtil.storageSave(StorageKeys.Player, player);
+      .post<Squad>(`${APIGames}/${game?.id}/squad/${squad.id}/join`, player!.id)
+      .subscribe({
+        next: () => {
+          StorageUtil.storageSave(StorageKeys.Squad, squad);
+          player!.state = PlayerState.SQUAD_MEMBER;
+          StorageUtil.storageSave(StorageKeys.Player, player);
 
           this.playerService.handlePlayerAccess(game!.id!, user!);
           this.findAllSquads();

@@ -78,7 +78,6 @@ export class PlayerService {
       .pipe(finalize(() => (this._isLoading = false)))
       .subscribe((fetchedPlayer: Player | void) => {
         if (!(fetchedPlayer instanceof Object)) {
-          console.log('... creating new player');
           if (keycloak.hasRealmRole('hvz-admin')) {
             return this.createPlayerAdmin(gameId, user);
           }
