@@ -1,8 +1,8 @@
 <div class="flex justify-center items-center w-screen h-screen text-slate-500
-  font-quicksand bg-[#fef3c7]">
-  <img class="mb-40"
+  font-quicksand bg-[#ede9fe]">
+  <!-- <img class="mb-40"
     src="https://cdn.pixabay.com/photo/2014/11/07/21/35/zombie-521243_960_720.png"
-    alt="image description">
+    alt="image description"> -->
   <div class="self-center bg-transparent w-9/12 h-screen mt-10">
     <div class="bg-transparent w-auto h-auto m-4 border-slate-800 px-2 grid
       grid-cols-4 gap-2 text-center text-black">
@@ -11,16 +11,16 @@
       <div class="font-bold">NUMBER OF PLAYERS</div>
       <div class="font-bold">GAME STATE</div>
     </div>
-    <div *ngFor="let game of games" class="bg-[#334155] w-auto h-auto m-1 p-3
+    <div *ngFor="let game of games" class="bg-[#C4BBE3] w-auto h-auto m-1 p-3
       border-slate-800 px-1 grid grid-cols-4 mx-4 hover:auto static group
       items-center">
-      <div class="text-center font-bold text-white">{{ game.name }}</div>
-      <div class="text-center text-white">
+      <div class="text-center font-bold text-slate-700">{{ game.name }}</div>
+      <div class="text-center text-slate-700">
         <span>{{ game.startTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span> -
         <span>{{ game.endTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
       </div>
-      <div class="text-center text-white">{{ game.registeredPlayers }}</div>
-      <div class="text-center text-white">{{ game.state }}</div>
+      <div class="text-center text-slate-700">{{ game.registeredPlayers }}</div>
+      <div class="text-center text-slate-700">{{ game.state }}</div>
       <div class="col-start-4 flex justify-end">
 
         <div *ngIf="showUpdateGameModal"
@@ -122,12 +122,12 @@
       </div>
       <div class="col-start-4 flex justify-end">
         <button *ngIf="game.state == 'REGISTRATION'" (click)="onJoinGame(game)"
-          class="hidden m-2 group-hover:block bg-[#15b683] hover:scale-105 h-fit
+          class="hidden m-2 group-hover:block bg-[#ff7bbf] hover:scale-105 h-fit
           w-fit p-2 rounded-full text-white">
           Join Game
         </button>
         <button *ngIf="(game.state=='REGISTRATION')"
-          class="hidden m-2 group-hover:block bg-[#785fce] hover:scale-105 h-fit
+          class="hidden m-2 group-hover:block bg-[#964EC2] hover:scale-105 h-fit
           w-fit p-2 rounded-full text-white"
           type="button"
           (click)="toggleUpdateGameModal()">
@@ -135,7 +135,7 @@
         </button>
         <button *ngIf="game.state == 'REGISTRATION'"
           (click)="onGameDetails(game)"
-          class="hidden m-2 group-hover:block bg-[#785fce] hover:scale-105 h-fit
+          class="hidden m-2 group-hover:block bg-[#964EC2] hover:scale-105 h-fit
           w-fit p-2 rounded-full text-white">
           Game Details
         </button>
