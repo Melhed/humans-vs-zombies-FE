@@ -13,7 +13,10 @@ const { APIMission } = environment;
   templateUrl: './create-mission-modal.component.html',
 })
 export class CreateMissionModalComponent {
-  constructor(private readonly missionService: MissionService, private readonly http: HttpClient){}
+  constructor(
+    private readonly missionService: MissionService,
+    private readonly http: HttpClient
+  ) {}
   @Output() disableModalEvent = new EventEmitter<boolean>();
 
   sendDisableModalEvent() {
@@ -21,30 +24,33 @@ export class CreateMissionModalComponent {
   }
 
   addMission(missionInfo: {
-    name: string,
-    description?: string,
+    name: string;
+    description?: string;
     //TODO: Cant get these two to register
-    startTime?: Date,
-    endTime?: Date,
-    lat: string,
-    lng: string,
-    isHumanVisible: string,
-    isZombieVisible: string,
-    gameId?: number,
-  }):void {
+    startTime?: Date;
+    endTime?: Date;
+    lat: number;
+    lng: number;
+    isHumanVisible: string;
+    isZombieVisible: string;
+    gameId?: number;
+  }): void {
     const currentGame: Game = StorageUtil.storageRead(StorageKeys.Game)!;
     missionInfo.gameId = currentGame.id!;
-    
-    this.http.post<Mission>(`${APIMission.replace("{gameId}", currentGame.id + "")}`, missionInfo).subscribe({
-      next: (mission: Mission) => {
-        this.missionService.fetchMissions();
-        window.location.reload();
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    })
 
+    this.http
+      .post<Mission>(
+        `${APIMission.replace('{gameId}', currentGame.id + '')}`,
+        missionInfo
+      )
+      .subscribe({
+        next: (mission: Mission) => {
+          this.missionService.fetchMissions();
+          window.location.reload();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error);
+        },
+      });
   }
-
 }
