@@ -3,7 +3,9 @@
   (ngSubmit)="updateMission(updateMissionForm.value)"
   *ngIf="inEditMode"
 >
-  <div class="relative w-auto my-6 mx-auto max-w-6xl">
+  <div
+    class="absolute left-0 right-0 mx-auto top-1/2 translate-y-[-50%] w-auto max-w-3xl"
+  >
     <!--content-->
     <div
       class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
@@ -12,7 +14,9 @@
       <div
         class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
       >
-        <h3 class="text-3xl font-semibold">Edit mission "{{ mission.name }}"</h3>
+        <h3 class="text-3xl font-semibold">
+          Edit mission "{{ mission.name }}"
+        </h3>
       </div>
       <!--body-->
       <div class="w-1/2 md:w-full relative p-6 flex-auto">
@@ -28,7 +32,10 @@
           placeholder="{{ mission.name }}"
         />
 
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="description"
+        >
           Description
         </label>
         <input
@@ -40,7 +47,10 @@
           placeholder="{{ mission.description }}"
         />
 
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="startTime">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="startTime"
+        >
           Start time
         </label>
         <input
@@ -59,12 +69,12 @@
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="endTime"
           type="datetime-local"
-          placeholder="{{mission.endTime}}"
+          placeholder="{{ mission.endTime }}"
         />
         <label class="block text-gray-700 text-sm font-bold mb-2">
-            Latitude
-          </label>
-          <input
+          Latitude
+        </label>
+        <input
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lat"
@@ -72,9 +82,9 @@
           placeholder="{{ mission.lat }}"
         />
         <label class="block text-gray-700 text-sm font-bold mb-2">
-            Longitude
-          </label>
-          <input
+          Longitude
+        </label>
+        <input
           ngModel
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="lng"
@@ -83,30 +93,20 @@
         />
 
         <label
-        class="text-gray-700 text-sm font-bold mb-2"
-        for="isHumanVisible"
-      >
-        Human Visible
-      </label>
-      <input
-        ngModel
-        name="isHumanVisible"
-        type="checkbox"
-        class="mr-5"
-      />
+          class="text-gray-700 text-sm font-bold mb-2"
+          for="isHumanVisible"
+        >
+          Human Visible
+        </label>
+        <input ngModel name="isHumanVisible" type="checkbox" class="mr-5" />
 
-      <label
-        class="text-gray-700 text-sm font-bold mb-2"
-        for="isZombieVisible"
-      >
-        Zombie Visible
-      </label>
-      <input
-        ngModel
-        name="isZombieVisible"
-        type="checkbox"
-      />
-
+        <label
+          class="text-gray-700 text-sm font-bold mb-2"
+          for="isZombieVisible"
+        >
+          Zombie Visible
+        </label>
+        <input ngModel name="isZombieVisible" type="checkbox" />
       </div>
 
       <!--footer-->
@@ -131,7 +131,10 @@
   </div>
 </form>
 
-<div *ngIf="!inEditMode" class="relative w-auto my-6 mx-auto max-w-6xl">
+<div
+  *ngIf="!inEditMode"
+  class="absolute left-0 right-0 mx-auto top-1/2 translate-y-[-50%] w-auto max-w-3xl"
+>
   <!--content-->
 
   <div
@@ -144,11 +147,11 @@
       <h2 class="text-3xl font-semibold">"{{ mission.name }}"</h2>
       <div *ngIf="isAdmin">
         <button
-        (click)="deleteMission(mission.missionID!)"
-        class="float-right text-red-500 background-transparent font-bold uppercase pr-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-      >
-        Delete
-      </button>
+          (click)="deleteMission(mission.missionID!)"
+          class="float-right text-red-500 background-transparent font-bold uppercase pr-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        >
+          Delete
+        </button>
         <button
           class="float-right text-blue-500 background-transparent font-bold uppercase pr-2 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
