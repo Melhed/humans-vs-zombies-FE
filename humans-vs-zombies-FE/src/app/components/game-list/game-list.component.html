@@ -123,7 +123,7 @@
             w-fit p-2 rounded-full text-white">
             Join Game
           </button>
-          <button *ngIf="(game.state=='REGISTRATION')"
+          <button *ngIf="(game.state =='REGISTRATION' && role == 'hvz-admin')"
             class="hidden m-2 group-hover:block bg-[#964EC2] hover:scale-105 h-fit
             w-fit p-2 rounded-full text-white"
             type="button"
