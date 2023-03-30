@@ -54,17 +54,18 @@ export class PlayerService {
   private updatePlayer(player: Player) {
     StorageUtil.storageSave<Player>(StorageKeys.Player, player!);
     this._player$.next(player);
+    this._isLoading = false;
   }
 
   public createPlayer(gameId: number | undefined, user: User): void {
+
     this._isLoading = true;
 
     this.http
-      .post<Player>(`${APIGames}/${gameId}/player/u`, user)
-      .pipe(finalize(() => (this._isLoading = false)))
-      .subscribe({
-        next: (player: Player) => {
-          this.updatePlayer(player);
+    .post<Player>(`${APIGames}/${gameId}/player/u`, user)
+    .subscribe({
+      next: (player: Player) => {
+        this.updatePlayer(player);
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);
