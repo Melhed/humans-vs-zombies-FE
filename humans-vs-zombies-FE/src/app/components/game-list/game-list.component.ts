@@ -95,6 +95,11 @@ export class GameListComponent implements OnInit {
     this.router.navigateByUrl("/game-view");
   }
 
+  public onGameDelete(gameId: number) {
+    this.gameService.deleteGame(gameId);
+    window.location.reload();
+  }
+
   public async onJoinGame(game: Game) {
     this.gameService.joinGame(game.id);
     await this.delay(100);

@@ -52,7 +52,7 @@ export class SquadListComponent implements OnInit {
       alert(this.squadListService.error);
       return;
     }
-    await this.delay(100);
+    await this.delay(500);
     this.ngOnInit();
     window.location.reload();
   }
