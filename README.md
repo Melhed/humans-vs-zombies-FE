@@ -37,3 +37,5 @@ ng serve
 The server is now running on [localhost:4200](http://localhost:4200/)
 
 [More information on the applications features](https://github.com/Melhed/humans-vs-zombies-FE/wiki/User-manual)
+
+[Link to the backend of the application](https://github.com/Melhed/humans-vs-zombies)
