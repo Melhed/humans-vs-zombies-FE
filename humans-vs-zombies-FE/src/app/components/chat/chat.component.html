@@ -38,7 +38,7 @@
           </h2>
         </div>
         <div class="overflow-auto max-h-48">
-          <div *ngFor="let chat of chats" class="font-thin text-base mb-1">
+          <div *ngFor="let chat of chats" class="text-base mb-1">
             <p>{{ chat.message }}</p>
             <p class="text-stone-500 text-xs">
               {{ chat.timestamp | date : "yyyy-MM-dd HH:mm:ss" }}
