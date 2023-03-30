@@ -23,7 +23,7 @@ export class CreateGameComponent {
     this.showCreateGameModal = !this.showCreateGameModal;
   }
 
-    onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String, maxPlayers: number, registeredPlayers: number} ){
+    onGameCreate (game: {name: String, startTime: String, endTime: String, nwLat: String, nwLng: string, seLat: String, seLng: String, registeredPlayers: number} ){
       game.registeredPlayers = 0;
 
     if (game.endTime > game.startTime){

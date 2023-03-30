@@ -39,7 +39,7 @@ export class GameMapService {
     const sw = fromLonLat([seLat, nwLng]);
 
     const view: View = new View({
-      center: this.findCenter(nwLat, nwLng, seLat, seLng),
+      center: nw,
       zoom: 3,
     });
 

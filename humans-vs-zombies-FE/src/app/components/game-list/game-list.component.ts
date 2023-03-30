@@ -102,7 +102,7 @@ export class GameListComponent implements OnInit {
 
   public async onJoinGame(game: Game) {
     this.gameService.joinGame(game.id);
-    await this.delay(100);
+    await this.delay(500);
     this.saveGameToStorageAndRedirect(game);
   }
 
